@@ -1,0 +1,644 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model StaffUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String
+  consultantId String?  @unique
+  consultant   Consultant? @relation(fields: [consultantId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Consultant {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  timezone  String   @default("America/Sao_Paulo")
+  status    String   @default("ACTIVE")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  staff     StaffUser?
+  slots     ConsultantAvailability[]
+  meetings  Meeting[]
+  leads     Lead[]
+}
+
+model ConsultantAvailability {
+  id           String     @id @default(cuid())
+  consultantId String
+  consultant   Consultant @relation(fields: [consultantId], references: [id], onDelete: Cascade)
+  dayOfWeek    Int
+  startMinute  Int
+  endMinute    Int
+  slotMinutes  Int        @default(30)
+  active       Boolean    @default(true)
+
+  @@index([consultantId, dayOfWeek])
+}
+
+model Company {
+  id           String   @id @default(cuid())
+  taxId        String?  @unique
+  legalName    String
+  tradeName    String?
+  type         String?
+  segment      String?
+  employeeBand String?
+  city         String?
+  state        String?
+  website      String?
+  social       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  leads        Lead[]
+}
+
+model Lead {
+  id                   String    @id @default(cuid())
+  accessTokenHash      String    @unique
+  status               String    @default("FORM_SUBMITTED")
+  source               String    @default("landing")
+  fullName             String
+  email                String
+  whatsapp             String
+  altPhone             String?
+  cpfHash              String?
+  cpfLast4             String?
+  birthDate            String?
+  city                 String
+  state                String
+  country              String    @default("Brasil")
+  jobTitle             String?
+  hasCompany           Boolean   @default(true)
+  companyId            String?
+  company              Company?  @relation(fields: [companyId], references: [id])
+  objectivesJson       String    @default("[]")
+  objectiveNotes       String?
+  beenToParaguay       Boolean?
+  hasBusinessParaguay  Boolean?
+  hasPartnersParaguay  Boolean?
+  wantsOpenOperation   Boolean?
+  hasInternationalOps  Boolean?
+  interestInvest       Boolean?
+  interestNetworking   Boolean?
+  interestB2B          Boolean?
+  interestIndustry     Boolean?
+  participateAlone     Boolean   @default(true)
+  companionCount       Int       @default(0)
+  dietaryRestricted    Boolean?
+  dietaryNotes         String?
+  specialNeeds         String?
+  consultantId         String?
+  consultant           Consultant? @relation(fields: [consultantId], references: [id])
+  notes                String?
+  nextAction           String?
+  nextActionAt         DateTime?
+  lostReason           String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  consents             Consent[]
+  meetings             Meeting[]
+  downloads            PresentationDownload[]
+  activities           Activity[]
+  companions           Companion[]
+  emails               MessageOutbox[]
+  proposals            Proposal[]
+  registrations        Registration[]
+  orders               Order[]
+
+  @@index([email])
+  @@index([status])
+  @@index([consultantId])
+}
+
+model Companion {
+  id           String  @id @default(cuid())
+  leadId       String
+  lead         Lead    @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  fullName     String
+  relationType String
+  email        String?
+  whatsapp     String?
+}
+
+model Consent {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  type      String
+  version   String
+  accepted  Boolean
+  acceptedAt DateTime @default(now())
+  ipHash    String?
+  userAgent String?
+}
+
+model LegalDocument {
+  id        String   @id @default(cuid())
+  type      String
+  version   String
+  title     String
+  body      String
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@unique([type, version])
+}
+
+model Presentation {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  filePath    String
+  mimeType    String   @default("application/pdf")
+  version     String
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  downloads   PresentationDownload[]
+}
+
+model PresentationDownload {
+  id             String       @id @default(cuid())
+  leadId         String
+  lead           Lead         @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  presentationId String
+  presentation   Presentation @relation(fields: [presentationId], references: [id])
+  downloadedAt   DateTime     @default(now())
+
+  @@index([leadId])
+}
+
+model Meeting {
+  id                 String     @id @default(cuid())
+  leadId             String
+  lead               Lead       @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  consultantId       String
+  consultant         Consultant @relation(fields: [consultantId], references: [id])
+  scheduledAt        DateTime
+  durationMin        Int        @default(30)
+  status             String     @default("SCHEDULED")
+  meetingUrl         String
+  notes              String?
+  outcome            String?
+  nextAction         String?
+  provider           String     @default("cal")
+  providerBookingUid String?    @unique
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  @@index([leadId])
+  @@index([scheduledAt])
+  @@index([consultantId, scheduledAt])
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  type      String
+  body      String
+  actorId   String?
+  createdAt DateTime @default(now())
+
+  @@index([leadId, createdAt])
+}
+
+model SlotLock {
+  id        String   @id
+  createdAt DateTime @default(now())
+}
+
+model MessageOutbox {
+  id          String    @id @default(cuid())
+  leadId      String?
+  lead        Lead?     @relation(fields: [leadId], references: [id])
+  eventType   String
+  channel     String
+  toAddress   String
+  subject     String
+  body        String
+  status      String    @default("PENDING")
+  uniqueKey   String    @unique
+  sentAt      DateTime?
+  error       String?
+  createdAt   DateTime  @default(now())
+}
+
+model CalWebhookEvent {
+  id          String   @id @default(cuid())
+  uniqueKey   String   @unique
+  trigger     String
+  bookingUid  String
+  rawHash     String
+  applied     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model BusinessSetting {
+  key            String   @id
+  value          String
+  decisionStatus String   @default("PENDING_BUSINESS_DECISION")
+  notes          String?
+  updatedAt      DateTime @updatedAt
+}
+
+model Product {
+  id            String         @id @default(cuid())
+  code          String         @unique
+  name          String
+  kind          String
+  active        Boolean        @default(true)
+  decisionNote  String?
+  prices        PriceVersion[]
+  addons        Addon[]
+  proposalItems ProposalItem[]
+  orderItems    OrderItem[]
+}
+
+model PriceVersion {
+  id             String   @id @default(cuid())
+  productId      String
+  product        Product  @relation(fields: [productId], references: [id])
+  amountCents    Int
+  currency       String   @default("BRL")
+  official       Boolean  @default(false)
+  decisionStatus String   @default("PENDING_BUSINESS_DECISION")
+  effectiveFrom  DateTime @default(now())
+  effectiveTo    DateTime?
+  createdAt      DateTime @default(now())
+
+  @@index([productId, official])
+}
+
+model Addon {
+  id         String      @id @default(cuid())
+  productId  String?
+  product    Product?    @relation(fields: [productId], references: [id])
+  code       String      @unique
+  name       String
+  enabled    Boolean     @default(false)
+  amountCents Int        @default(0)
+  decisionStatus String  @default("PENDING_BUSINESS_DECISION")
+  orderItems OrderItem[]
+}
+
+model Proposal {
+  id           String          @id @default(cuid())
+  leadId       String
+  lead         Lead            @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  companyId    String?
+  ownerId      String?
+  status       String          @default("DRAFT")
+  validUntil   DateTime?
+  notes        String?
+  discountBps  Int             @default(0)
+  currency     String          @default("BRL")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  items        ProposalItem[]
+  versions     ProposalVersion[]
+
+  @@index([leadId, status])
+}
+
+model ProposalItem {
+  id            String   @id @default(cuid())
+  proposalId    String
+  proposal      Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id])
+  priceVersionId String?
+  amountCents   Int
+  label         String
+}
+
+model ProposalVersion {
+  id         String   @id @default(cuid())
+  proposalId String
+  proposal   Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  version    Int
+  snapshot   String
+  createdAt  DateTime @default(now())
+
+  @@unique([proposalId, version])
+}
+
+model Edition {
+  id        String   @id @default(cuid())
+  name      String
+  status    String   @default("DRAFT")
+  startDate DateTime?
+  endDate   DateTime?
+  publicCopy String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cohorts   Cohort[]
+  events    MissionEvent[]
+  hotels    Hotel[]
+}
+
+model Cohort {
+  id          String   @id @default(cuid())
+  editionId   String
+  edition     Edition  @relation(fields: [editionId], references: [id])
+  name        String
+  capacity    Int
+  seatsTaken  Int      @default(0)
+  status      String   @default("OPEN")
+  isPublic    Boolean  @default(true)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  registrations Registration[]
+  participants  Participant[]
+  events        MissionEvent[]
+  rooms         Room[]
+  transfers     Transfer[]
+
+  @@index([editionId, status])
+}
+
+model Registration {
+  id                 String    @id @default(cuid())
+  leadId             String
+  lead               Lead      @relation(fields: [leadId], references: [id])
+  cohortId           String?
+  cohort             Cohort?   @relation(fields: [cohortId], references: [id])
+  status             String    @default("DRAFT")
+  fullName           String
+  email              String
+  phone              String
+  jobTitle           String?
+  cpfLast4           String?
+  companyName        String?
+  companyTaxId       String?
+  segment            String?
+  interestsJson      String    @default("[]")
+  objectives         String?
+  networkingNotes    String?
+  dietaryNotes       String?
+  arrivalNotes       String?
+  departureNotes     String?
+  companionIntent    Boolean   @default(false)
+  companionCount     Int       @default(0)
+  termsVersion       String?
+  privacyVersion     String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  participant        Participant?
+  orders             Order[]
+  documents          MissionDocument[]
+
+  @@unique([leadId])
+  @@index([status])
+}
+
+model Participant {
+  id              String   @id @default(cuid())
+  registrationId  String   @unique
+  registration    Registration @relation(fields: [registrationId], references: [id])
+  cohortId        String?
+  cohort          Cohort?  @relation(fields: [cohortId], references: [id])
+  accessTokenHash String   @unique
+  status          String   @default("PENDING_PAYMENT")
+  waitlisted      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  documents       MissionDocument[]
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  leadId          String
+  lead            Lead        @relation(fields: [leadId], references: [id])
+  registrationId  String
+  registration    Registration @relation(fields: [registrationId], references: [id])
+  proposalId      String?
+  status          String      @default("DRAFT")
+  currency        String      @default("BRL")
+  subtotalCents   Int
+  discountCents   Int         @default(0)
+  totalCents      Int
+  priceSnapshot   String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  items           OrderItem[]
+  payments        Payment[]
+
+  @@index([registrationId, status])
+}
+
+model OrderItem {
+  id             String   @id @default(cuid())
+  orderId        String
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId      String?
+  product        Product? @relation(fields: [productId], references: [id])
+  addonId        String?
+  addon          Addon?   @relation(fields: [addonId], references: [id])
+  label          String
+  amountCents    Int
+  priceVersionId String?
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  orderId         String
+  order           Order    @relation(fields: [orderId], references: [id])
+  provider        String
+  providerRef     String?  @unique
+  status          String   @default("PENDING")
+  amountCents     Int
+  currency        String   @default("BRL")
+  checkoutUrl     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PaymentWebhookEvent {
+  id          String   @id @default(cuid())
+  uniqueKey   String   @unique
+  provider    String
+  eventType   String
+  paymentId   String?
+  rawHash     String
+  applied     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model DocumentType {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  required    Boolean  @default(true)
+  documents   MissionDocument[]
+}
+
+model MissionDocument {
+  id              String        @id @default(cuid())
+  registrationId  String
+  registration    Registration  @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  participantId   String?
+  participant     Participant?  @relation(fields: [participantId], references: [id])
+  typeId          String
+  type            DocumentType  @relation(fields: [typeId], references: [id])
+  status          String        @default("PENDING")
+  storageKey      String?
+  mimeType        String?
+  originalName    String?
+  sizeBytes       Int?
+  reviewNotes     String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([registrationId, status])
+}
+
+model Location {
+  id        String         @id @default(cuid())
+  name      String
+  address   String?
+  city      String?
+  events    MissionEvent[]
+}
+
+model MissionEvent {
+  id          String    @id @default(cuid())
+  editionId   String?
+  edition     Edition?  @relation(fields: [editionId], references: [id])
+  cohortId    String?
+  cohort      Cohort?   @relation(fields: [cohortId], references: [id])
+  locationId  String?
+  location    Location? @relation(fields: [locationId], references: [id])
+  type        String
+  title       String
+  startsAt    DateTime
+  endsAt      DateTime
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([cohortId, startsAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actorRole  String?
+  action     String
+  resource   String
+  resourceId String
+  result     String   @default("OK")
+  metadata   String   @default("{}")
+  createdAt  DateTime @default(now())
+
+  @@index([resource, resourceId])
+  @@index([createdAt])
+}
+
+model Hotel {
+  id        String   @id @default(cuid())
+  editionId String?
+  edition   Edition? @relation(fields: [editionId], references: [id])
+  name      String
+  city      String?
+  notes     String?
+  rooms     Room[]
+}
+
+model Room {
+  id        String   @id @default(cuid())
+  hotelId   String
+  hotel     Hotel    @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  cohortId  String?
+  cohort    Cohort?  @relation(fields: [cohortId], references: [id])
+  label     String
+}
+
+model Vehicle {
+  id        String     @id @default(cuid())
+  label     String
+  capacity  Int?
+  transfers Transfer[]
+}
+
+model Driver {
+  id        String     @id @default(cuid())
+  name      String
+  transfers Transfer[]
+}
+
+model Transfer {
+  id         String    @id @default(cuid())
+  cohortId   String?
+  cohort     Cohort?   @relation(fields: [cohortId], references: [id])
+  vehicleId  String?
+  vehicle    Vehicle?  @relation(fields: [vehicleId], references: [id])
+  driverId   String?
+  driver     Driver?   @relation(fields: [driverId], references: [id])
+  kind       String
+  startsAt   DateTime?
+  notes      String?
+}
+
+model TravelSegment {
+  id        String    @id @default(cuid())
+  label     String
+  startsAt  DateTime?
+  endsAt    DateTime?
+}
+
+model Institution {
+  id        String    @id @default(cuid())
+  name      String
+  officials Official[]
+}
+
+model Official {
+  id            String      @id @default(cuid())
+  institutionId String
+  institution   Institution @relation(fields: [institutionId], references: [id])
+  name          String
+  title         String?
+}
+
+model Invitation {
+  id     String  @id @default(cuid())
+  status String  @default("DRAFT")
+  notes  String?
+}
+
+model InstitutionalMeeting {
+  id        String    @id @default(cuid())
+  title     String
+  status    String    @default("DRAFT")
+  startsAt  DateTime?
+}
+
+model Opportunity {
+  id        String     @id @default(cuid())
+  title     String
+  status    String     @default("OPEN")
+  followUps FollowUp[]
+}
+
+model FollowUp {
+  id            String      @id @default(cuid())
+  opportunityId String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  notes         String
+  dueAt         DateTime?
+}

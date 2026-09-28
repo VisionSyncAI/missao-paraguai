@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="cybero" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7CF0FF"/>
+      <stop offset="1" stop-color="#2B6BFF"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#cybero)" d="M8 8h17.5L32 28.5 38.5 8H56L36.5 56h-9L8 8z"/>
+</svg>

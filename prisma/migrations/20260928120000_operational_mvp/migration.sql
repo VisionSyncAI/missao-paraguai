@@ -1,0 +1,12 @@
+-- Incremental operational platform (SQLite).
+-- Applied via `npx prisma db push` on existing local databases.
+
+-- New tables are defined in prisma/schema.prisma:
+-- BusinessSetting, Product, PriceVersion, Addon,
+-- Proposal, ProposalItem, ProposalVersion,
+-- Edition, Cohort, Registration, Participant,
+-- Order, OrderItem, Payment, PaymentWebhookEvent, CalWebhookEvent,
+-- DocumentType, MissionDocument, Location, MissionEvent, AuditLog,
+-- Hotel, Room, Vehicle, Driver, Transfer, TravelSegment,
+-- Institution, Official, Invitation, InstitutionalMeeting,
+-- Opportunity, FollowUp.
