@@ -67,7 +67,8 @@ const redisLimiter = new RedisRateLimiter();
 export class RateLimiter {
   async allow(key: string, limit: number, windowMs: number) {
     const production = process.env.NODE_ENV === "production";
-    if (production && !upstashConfigured()) {
+    const railwaySingleReplica = Boolean(process.env.RAILWAY_ENVIRONMENT);
+    if (production && !upstashConfigured() && !railwaySingleReplica) {
       logError("rate_limit_fail_closed_no_redis", { keyKind: key.split(":")[0] });
       return false;
     }

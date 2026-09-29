@@ -1,0 +1,11 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "buildCommand": "node scripts/prisma-postgres.mjs && npx prisma generate && npx prisma db push && npx tsx prisma/seed.ts && next build"
+  },
+  "deploy": {
+    "startCommand": "next start --hostname 0.0.0.0 --port ${PORT:-8080}",
+    "healthcheckPath": "/",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}
