@@ -20,8 +20,10 @@
     "framer-motion": "^12.23.12",
     "maplibre-gl": "^6.11.2",
     "next": "^15.5.3",
+    "prisma": "^6.16.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "tsx": "^4.20.5",
     "zod": "^4.1.11"
   },
   "devDependencies": {
@@ -29,9 +31,7 @@
     "@types/node": "^24.5.2",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
-    "prisma": "^6.16.2",
     "tailwindcss": "^4.1.13",
-    "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }
