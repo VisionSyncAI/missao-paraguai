@@ -47,7 +47,7 @@ export function SlotPicker({
 }) {
   const grouped = groupSlotsByDay(slots);
   if (grouped.length === 0) {
-    return <p className="text-gray">Nenhum horário livre até 16 de outubro de 2026.</p>;
+    return <p className="text-gray">Nenhum horário livre até 15 de novembro de 2026.</p>;
   }
   return (
     <div className="grid gap-8">

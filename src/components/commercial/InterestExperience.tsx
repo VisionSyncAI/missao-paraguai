@@ -265,7 +265,7 @@ export function InterestExperience() {
       <section className="min-h-[80dvh] py-8">
         <p className="text-[11px] tracking-[0.28em] uppercase text-red">Conversa estratégica</p>
         <h1 className="mt-6 font-display text-4xl md:text-6xl">Vamos conversar sobre o seu cenário?</h1>
-        <p className="mt-4 max-w-xl text-gray">Escolha um dia e horário até 16 de outubro de 2026 para falar com um de nossos consultores.</p>
+        <p className="mt-4 max-w-xl text-gray">Escolha um dia e horário até 15 de novembro de 2026 para falar com um de nossos consultores.</p>
         <p className="mt-3 text-sm text-white">Seu interesse foi registrado.</p>
         {scheduler?.provider === "cal" && scheduler.embedOrigin && scheduler.calLink ? (
           <div className="mt-8">

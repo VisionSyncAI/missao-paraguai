@@ -63,25 +63,25 @@ describe("qualificação estruturada", () => {
 });
 
 describe("janela de reunião", () => {
-  it("inclui 16 de outubro de 2026", () => {
-    expect(compareYmd(BOOKING_LAST_YMD, { year: 2026, month: 10, day: 16 })).toBe(0);
+  it("inclui 15 de novembro de 2026 como último dia de agenda", () => {
+    expect(compareYmd(BOOKING_LAST_YMD, { year: 2026, month: 11, day: 15 })).toBe(0);
     const from = new Date("2026-09-28T12:00:00-03:00");
     expect(bookingHorizonDays(from)).toBeGreaterThan(14);
-    expect(bookingHorizonDays(from)).toBe(19);
+    expect(bookingHorizonDays(from)).toBe(49);
   });
   it("agrupa horários por dia", () => {
     const groups = groupSlotsByDay([
-      { start: "2026-10-16T12:00:00.000Z", consultantId: "c", consultantName: "K" },
-      { start: "2026-10-16T13:00:00.000Z", consultantId: "c", consultantName: "K" },
-      { start: "2026-10-15T12:00:00.000Z", consultantId: "c", consultantName: "K" },
+      { start: "2026-11-15T12:00:00.000Z", consultantId: "c", consultantName: "K" },
+      { start: "2026-11-15T13:00:00.000Z", consultantId: "c", consultantName: "K" },
+      { start: "2026-11-14T12:00:00.000Z", consultantId: "c", consultantName: "K" },
     ]);
     expect(groups).toHaveLength(2);
   });
   it("formata reunião com timezone fixo America/Sao_Paulo", () => {
-    const text = formatSaoPaulo(new Date("2026-10-15T13:30:00.000Z"));
-    expect(text).toContain("15 de outubro de 2026");
+    const text = formatSaoPaulo(new Date("2026-11-15T13:30:00.000Z"));
+    expect(text).toContain("15 de novembro de 2026");
     expect(text).toContain("10:30");
-    expect(formatSaoPaulo(new Date("2026-10-15T13:30:00.000Z"))).toBe(text);
+    expect(formatSaoPaulo(new Date("2026-11-15T13:30:00.000Z"))).toBe(text);
   });
   it("não trata /reuniao/id como link de sala ao vivo", () => {
     expect(isLiveMeetingLink("http://localhost:3000/reuniao/abc")).toBe(false);
@@ -105,7 +105,7 @@ describe("janela de reunião", () => {
     expect(emailDeliveryStatus("PENDING")).toBe("queued");
   });
   it("template de reunião confirmada não inventa sala", () => {
-    const when = new Date("2026-10-15T13:30:00.000Z");
+    const when = new Date("2026-11-15T13:30:00.000Z");
     const queued = EmailCopy.meetingConfirmed("Ana Souza", "Karina Ferreira", when, null);
     expect(queued.subject).toBe("Imersão Paraguai — reunião confirmada");
     expect(queued.body).toContain("O link da reunião será enviado para o e-mail informado.");

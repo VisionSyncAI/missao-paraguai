@@ -114,7 +114,7 @@ async function main() {
       key: "EDITION_DATES",
       value: "",
       decisionStatus: "PENDING_BUSINESS_DECISION",
-      notes: "Datas da edição não são hardcoded. Landing menciona outubro/2026 apenas como copy.",
+      notes: "Landing: imersão de 16 a 21 de novembro de 2026.",
     },
     {
       key: "NFE",

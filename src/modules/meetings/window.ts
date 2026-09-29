@@ -1,7 +1,8 @@
 import { addDaysYmd, fromSaoPauloLocal, ymdInSaoPaulo } from "@/lib/timezone";
 
 /** Último dia (inclusive, America/Sao_Paulo) em que a reunião comercial pode ser marcada. */
-export const BOOKING_LAST_YMD = { year: 2026, month: 10, day: 16 };
+/** Último dia para agendar conversa comercial (véspera do início da imersão). */
+export const BOOKING_LAST_YMD = { year: 2026, month: 11, day: 15 };
 
 export function compareYmd(a: { year: number; month: number; day: number }, b: { year: number; month: number; day: number }) {
   return a.year - b.year || a.month - b.month || a.day - b.day;
