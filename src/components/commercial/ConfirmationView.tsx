@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { isLiveMeetingLink } from "@/lib/meetingLink";
+import { formatSaoPaulo } from "@/lib/timezone";
 
 type Data = {
   name: string;
+  email?: string;
   consultantName: string | null;
   scheduledAt: string | null;
   meetingUrl: string | null;
@@ -18,11 +21,8 @@ export function ConfirmationView() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!token) {
-      setError("Link inválido.");
-      return;
-    }
-    fetch(`/api/leads/me?token=${encodeURIComponent(token)}`)
+    const url = token ? `/api/leads/me?token=${encodeURIComponent(token)}` : "/api/leads/me";
+    fetch(url, { credentials: "same-origin" })
       .then(async (r) => {
         if (!r.ok) throw new Error("not found");
         setData(await r.json());
@@ -33,9 +33,7 @@ export function ConfirmationView() {
   if (error) return <p className="text-red">{error}</p>;
   if (!data) return <p className="text-gray">Carregando confirmação…</p>;
 
-  const when = data.scheduledAt
-    ? new Date(data.scheduledAt).toLocaleString("pt-BR", { dateStyle: "full", timeStyle: "short" })
-    : "—";
+  const when = data.scheduledAt ? formatSaoPaulo(new Date(data.scheduledAt)) : "—";
 
   return (
     <div className="grid gap-8">
@@ -47,14 +45,23 @@ export function ConfirmationView() {
         </p>
       </div>
       <div className="flex flex-wrap gap-3">
-        <a className="rounded-xl bg-red px-6 py-4 text-xs font-bold tracking-[0.12em] uppercase" href={`/api/presentations/download?token=${encodeURIComponent(token)}`}>
+        <a className="rounded-xl bg-red px-6 py-4 text-xs font-bold tracking-[0.12em] uppercase" href={token ? `/api/presentations/download?token=${encodeURIComponent(token)}` : "/api/presentations/download"}>
           Baixar apresentação
         </a>
-        {data.meetingUrl && (
-          <a className="rounded-xl border border-white/20 px-6 py-4 text-xs font-bold tracking-[0.12em] uppercase" href={data.meetingUrl}>
-            Acessar reunião
+        {isLiveMeetingLink(data.meetingUrl) ? (
+          <a
+            className="rounded-xl border border-white/20 px-6 py-4 text-xs font-bold tracking-[0.12em] uppercase"
+            href={data.meetingUrl || undefined}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Abrir sala da reunião
           </a>
-        )}
+        ) : data.scheduledAt ? (
+          <p className="max-w-md text-sm text-gray">
+            O link da reunião será enviado para {data.email || "o e-mail informado"}. Verifique também a caixa de spam.
+          </p>
+        ) : null}
       </div>
       <article className="rounded-2xl border border-white/10 bg-[#0c0c0c] p-6">
         <p className="text-[11px] tracking-[0.2em] uppercase text-red">Sua conversa</p>

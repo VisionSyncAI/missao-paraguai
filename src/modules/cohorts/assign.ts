@@ -18,9 +18,14 @@ export async function assignPaidParticipant(registrationId: string, preferredCoh
         });
     if (!cohort) throw new Error("COHORT_MISSING");
 
-    const locked = await tx.$queryRaw<Array<{ id: string; seatsTaken: number; capacity: number }>>`
-      SELECT id, seatsTaken, capacity FROM Cohort WHERE id = ${cohort.id}
-    `;
+    const postgres = (process.env.DATABASE_URL || "").startsWith("postgres");
+    const locked = postgres
+      ? await tx.$queryRaw<Array<{ id: string; seatsTaken: number; capacity: number }>>`
+          SELECT id, "seatsTaken", capacity FROM "Cohort" WHERE id = ${cohort.id} FOR UPDATE
+        `
+      : await tx.$queryRaw<Array<{ id: string; seatsTaken: number; capacity: number }>>`
+          SELECT id, seatsTaken, capacity FROM Cohort WHERE id = ${cohort.id}
+        `;
     const row = locked[0];
     if (!row) throw new Error("COHORT_MISSING");
 

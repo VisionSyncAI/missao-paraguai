@@ -1,13 +1,25 @@
 import { describe, expect, it } from "vitest";
 import { can } from "../src/lib/rbac";
 import { quoteOrder } from "../src/modules/catalog/pricing";
-import { canAssignSeat, nextAssignmentStatus } from "../src/modules/cohorts/capacity";
+import { canAssignSeat, nextAssignmentStatus, simulateSeatRace } from "../src/modules/cohorts/capacity";
 import { canReadDocument, validateUpload } from "../src/modules/documents/rules";
 import { canTransitionLead } from "../src/modules/leads/status";
 import { overlaps } from "../src/modules/events/rules";
 import { paymentConfigured } from "../src/modules/billing/provider";
 
 describe("RBAC", () => {
+  it("CNPJ só com payment:write (ADMIN/FINANCE), não COMMERCIAL", () => {
+    expect(can("FINANCE", "payment:write")).toBe(true);
+    expect(can("COMMERCIAL", "payment:write")).toBe(false);
+    expect(can("CONSULTANT", "payment:write")).toBe(false);
+    expect(can("ADMIN", "payment:write")).toBe(true);
+  });
+  it("OPS e OPERATIONS compartilham as mesmas permissões", () => {
+    expect(can("OPS", "cohort:write")).toBe(can("OPERATIONS", "cohort:write"));
+    expect(can("OPS", "order:write")).toBe(false);
+    expect(can("HACKER", "lead:read")).toBe(false);
+    expect(can("ADMIN", "lead:read")).toBe(true);
+  });
   it("FINANCE não escreve documento nem turma", () => {
     expect(can("FINANCE", "payment:write")).toBe(true);
     expect(can("FINANCE", "document:write")).toBe(false);
@@ -51,6 +63,12 @@ describe("capacidade", () => {
   it("14 ocupadas + capacidade 15 permite; 15 não", () => {
     expect(canAssignSeat(14, 15)).toBe(true);
     expect(nextAssignmentStatus(15, 15)).toBe("WAITLIST");
+  });
+  it("30 tentativas com capacity 15 nunca passam de 15", () => {
+    const race = simulateSeatRace(15, 30);
+    expect(race.confirmed).toBe(15);
+    expect(race.waitlisted).toBe(15);
+    expect(race.seatsTaken).toBe(15);
   });
 });
 

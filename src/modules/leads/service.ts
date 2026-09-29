@@ -4,226 +4,322 @@ import { hashIp, newAccessToken, sha256 } from "@/lib/crypto";
 import { onlyDigits } from "@/lib/validation/br";
 import { CONTACT_CONSENT_VERSION, PRIVACY_VERSION, TERMS_VERSION } from "@/modules/leads/status";
 import { formatSaoPaulo } from "@/lib/timezone";
-import { emailUnique, enqueueEmail } from "@/modules/comms/email";
+import { emailDeliveryStatus, emailUnique, enqueueEmail } from "@/modules/comms/email";
+import { officialMeetingUrl } from "@/lib/meetingLink";
 import { EmailCopy } from "@/modules/comms/templates";
-import type { InterestInput } from "@/modules/leads/schema";
+import type { CaptureInput } from "@/modules/leads/captureSchema";
 import { logInfo } from "@/lib/logger";
 import { resolveVerifiedBooking } from "@/modules/scheduling/resolve";
+import { mapInterestFlags, mapRelationship, resolvedJobTitle } from "@/modules/interest/flow";
+import { can } from "@/lib/rbac";
+
+function persistableMeetingUrl(url?: string | null) {
+  return officialMeetingUrl(url) ?? "";
+}
 
 function appUrl() {
   return process.env.APP_URL || "http://localhost:3000";
 }
 
-function meetingUrl(meetingId: string) {
-  return `${appUrl()}/reuniao/${meetingId}`;
+/** Fluxo oficial de captação: /interesse → captureInterest → Lead → CRM → Cal.diy → Meeting. */
+export async function captureInterest(input: CaptureInput, meta: { ip: string | null; userAgent: string | null }) {
+  const jobTitle = resolvedJobTitle({
+    fullName: input.fullName,
+    email: input.email,
+    whatsapp: input.whatsapp,
+    jobTitle: input.jobTitle,
+    jobTitleOther: input.jobTitleOther || "",
+    companySize: input.companySize,
+    interests: input.interests,
+    objective: input.objective || "",
+    relationship: input.relationship,
+    intent: input.intent,
+    consent: true,
+  });
+  const relation = mapRelationship(input.relationship);
+  const flags = mapInterestFlags(input.interests);
+  const qualification = {
+    companySize: input.companySize,
+    relationship: input.relationship,
+    intent: input.intent,
+    jobTitleOption: input.jobTitle,
+    utm: input.utm || {},
+  };
+  const phone = onlyDigits(input.whatsapp);
+  const existing = await prisma.lead.findFirst({
+    where: {
+      email: input.email,
+      status: { notIn: ["WON", "LOST"] },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const data = {
+    fullName: input.fullName,
+    email: input.email,
+    whatsapp: phone,
+    jobTitle,
+    city: existing?.city || "NOT_PROVIDED",
+    state: existing?.state || "NOT_PROVIDED",
+    hasCompany: existing?.hasCompany ?? false,
+    objectivesJson: JSON.stringify(input.interests),
+    objectiveNotes: input.objective || null,
+    beenToParaguay: relation.beenToParaguay,
+    hasBusinessParaguay: relation.hasBusinessParaguay,
+    hasPartnersParaguay: relation.hasPartnersParaguay,
+    wantsOpenOperation: flags.wantsOpenOperation || relation.wantsOpenOperation,
+    interestInvest: flags.interestInvest,
+    interestNetworking: flags.interestNetworking,
+    interestB2B: flags.interestB2B,
+    interestIndustry: flags.interestIndustry,
+    source: input.source || "interesse",
+    qualificationJson: JSON.stringify(qualification),
+    nextAction: existing && ["MEETING_SCHEDULED", "MEETING_CONFIRMED"].includes(existing.status)
+      ? existing.nextAction
+      : "Agendar conversa com consultor",
+    status: existing && ["MEETING_SCHEDULED", "MEETING_CONFIRMED", "MEETING_COMPLETED", "QUALIFIED", "PROPOSAL", "NEGOTIATION"].includes(existing.status)
+      ? existing.status
+      : "FORM_SUBMITTED",
+  };
+
+  if (existing) {
+    const updated = await prisma.lead.update({
+      where: { id: existing.id },
+      data,
+    });
+    await prisma.consent.create({
+      data: {
+        leadId: updated.id,
+        type: "CONTACT",
+        version: CONTACT_CONSENT_VERSION,
+        accepted: true,
+        ipHash: hashIp(meta.ip),
+        userAgent: meta.userAgent?.slice(0, 240) || null,
+      },
+    });
+    await prisma.activity.create({
+      data: {
+        leadId: updated.id,
+        type: "INTEREST_SUBMITTED",
+        body: "Pré-inscrição conversacional atualizada.",
+      },
+    });
+    await enqueueEmail({
+      leadId: updated.id,
+      eventType: "LEAD_UPDATED",
+      uniqueKey: emailUnique("LEAD_UPDATED", `${updated.id}:${updated.updatedAt.toISOString()}`),
+      to: updated.email,
+      subject: "Pré-inscrição atualizada — Imersão Paraguai",
+      body: `Olá, ${updated.fullName}.\n\nAtualizamos seu interesse. O link anterior de acesso continua válido.\n`,
+    });
+    logInfo("lead_updated", { leadId: updated.id });
+    return { accessToken: null as string | null, leadId: updated.id, created: false, tokenPreserved: true };
+  }
+
+  const accessToken = newAccessToken();
+  const lead = await prisma.lead.create({
+    data: {
+      ...data,
+      accessTokenHash: sha256(accessToken),
+      status: "FORM_SUBMITTED",
+      consents: {
+        create: [
+          {
+            type: "PRIVACY_POLICY",
+            version: PRIVACY_VERSION,
+            accepted: true,
+            ipHash: hashIp(meta.ip),
+            userAgent: meta.userAgent?.slice(0, 240) || null,
+          },
+          {
+            type: "TERMS",
+            version: TERMS_VERSION,
+            accepted: true,
+            ipHash: hashIp(meta.ip),
+            userAgent: meta.userAgent?.slice(0, 240) || null,
+          },
+          {
+            type: "CONTACT",
+            version: CONTACT_CONSENT_VERSION,
+            accepted: true,
+            ipHash: hashIp(meta.ip),
+            userAgent: meta.userAgent?.slice(0, 240) || null,
+          },
+        ],
+      },
+      activities: {
+        create: { type: "INTEREST_SUBMITTED", body: "Pré-inscrição conversacional recebida." },
+      },
+    },
+  });
+  await enqueueEmail({
+    leadId: lead.id,
+    eventType: "LEAD_CREATED",
+    uniqueKey: emailUnique("LEAD_CREATED", lead.id),
+    to: lead.email,
+    subject: "Pré-inscrição recebida — Imersão Paraguai",
+    body: `Olá, ${lead.fullName}.\n\nRecebemos seu perfil. Agende a conversa com um consultor para continuarmos.\n${appUrl()}/interesse`,
+  });
+  logInfo("lead_created", { leadId: lead.id });
+  return { accessToken, leadId: lead.id, created: true, tokenPreserved: false };
 }
 
-async function pickCompany(input: InterestInput) {
-  if (!input.hasCompany || !input.legalName) return null;
-  const taxId = input.cnpj ? onlyDigits(input.cnpj) : null;
-  if (taxId) {
-    const existing = await prisma.company.findUnique({ where: { taxId } });
-    if (existing) {
-      return prisma.company.update({
-        where: { id: existing.id },
-        data: {
-          legalName: input.legalName,
-          tradeName: input.tradeName || existing.tradeName,
-          type: input.companyType || existing.type,
-          segment: input.segment || existing.segment,
-          employeeBand: input.employeeBand || existing.employeeBand,
-          city: input.companyCity || existing.city,
-          state: input.companyState || existing.state,
-          website: input.website || existing.website,
-          social: input.social || existing.social,
-        },
-      });
-    }
-  }
-  return prisma.company.create({
-    data: {
-      taxId,
-      legalName: input.legalName,
-      tradeName: input.tradeName || null,
-      type: input.companyType || null,
-      segment: input.segment || null,
-      employeeBand: input.employeeBand || null,
-      city: input.companyCity || null,
-      state: input.companyState || null,
-      website: input.website || null,
-      social: input.social || null,
-    },
+const leadInclude = {
+  company: true,
+  consultant: true,
+  meetings: { orderBy: { scheduledAt: "desc" as const }, take: 1 },
+  downloads: true,
+};
+
+export async function findLeadByToken(token: string) {
+  return prisma.lead.findUnique({
+    where: { accessTokenHash: sha256(token) },
+    include: leadInclude,
   });
 }
 
-export async function submitInterest(input: InterestInput, meta: { ip: string | null; userAgent: string | null; source?: string }) {
+export async function findLeadById(id: string) {
+  return prisma.lead.findUnique({ where: { id }, include: leadInclude });
+}
+
+export async function attachMeetingToLead(input: {
+  token?: string;
+  leadId?: string;
+  calBookingUid?: string;
+  scheduledAt?: string;
+  consultantId?: string;
+}) {
+  const lead = input.token
+    ? await findLeadByToken(input.token)
+    : input.leadId
+      ? await findLeadById(input.leadId)
+      : null;
+  if (!lead) throw new Error("LEAD_NOT_FOUND");
+
+  const existingEarly = await prisma.meeting.findFirst({
+    where: {
+      status: { in: ["SCHEDULED", "CONFIRMED"] },
+      OR: [
+        input.calBookingUid ? { providerBookingUid: input.calBookingUid } : { id: "__none__" },
+        input.scheduledAt && input.consultantId
+          ? { leadId: lead.id, consultantId: input.consultantId, scheduledAt: new Date(input.scheduledAt) }
+          : { id: "__none__" },
+      ],
+    },
+    include: { consultant: true },
+  });
+  if (existingEarly) {
+    if (existingEarly.leadId !== lead.id) throw new Error("SLOT_TAKEN");
+    return confirmMeetingResponse({ lead, consultant: existingEarly.consultant, meeting: existingEarly });
+  }
+
   const resolved = await resolveVerifiedBooking({
-    calBookingUid: input.calBookingUid || undefined,
-    scheduledAt: input.scheduledAt || undefined,
-    consultantId: input.consultantId || undefined,
+    calBookingUid: input.calBookingUid,
+    scheduledAt: input.scheduledAt,
+    consultantId: input.consultantId,
   });
   const consultant = await prisma.consultant.findUnique({ where: { id: resolved.consultantId } });
   if (!consultant) throw new Error("CONSULTANT_INACTIVE");
   const scheduledAt = resolved.booking.start;
   const durationMin = Math.max(15, Math.round((resolved.booking.end.getTime() - scheduledAt.getTime()) / 60000));
-
-  const company = await pickCompany(input);
-  const accessToken = newAccessToken();
   const lockId = `${consultant.id}:${scheduledAt.toISOString()}`;
-  const cpfDigits = input.cpf ? onlyDigits(input.cpf) : "";
+  const officialUrl = persistableMeetingUrl(resolved.booking.meetingUrl);
+
+  const existing = await prisma.meeting.findFirst({
+    where: {
+      OR: [
+        resolved.booking.uid ? { providerBookingUid: resolved.booking.uid } : { id: "__none__" },
+        { leadId: lead.id, consultantId: consultant.id, scheduledAt, status: { in: ["SCHEDULED", "CONFIRMED"] } },
+      ],
+    },
+  });
+  if (existing) {
+    if (existing.leadId !== lead.id) throw new Error("SLOT_TAKEN");
+    if (officialUrl && officialUrl !== existing.meetingUrl) {
+      await prisma.meeting.update({ where: { id: existing.id }, data: { meetingUrl: officialUrl } });
+      existing.meetingUrl = officialUrl;
+    }
+    return confirmMeetingResponse({ lead, consultant, meeting: existing });
+  }
 
   try {
-    const created = await prisma.$transaction(async (tx) => {
+    const meeting = await prisma.$transaction(async (tx) => {
       if (resolved.provider === "local") {
         await tx.slotLock.create({ data: { id: lockId } });
       }
-
-      const lead = await tx.lead.create({
-        data: {
-          accessTokenHash: sha256(accessToken),
-          status: "MEETING_SCHEDULED",
-          source: input.source || meta.source || "landing",
-          fullName: input.fullName,
-          email: input.email,
-          whatsapp: onlyDigits(input.whatsapp),
-          altPhone: input.altPhone ? onlyDigits(input.altPhone) : null,
-          cpfHash: cpfDigits ? sha256(cpfDigits) : null,
-          cpfLast4: cpfDigits ? cpfDigits.slice(-4) : null,
-          birthDate: input.birthDate || null,
-          city: input.city,
-          state: input.state,
-          country: input.country,
-          jobTitle: input.jobTitle || null,
-          hasCompany: input.hasCompany,
-          companyId: company?.id,
-          objectivesJson: JSON.stringify(input.objectives),
-          objectiveNotes: input.objectiveNotes || null,
-          beenToParaguay: input.beenToParaguay ?? null,
-          hasBusinessParaguay: input.hasBusinessParaguay ?? null,
-          hasPartnersParaguay: input.hasPartnersParaguay ?? null,
-          wantsOpenOperation: input.wantsOpenOperation ?? null,
-          hasInternationalOps: input.hasInternationalOps ?? null,
-          interestInvest: input.interestInvest ?? null,
-          interestNetworking: input.interestNetworking ?? null,
-          interestB2B: input.interestB2B ?? null,
-          interestIndustry: input.interestIndustry ?? null,
-          participateAlone: input.participateAlone,
-          companionCount: input.participateAlone ? 0 : input.companions.length,
-          dietaryRestricted: input.dietaryRestricted ?? null,
-          dietaryNotes: input.dietaryRestricted ? input.dietaryNotes || null : null,
-          specialNeeds: input.specialNeeds || null,
-          consultantId: consultant.id,
-          companions: input.participateAlone
-            ? undefined
-            : {
-                create: input.companions.map((c) => ({
-                  fullName: c.fullName,
-                  relationType: c.relationType,
-                  email: c.email || null,
-                  whatsapp: c.whatsapp ? onlyDigits(c.whatsapp) : null,
-                })),
-              },
-          consents: {
-            create: [
-              {
-                type: "PRIVACY_POLICY",
-                version: PRIVACY_VERSION,
-                accepted: true,
-                ipHash: hashIp(meta.ip),
-                userAgent: meta.userAgent?.slice(0, 240) || null,
-              },
-              {
-                type: "TERMS",
-                version: TERMS_VERSION,
-                accepted: true,
-                ipHash: hashIp(meta.ip),
-                userAgent: meta.userAgent?.slice(0, 240) || null,
-              },
-              {
-                type: "CONTACT",
-                version: CONTACT_CONSENT_VERSION,
-                accepted: true,
-                ipHash: hashIp(meta.ip),
-                userAgent: meta.userAgent?.slice(0, 240) || null,
-              },
-            ],
-          },
-        },
-      });
-
-      const meeting = await tx.meeting.create({
+      const created = await tx.meeting.create({
         data: {
           leadId: lead.id,
           consultantId: consultant.id,
           scheduledAt,
           durationMin,
           status: "SCHEDULED",
-          meetingUrl: resolved.booking.meetingUrl || meetingUrl("pending"),
+          meetingUrl: officialUrl,
           provider: resolved.provider,
           providerBookingUid: resolved.booking.uid,
         },
       });
-
-      const url = resolved.booking.meetingUrl || meetingUrl(meeting.id);
-      if (url !== meeting.meetingUrl) {
-        await tx.meeting.update({ where: { id: meeting.id }, data: { meetingUrl: url } });
-      }
-
-      await tx.activity.createMany({
-        data: [
-          { leadId: lead.id, type: "FORM_SUBMITTED", body: "Formulário de interesse enviado." },
-          { leadId: lead.id, type: "MEETING_SCHEDULED", body: `Reunião com ${consultant.name} em ${formatSaoPaulo(scheduledAt)}.` },
-          { leadId: lead.id, type: "PRESENTATION_AVAILABLE", body: "Apresentação executiva disponibilizada." },
-        ],
+      await tx.lead.update({
+        where: { id: lead.id },
+        data: {
+          status: "MEETING_SCHEDULED",
+          consultantId: consultant.id,
+          nextAction: "Reunião comercial",
+        },
       });
-
-      return { lead, meeting: { ...meeting, meetingUrl: url } };
+      await tx.activity.create({
+        data: {
+          leadId: lead.id,
+          type: "CAL_BOOKING_CONFIRMED",
+          body: `Reunião com ${consultant.name} em ${formatSaoPaulo(scheduledAt)}.`,
+        },
+      });
+      return created;
     });
-
-    const copy = EmailCopy.leadReceived(
-      created.lead.fullName,
-      consultant.name,
-      scheduledAt,
-      created.meeting.meetingUrl,
-      accessToken,
-    );
-    await enqueueEmail({
-      leadId: created.lead.id,
-      eventType: "LEAD_CREATED",
-      uniqueKey: emailUnique("LEAD_CREATED", created.lead.id),
-      to: created.lead.email,
-      subject: copy.subject,
-      body: copy.body,
-    });
-    await enqueueEmail({
-      leadId: created.lead.id,
-      eventType: "MEETING_SCHEDULED",
-      uniqueKey: emailUnique("MEETING_SCHEDULED", created.meeting.id),
-      to: created.lead.email,
-      subject: "Reunião agendada — Imersão Paraguai",
-      body: copy.body,
-    });
-
-    logInfo("lead_created", { leadId: created.lead.id, consultantId: consultant.id });
-    return { accessToken, leadId: created.lead.id, meetingId: created.meeting.id };
+    return confirmMeetingResponse({ lead, consultant, meeting });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      const raced = await prisma.meeting.findFirst({
+        where: {
+          OR: [
+            resolved.booking.uid ? { providerBookingUid: resolved.booking.uid } : { id: "__none__" },
+            { leadId: lead.id, consultantId: consultant.id, scheduledAt },
+          ],
+        },
+      });
+      if (raced && raced.leadId === lead.id) {
+        return confirmMeetingResponse({ lead, consultant, meeting: raced });
+      }
       throw new Error("SLOT_TAKEN");
     }
     throw error;
   }
 }
 
-export async function findLeadByToken(token: string) {
-  return prisma.lead.findUnique({
-    where: { accessTokenHash: sha256(token) },
-    include: {
-      company: true,
-      consultant: true,
-      meetings: { orderBy: { scheduledAt: "desc" }, take: 1 },
-      downloads: true,
-    },
+async function confirmMeetingResponse(input: {
+  lead: { id: string; fullName: string; email: string };
+  consultant: { name: string };
+  meeting: { id: string; scheduledAt: Date; meetingUrl: string };
+}) {
+  const live = officialMeetingUrl(input.meeting.meetingUrl);
+  const copy = EmailCopy.meetingConfirmed(input.lead.fullName, input.consultant.name, input.meeting.scheduledAt, live);
+  const queued = await enqueueEmail({
+    leadId: input.lead.id,
+    eventType: "MEETING_SCHEDULED",
+    uniqueKey: emailUnique("MEETING_SCHEDULED", input.meeting.id),
+    to: input.lead.email,
+    subject: copy.subject,
+    body: copy.body,
   });
+  return {
+    meetingId: input.meeting.id,
+    leadId: input.lead.id,
+    scheduledAt: input.meeting.scheduledAt,
+    consultantName: input.consultant.name,
+    meetingUrl: live,
+    email: input.lead.email,
+    emailStatus: emailDeliveryStatus(queued.status),
+  };
 }
 
 export function publicLeadDTO(lead: NonNullable<Awaited<ReturnType<typeof findLeadByToken>>>) {
@@ -233,7 +329,7 @@ export function publicLeadDTO(lead: NonNullable<Awaited<ReturnType<typeof findLe
     email: lead.email,
     consultantName: lead.consultant?.name ?? null,
     scheduledAt: meeting?.scheduledAt.toISOString() ?? null,
-    meetingUrl: meeting?.meetingUrl ?? null,
+    meetingUrl: officialMeetingUrl(meeting?.meetingUrl),
     meetingStatus: meeting?.status ?? null,
     downloaded: lead.downloads.length > 0,
   };
@@ -270,9 +366,10 @@ export function staffLeadDTO(lead: {
   consultant: { id: string; name: string } | null;
   meetings: { id: string; scheduledAt: Date; status: string; meetingUrl: string }[];
   downloads: { downloadedAt: Date }[];
+  qualificationJson?: string;
 }, role: string) {
   const meeting = lead.meetings[0];
-  const showTax = role === "ADMIN" || role === "FINANCE";
+  const showTax = canReadTax(role);
   return {
     id: lead.id,
     name: lead.fullName,
@@ -307,8 +404,19 @@ export function staffLeadDTO(lead: {
     meetingId: meeting?.id ?? null,
     meetingAt: meeting?.scheduledAt ?? null,
     meetingStatus: meeting?.status ?? null,
-    meetingUrl: meeting?.meetingUrl ?? null,
+    meetingUrl: officialMeetingUrl(meeting?.meetingUrl),
     presentationDownloaded: lead.downloads.length > 0,
     lastDownloadAt: lead.downloads[0]?.downloadedAt ?? null,
+    qualification: (() => {
+      try {
+        return JSON.parse(lead.qualificationJson || "{}") as Record<string, unknown>;
+      } catch {
+        return {};
+      }
+    })(),
   };
+}
+
+function canReadTax(role: string) {
+  return can(role, "payment:write");
 }

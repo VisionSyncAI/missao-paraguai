@@ -209,6 +209,16 @@
   width: 100%;
   background: #000;
 }
+.route-visual-live {
+  min-height: min(86vh, 880px);
+}
+.route-map-embed {
+  display: block;
+  width: 100%;
+  height: min(86vh, 880px);
+  border: 0;
+  background: #050505;
+}
 .route-map {
   display: block;
   width: 100%;

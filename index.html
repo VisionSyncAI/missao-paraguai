@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="image" href="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2200&q=70" />
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./src/main.css?v=4" />
+  <link rel="stylesheet" href="./src/main.css?v=5" />
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -69,7 +69,7 @@
         <a data-nav href="#oportunidades">Oportunidades</a>
         <a data-nav href="#resultados">Resultados</a>
       </nav>
-      <a class="btn btn-red nav-cta" href="#contato">Garantir minha vaga <span class="arrow">↗</span></a>
+      <a class="btn btn-red nav-cta" href="/interesse">Garantir minha vaga <span class="arrow">↗</span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Abrir menu">
         <span></span>
       </button>
@@ -81,7 +81,7 @@
     <a href="#conhecimento">Conhecimento</a>
     <a href="#oportunidades">Oportunidades</a>
     <a href="#resultados">Resultados</a>
-    <a class="btn btn-red" href="#contato">Garantir minha vaga <span class="arrow">↗</span></a>
+    <a class="btn btn-red" href="/interesse">Garantir minha vaga <span class="arrow">↗</span></a>
   </div>
 
   <main id="conteudo">
@@ -100,7 +100,7 @@
           </div>
           <p class="hero-micro rise d9">Uma experiência para conhecer o Paraguai por dentro, com quem entende de tecnologia, negócios e oportunidades. Primeira edição oficial: outubro 2026.</p>
           <div class="hero-cta-wrap rise d13">
-            <a class="btn btn-red" href="#contato">Garantir minha vaga <span class="arrow">↗</span></a>
+            <a class="btn btn-red" href="/interesse">Garantir minha vaga <span class="arrow">↗</span></a>
           </div>
         </div>
         <aside class="hero-side rise d11">
@@ -239,9 +239,21 @@
           <article><b>2</b><span>Países conectados</span></article>
         </div>
 
-        <div class="xp-build reveal">
-          <h3>Quem constrói a missão</h3>
+        <div class="xp-build reveal" id="curadores">
+          <h3>Curadores</h3>
           <div>
+            <div class="xp-curators">
+              <article class="xp-curator">
+                <img src="./curators/magno-oliveira.png" alt="Magno Oliveira, curador da Imersão Paraguai" width="336" height="336" />
+                <strong>Magno Oliveira</strong>
+                <span>Curador · CEO, PROCEIT</span>
+              </article>
+              <article class="xp-curator">
+                <img src="./curators/tachieli-lopes.jpg" alt="Tachieli Lopes, curadora da Imersão Paraguai" width="336" height="336" />
+                <strong>Tachieli Lopes</strong>
+                <span>Curadora · CTO, Vision Cybero AI</span>
+              </article>
+            </div>
             <div class="xp-partners">
               <div class="xp-partner">
                 <img src="./logos/vision-cybero.png" alt="Vision Cybero AI" />
@@ -271,7 +283,7 @@
             <p class="lede">Entre na agenda da Missão Paraguai e descubra como participar.</p>
           </div>
           <div class="xp-cta-actions">
-            <a class="btn btn-red" href="#contato">Quero participar <span class="arrow">↗</span></a>
+            <a class="btn btn-red" href="/interesse">Quero participar <span class="arrow">↗</span></a>
             <a class="btn btn-ghost" href="#contato">Falar com a equipe <span class="arrow">↗</span></a>
           </div>
         </div>
@@ -518,10 +530,11 @@
     <section class="route" id="oportunidades">
       <div class="wrap">
         <p class="eyebrow">Geografia</p>
-        <h2 class="reveal">Brasil, fronteira, Paraguai. O percurso é parte da leitura.</h2>
+        <h2 class="reveal">Uma rota. Dois países. Novas oportunidades.</h2>
+        <p class="lede" style="margin-top:16px;max-width:36rem">Conectamos empresários brasileiros ao ecossistema empresarial do Paraguai.</p>
       </div>
       <figure class="route-visual">
-        <img class="route-map" src="./mission/mapa-percurso.jpg" alt="Percurso da missão: Brasil, fronteira, Ciudad del Este, Alto Paraná e Assunção" />
+        <img class="route-map" src="./mission/mapa-percurso.jpg" alt="Rota da Imersão: Brasil → Fronteira → Paraguai → Asunción." />
       </figure>
       <div class="wrap route-board">
         <div class="route-stops" role="group" aria-label="Pontos do percurso">
@@ -754,7 +767,7 @@
         <p class="invest-legal">Agendas institucionais, reuniões com autoridades e demais compromissos estão sujeitos à programação e confirmação dos participantes envolvidos. Passagem aérea não está incluída. Alimentação pode ser contratada à parte.</p>
 
         <div class="invest-actions">
-          <a class="btn btn-red" href="#contato">Quero participar da missão <span class="arrow">↗</span></a>
+          <a class="btn btn-red" href="/interesse">Quero participar da missão <span class="arrow">↗</span></a>
           <a class="btn btn-ghost" href="#contato" data-modality="Executive VIP">Quero conhecer a experiência VIP <span class="arrow">↗</span></a>
         </div>
       </div>
@@ -838,7 +851,7 @@
       <div class="finale-copy">
         <p class="eyebrow">Paraguai · Outubro 2026</p>
         <h2>Negócios sem fronteiras.</h2>
-        <a class="btn btn-red" style="margin-top:28px" href="#contato">Garantir minha vaga <span class="arrow">↗</span></a>
+        <a class="btn btn-red" style="margin-top:28px" href="/interesse">Garantir minha vaga <span class="arrow">↗</span></a>
         <p class="meta" style="margin-top:28px">Vision Cybero AI × Proceit</p>
       </div>
     </section>
@@ -866,7 +879,7 @@
   </footer>
 
   <div class="sticky-cta">
-    <a class="btn btn-red" href="#contato">Garantir minha vaga <span class="arrow">↗</span></a>
+    <a class="btn btn-red" href="/interesse">Garantir minha vaga <span class="arrow">↗</span></a>
   </div>
   <script type="module" src="./src/main.js"></script>
 </body>

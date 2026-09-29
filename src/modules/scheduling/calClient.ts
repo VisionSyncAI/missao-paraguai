@@ -1,3 +1,4 @@
+import { officialMeetingUrl } from "@/lib/meetingLink";
 import { calConfig } from "@/modules/scheduling/config";
 import type { VerifiedBooking } from "@/modules/scheduling/types";
 
@@ -38,7 +39,7 @@ export async function verifyCalBooking(uid: string): Promise<VerifiedBooking> {
     uid: firstString(booking.uid, booking.id, uid),
     start: startDate,
     end: endDate,
-    meetingUrl: firstString(booking.meetingUrl, booking.location, booking.videoCallUrl),
+    meetingUrl: officialMeetingUrl(firstString(booking.meetingUrl, booking.location, booking.videoCallUrl)) ?? "",
     hostEmail: firstString(organizer.email, booking.hostEmail).toLowerCase(),
     hostName: firstString(organizer.name, organizer.username, "Consultor"),
     attendeeEmail: firstString(attendee?.email, booking.email).toLowerCase(),

@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { safeInternalPath } from "@/lib/safePath";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export function LoginForm() {
@@ -20,7 +21,7 @@ export function LoginForm() {
       setError(json.error || "Falha no login");
       return;
     }
-    router.push(params.get("next") || "/admin/leads");
+    router.push(safeInternalPath(params.get("next"), "/admin/leads", ["/admin"]));
   }
   return (
     <form onSubmit={onSubmit} className="grid gap-4">

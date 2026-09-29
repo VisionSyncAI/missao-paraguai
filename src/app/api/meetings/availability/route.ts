@@ -3,12 +3,13 @@ import { allowLocalScheduler, calConfig } from "@/modules/scheduling/config";
 import { listAvailableSlots } from "@/modules/meetings/availability";
 import { listCalSlots } from "@/modules/scheduling/calClient";
 import { prisma } from "@/lib/prisma";
+import { bookingEnd } from "@/modules/meetings/window";
 
 export async function GET() {
   const cal = calConfig();
   if (cal.configured) {
     const from = new Date();
-    const to = new Date(from.getTime() + 14 * 24 * 60 * 60 * 1000);
+    const to = bookingEnd();
     try {
       const calSlots = await listCalSlots(from, to);
       const consultants = await prisma.consultant.findMany({ where: { status: "ACTIVE" } });

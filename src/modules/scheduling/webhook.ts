@@ -6,6 +6,7 @@ import { logInfo } from "@/lib/logger";
 import { emailUnique, enqueueEmail } from "@/modules/comms/email";
 import { EmailCopy } from "@/modules/comms/templates";
 import { writeAudit } from "@/lib/audit";
+import { officialMeetingUrl } from "@/lib/meetingLink";
 
 type CalPayload = {
   triggerEvent?: string;
@@ -30,14 +31,13 @@ export async function applyCalWebhook(body: CalPayload, raw: string) {
   const uniqueKey = `${trigger}:${uid}`;
   const rawHash = createHash("sha256").update(raw).digest("hex");
 
-  const stored = await prisma.calWebhookEvent.findUnique({ where: { uniqueKey } });
-  if (stored?.applied) return { ok: true, idempotent: true, uid, trigger };
-
-  await prisma.calWebhookEvent.upsert({
-    where: { uniqueKey },
-    update: { rawHash },
-    create: { uniqueKey, trigger, bookingUid: uid, rawHash },
-  });
+  try {
+    await prisma.calWebhookEvent.create({
+      data: { uniqueKey, trigger, bookingUid: uid, rawHash, applied: false },
+    });
+  } catch {
+    return { ok: true, idempotent: true, uid, trigger };
+  }
 
   const status = mapCalTriggerToMeetingStatus(trigger);
   if (!status) {
@@ -61,7 +61,8 @@ export async function applyCalWebhook(body: CalPayload, raw: string) {
 
   const data: { status: string; scheduledAt?: Date; meetingUrl?: string } = { status };
   if (startRaw) data.scheduledAt = new Date(startRaw);
-  if (meetingUrl) data.meetingUrl = meetingUrl;
+  const officialUrl = officialMeetingUrl(meetingUrl);
+  if (officialUrl) data.meetingUrl = officialUrl;
   await prisma.meeting.update({ where: { id: existing.id }, data });
 
   const activityType =
@@ -100,7 +101,7 @@ export async function applyCalWebhook(body: CalPayload, raw: string) {
     existing.lead.fullName,
     status,
     startRaw ? new Date(startRaw) : existing.scheduledAt,
-    meetingUrl || existing.meetingUrl,
+    officialMeetingUrl(meetingUrl) || officialMeetingUrl(existing.meetingUrl) || "",
   );
   await enqueueEmail({
     leadId: existing.leadId,

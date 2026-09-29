@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { getStaffSession } from "@/lib/auth";
+import { can, getStaffSession } from "@/lib/auth";
 import { MEETING_STATUSES } from "@/modules/leads/status";
 
 const schema = z.object({
@@ -13,7 +13,7 @@ const schema = z.object({
 export async function PATCH(request: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   const session = await getStaffSession();
   if (!session) return NextResponse.json({ error: "UNAUTHENTICATED" }, { status: 401 });
-  if (!["ADMIN", "COMMERCIAL", "CONSULTANT"].includes(session.role)) {
+  if (!can(session.role, "meeting:update")) {
     return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
   }
   const { id } = await ctx.params;

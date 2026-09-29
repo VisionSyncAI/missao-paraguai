@@ -5,7 +5,7 @@ import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (!rateLimit(`paywh:${ip}`, 60, 60 * 1000)) {
+  if (!(await rateLimit(`paywh:${ip}`, 60, 60 * 1000))) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
   const raw = await request.text();

@@ -2,12 +2,11 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { findLeadByToken } from "@/modules/leads/service";
+import { resolvePublicLead } from "@/lib/leadAccess";
 
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token");
-  if (!token) return NextResponse.json({ error: "Token ausente" }, { status: 400 });
-  const lead = await findLeadByToken(token);
+  const lead = await resolvePublicLead(token);
   if (!lead) return NextResponse.json({ error: "Não encontrado" }, { status: 404 });
 
   const presentation = await prisma.presentation.findFirst({ where: { active: true } });

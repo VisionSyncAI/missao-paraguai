@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getStaffSession } from "@/lib/auth";
+import { can, getStaffSession } from "@/lib/auth";
 import { staffLeadDTO } from "@/modules/leads/service";
 
 export async function GET(request: NextRequest) {
   const session = await getStaffSession();
   if (!session) return NextResponse.json({ error: "UNAUTHENTICATED" }, { status: 401 });
-  if (!["ADMIN", "COMMERCIAL", "CONSULTANT", "FINANCE", "OPS"].includes(session.role)) {
+  if (!can(session.role, "lead:read")) {
     return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
   }
   const status = request.nextUrl.searchParams.get("status");

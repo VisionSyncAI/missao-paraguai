@@ -1,5 +1,6 @@
 "use client";
 
+import { safeInternalPath } from "@/lib/safePath";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 
@@ -7,7 +8,7 @@ function LoginInner() {
   const params = useSearchParams();
   const [token, setToken] = useState(params.get("t") || "");
   const [error, setError] = useState("");
-  const next = params.get("next") || "/participante";
+  const next = safeInternalPath(params.get("next"), "/participante", ["/participante"]);
 
   return (
     <main className="min-h-dvh bg-black px-5 py-16 text-white">

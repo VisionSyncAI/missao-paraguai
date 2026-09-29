@@ -19,10 +19,6 @@ export async function resolveVerifiedBooking(input: {
       where: { status: "ACTIVE", email: booking.hostEmail },
     });
     if (!consultant) throw new Error("CONSULTANT_UNMAPPED");
-    const taken = await prisma.meeting.findFirst({
-      where: { providerBookingUid: booking.uid },
-    });
-    if (taken) throw new Error("SLOT_TAKEN");
     return { booking, consultantId: consultant.id, provider: "cal" };
   }
 

@@ -1,0 +1,3 @@
+-- FunnelEvent: product analytics, not legal audit.
+-- Local: already applied via `npx prisma db push`.
+-- Postgres: CREATE TABLE "FunnelEvent" (...); CREATE INDEX "FunnelEvent_event_createdAt_idx";

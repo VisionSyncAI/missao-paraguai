@@ -5,8 +5,8 @@ import {
   weekdayInSaoPaulo,
   ymdInSaoPaulo,
 } from "@/lib/timezone";
+import { bookingHorizonDays } from "@/modules/meetings/window";
 
-const HORIZON_DAYS = 14;
 const BOOKABLE = ["SCHEDULED", "CONFIRMED"];
 
 export { BOOKABLE };
@@ -32,8 +32,9 @@ export async function listAvailableSlots(from = new Date()): Promise<Slot[]> {
   const taken = new Set(meetings.map((m) => `${m.consultantId}:${m.scheduledAt.toISOString()}`));
   const startYmd = ymdInSaoPaulo(from);
   const slots: Slot[] = [];
+  const horizon = bookingHorizonDays(from);
 
-  for (let d = 0; d < HORIZON_DAYS; d += 1) {
+  for (let d = 0; d < horizon; d += 1) {
     const day = addDaysYmd(startYmd.year, startYmd.month, startYmd.day, d);
     const weekday = weekdayInSaoPaulo(day.year, day.month, day.day);
     for (const consultant of consultants) {

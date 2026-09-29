@@ -69,6 +69,7 @@ model Lead {
   accessTokenHash      String    @unique
   status               String    @default("FORM_SUBMITTED")
   source               String    @default("landing")
+  qualificationJson    String    @default("{}")
   fullName             String
   email                String
   whatsapp             String
@@ -547,6 +548,19 @@ model AuditLog {
 
   @@index([resource, resourceId])
   @@index([createdAt])
+}
+
+/// Eventos de produto (CTA/funil). Não é auditoria jurídica.
+model FunnelEvent {
+  id        String   @id @default(cuid())
+  event     String
+  step      String?
+  source    String?
+  pathname  String?
+  metadata  String   @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([event, createdAt])
 }
 
 model Hotel {

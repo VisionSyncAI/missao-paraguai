@@ -9,6 +9,6 @@ export function calConfig() {
   return { apiUrl, apiKey, eventTypeId, calLink, embedOrigin, webhookSecret, configured };
 }
 
-export function allowLocalScheduler() {
-  return process.env.NODE_ENV !== "production" && !calConfig().configured;
+export function allowLocalScheduler(env = process.env.NODE_ENV, configured = calConfig().configured) {
+  return env !== "production" && !configured;
 }

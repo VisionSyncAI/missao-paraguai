@@ -87,3 +87,9 @@ export async function enqueueEmail(input: EmailInput) {
 export function emailUnique(eventType: string, resourceId: string) {
   return `${eventType}:${resourceId}:email`;
 }
+
+export function emailDeliveryStatus(status: string): "sent" | "queued" | "failed" {
+  if (status === "SENT") return "sent";
+  if (status === "FAILED") return "failed";
+  return "queued";
+}

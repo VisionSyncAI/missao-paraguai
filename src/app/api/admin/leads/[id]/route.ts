@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { getStaffSession } from "@/lib/auth";
+import { can, getStaffSession } from "@/lib/auth";
 import { staffLeadDTO } from "@/modules/leads/service";
 import { LEAD_STATUSES, canTransitionLead } from "@/modules/leads/status";
 import { createRegistrationFromLead } from "@/modules/registrations/service";
@@ -29,6 +29,7 @@ export async function GET(_request: NextRequest, ctx: { params: Promise<{ id: st
     },
   });
   if (!lead) return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
+  if (!can(session.role, "lead:read")) return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
   if (session.role === "CONSULTANT" && lead.consultantId !== session.consultantId) {
     return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
   }
@@ -46,7 +47,7 @@ export async function GET(_request: NextRequest, ctx: { params: Promise<{ id: st
 export async function PATCH(request: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   const session = await getStaffSession();
   if (!session) return NextResponse.json({ error: "UNAUTHENTICATED" }, { status: 401 });
-  if (!["ADMIN", "COMMERCIAL", "CONSULTANT"].includes(session.role)) {
+  if (!can(session.role, "lead:update")) {
     return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
   }
   const { id } = await ctx.params;
@@ -58,7 +59,7 @@ export async function PATCH(request: NextRequest, ctx: { params: Promise<{ id: s
   if (session.role === "CONSULTANT" && lead.consultantId !== session.consultantId) {
     return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
   }
-  if (parsed.data.consultantId && session.role === "CONSULTANT") {
+  if (parsed.data.consultantId && !can(session.role, "lead:assign")) {
     return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
   }
   if (parsed.data.status && !canTransitionLead(lead.status, parsed.data.status)) {

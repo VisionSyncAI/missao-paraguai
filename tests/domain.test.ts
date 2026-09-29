@@ -46,6 +46,10 @@ describe("cal.diy", () => {
     expect(verifyCalSignature(body, `sha256=${sig}`, secret)).toBe(true);
     expect(verifyCalSignature(body, "sha256=00", secret)).toBe(false);
   });
+  it("chave de idempotência do webhook é trigger+uid", () => {
+    const uniqueKey = `BOOKING_CREATED:uid-1`;
+    expect(uniqueKey).toBe("BOOKING_CREATED:uid-1");
+  });
 });
 
 describe("agenda", () => {

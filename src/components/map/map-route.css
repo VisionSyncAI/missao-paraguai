@@ -1,0 +1,285 @@
+.ip-map {
+  position: relative;
+  display: grid;
+  min-height: min(86vh, 860px);
+  background: #050505;
+  color: #f5f5f2;
+  overflow: hidden;
+}
+
+.ip-map-canvas {
+  min-height: min(62vh, 640px);
+}
+
+.ip-map-canvas .maplibregl-map {
+  position: absolute;
+  inset: 0;
+}
+
+.ip-map-canvas,
+.ip-map-stage {
+  position: relative;
+  min-height: min(62vh, 640px);
+}
+
+.ip-map-stage {
+  background: #050505;
+}
+
+.ip-map-status {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 4;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(8, 8, 8, 0.72);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ip-map-status b {
+  display: block;
+  color: #c4a574;
+  font-weight: 600;
+}
+
+.ip-map-status span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(245, 245, 242, 0.7);
+}
+
+.ip-map-copy {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 4;
+  max-width: 22rem;
+  text-align: right;
+}
+
+.ip-map-copy h1 {
+  margin: 0;
+  font-family: Oswald, "IBM Plex Sans", sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ip-map-copy p {
+  margin: 10px 0 0;
+  color: rgba(245, 245, 242, 0.72);
+  font-size: 0.86rem;
+}
+
+.ip-map-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.ip-map-panel {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 4;
+  width: min(22rem, calc(100% - 32px));
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(10, 10, 10, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.ip-map-kicker {
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c1121f;
+}
+
+.ip-map-panel h2,
+.ip-map-panel h3 {
+  margin: 8px 0 0;
+  font-family: Oswald, "IBM Plex Sans", sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ip-map-panel dl {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+}
+
+.ip-map-panel dt {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 242, 0.5);
+}
+
+.ip-map-panel dd {
+  margin: 2px 0 0;
+}
+
+.ip-map-card {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ip-map-card p,
+.ip-map-card li {
+  color: rgba(245, 245, 242, 0.78);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.ip-map-card ul {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ip-map-card li::before {
+  content: "· ";
+  color: #c1121f;
+}
+
+.ip-map-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ip-map-cta,
+.ip-map-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.ip-map-cta {
+  background: #c1121f;
+  color: #fff;
+}
+
+.ip-map-ghost {
+  background: transparent;
+  color: #f5f5f2;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ip-map-controls {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 4;
+  display: grid;
+  gap: 6px;
+}
+
+.ip-map-controls button {
+  min-width: 40px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(8, 8, 8, 0.75);
+  color: #f5f5f2;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.ip-map-pin {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: #f5f5f2;
+  cursor: pointer;
+}
+
+.ip-map-pin-core {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #c1121f;
+  box-shadow: 0 0 0 4px rgba(193, 18, 31, 0.22);
+}
+
+.ip-map-pin--destination .ip-map-pin-core {
+  width: 16px;
+  height: 16px;
+}
+
+.ip-map-pin--destination.is-pulse .ip-map-pin-core {
+  animation: ip-map-pulse 2.4s ease-out infinite;
+}
+
+.ip-map-pin-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.maplibregl-ctrl-attrib {
+  font-size: 10px;
+  background: transparent !important;
+}
+
+@keyframes ip-map-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(193, 18, 31, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 18px rgba(193, 18, 31, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .ip-map {
+    grid-template-rows: minmax(54vh, 1fr) auto;
+    min-height: 100%;
+  }
+  .ip-map-copy {
+    position: static;
+    padding: 16px 16px 0;
+    text-align: left;
+    max-width: none;
+  }
+  .ip-map-panel {
+    position: static;
+    width: auto;
+    margin: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  .ip-map-controls {
+    bottom: auto;
+    top: 72px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ip-map-pin--destination.is-pulse .ip-map-pin-core {
+    animation: none;
+  }
+}

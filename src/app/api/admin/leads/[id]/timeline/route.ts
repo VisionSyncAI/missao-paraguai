@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getStaffSession } from "@/lib/auth";
+import { can, getStaffSession } from "@/lib/auth";
 
 export async function GET(_request: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   const session = await getStaffSession();
@@ -8,6 +8,7 @@ export async function GET(_request: NextRequest, ctx: { params: Promise<{ id: st
   const { id } = await ctx.params;
   const lead = await prisma.lead.findUnique({ where: { id }, select: { consultantId: true } });
   if (!lead) return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
+  if (!can(session.role, "lead:read")) return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
   if (session.role === "CONSULTANT" && lead.consultantId !== session.consultantId) {
     return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
   }

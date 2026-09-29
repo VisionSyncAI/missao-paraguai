@@ -1,3 +1,4 @@
+import { isLiveMeetingLink } from "@/lib/meetingLink";
 import { formatSaoPaulo } from "@/lib/timezone";
 
 function appUrl() {
@@ -5,7 +6,29 @@ function appUrl() {
 }
 
 export const EmailCopy = {
-  leadReceived(name: string, consultant: string, when: Date, meetingUrl: string, token: string) {
+  meetingConfirmed(name: string, consultant: string, when: Date, meetingUrl?: string | null) {
+    const live = isLiveMeetingLink(meetingUrl);
+    return {
+      subject: "Imersão Paraguai — reunião confirmada",
+      body: [
+        `Olá, ${name}.`,
+        "",
+        "Seu horário para conversar sobre a Imersão Paraguai foi confirmado.",
+        "",
+        `Consultor: ${consultant}`,
+        `Data e horário: ${formatSaoPaulo(when)}`,
+        "",
+        live
+          ? `Entrar na reunião:\n${meetingUrl}`
+          : "O link da reunião será enviado para o e-mail informado.",
+        "",
+        "Se não encontrar o e-mail, verifique sua caixa de spam ou lixo eletrônico.",
+        "",
+        "Imersão Paraguai — Vision Cybero AI × Proceit",
+      ].join("\n"),
+    };
+  },
+  leadReceived(name: string, consultant: string, when: Date, meetingUrl: string, token?: string) {
     return {
       subject: "Pré-inscrição recebida — Imersão Paraguai",
       body: [
@@ -13,8 +36,10 @@ export const EmailCopy = {
         "",
         "Recebemos seu interesse na Imersão Paraguai.",
         `Sua conversa com ${consultant} está agendada para ${formatSaoPaulo(when)}.`,
-        `Sala da reunião: ${meetingUrl}`,
-        `Confirmação e apresentação: ${appUrl()}/interesse/confirmacao?t=${token}`,
+        isLiveMeetingLink(meetingUrl)
+          ? `Sala da reunião: ${meetingUrl}`
+          : "O link da reunião será enviado neste e-mail assim que a sala estiver disponível. Confira também a caixa de spam.",
+        token ? `Confirmação e apresentação: ${appUrl()}/interesse/confirmacao?t=${token}` : "",
         "",
         "Imersão Paraguai — Vision Cybero AI × Proceit",
       ].join("\n"),
@@ -28,7 +53,7 @@ export const EmailCopy = {
         "",
         `Atualização da reunião comercial: ${status}.`,
         when ? `Horário: ${formatSaoPaulo(when)}` : "",
-        meetingUrl ? `Sala: ${meetingUrl}` : "",
+        isLiveMeetingLink(meetingUrl) ? `Entrar na reunião:\n${meetingUrl}` : "",
       ].join("\n"),
     };
   },

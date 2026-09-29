@@ -42,6 +42,13 @@ export default function LeadDetailPage() {
             {(lead.objectives as string[] | undefined)?.join(" · ")}
           </div>
           <p className="mt-4">{String(lead.objectiveNotes || "")}</p>
+          {typeof lead.qualification === "object" && lead.qualification !== null ? (
+            <ul className="mt-6 space-y-1 text-sm text-gray">
+              <li>Porte: {String((lead.qualification as Record<string, string>).companySize || "—")}</li>
+              <li>Relação PY: {String((lead.qualification as Record<string, string>).relationship || "—")}</li>
+              <li>Intenção: {String((lead.qualification as Record<string, string>).intent || "—")}</li>
+            </ul>
+          ) : null}
           <ul className="mt-6 space-y-1 text-sm">
             <li>Paraguai: {lead.beenToParaguay ? "já esteve" : "não"}</li>
             <li>Negócios no PY: {lead.hasBusinessParaguay ? "sim" : "não"}</li>

@@ -92,3 +92,50 @@ export const EMPLOYEE_BANDS = ["1-10", "11-50", "51-200", "201-500", "500+"] as 
 export const PRIVACY_VERSION = "2026-09-1";
 export const TERMS_VERSION = "2026-09-1";
 export const CONTACT_CONSENT_VERSION = "2026-09-1";
+
+export const JOB_TITLE_OPTIONS = [
+  "Sócio(a) / Proprietário(a)",
+  "CEO / Presidente",
+  "Diretor(a) / C-Level",
+  "Gerente",
+  "Coordenador(a)",
+  "Outro",
+] as const;
+
+export const COMPANY_SIZE_BANDS = [
+  "Até R$ 81 mil/ano",
+  "R$ 81 mil – R$ 350 mil",
+  "R$ 350 mil – R$ 5 milhões",
+  "R$ 5 milhões – R$ 20 milhões",
+  "R$ 20 milhões – R$ 100 milhões",
+  "Acima de R$ 100 milhões",
+] as const;
+
+export const PARAGUAY_INTERESTS = [
+  "Expandir minha empresa",
+  "Abrir operação no Paraguai",
+  "Encontrar fornecedores",
+  "Encontrar parceiros comerciais",
+  "Conhecer oportunidades no agro",
+  "Conhecer oportunidades na indústria",
+  "Logística e comércio exterior",
+  "Investimentos",
+  "Tecnologia",
+  "Ainda estou explorando possibilidades",
+] as const;
+
+export const PARAGUAY_RELATIONSHIPS = [
+  "Já opero no Paraguai",
+  "Já faço negócios",
+  "Já tenho parceiros",
+  "Já visitei o país",
+  "Ainda não",
+  "Estou começando a estudar",
+] as const;
+
+export const PARTICIPATION_INTENTS = [
+  "Quero participar da próxima edição",
+  "Quero entender melhor antes de decidir",
+  "Quero conversar com um consultor",
+  "Quero avaliar para minha empresa/equipe",
+] as const;

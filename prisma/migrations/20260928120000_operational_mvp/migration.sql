@@ -1,3 +1,4 @@
+-- Lead.qualificationJson added for conversational capture (structured qualification + UTM).
 -- Incremental operational platform (SQLite).
 -- Applied via `npx prisma db push` on existing local databases.
 
