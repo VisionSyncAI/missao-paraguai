@@ -308,7 +308,7 @@ export function InterestExperience() {
             <input
               autoFocus
               aria-describedby="interest-error"
-              className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-2xl outline-none"
+              className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-xl outline-none md:text-2xl"
               value={draft.fullName}
               onChange={(e) => setDraft({ ...draft, fullName: e.target.value })}
             />
@@ -320,7 +320,8 @@ export function InterestExperience() {
               WhatsApp
               <input
                 autoFocus
-                className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-2xl outline-none"
+                className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-xl outline-none md:text-2xl"
+                inputMode="tel"
                 value={draft.whatsapp}
                 onChange={(e) => setDraft({ ...draft, whatsapp: e.target.value })}
                 autoComplete="tel"
@@ -329,7 +330,8 @@ export function InterestExperience() {
             <label className="block text-sm text-gray">
               E-mail
               <input
-                className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-2xl outline-none"
+                className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-xl outline-none md:text-2xl"
+                inputMode="email"
                 value={draft.email}
                 onChange={(e) => setDraft({ ...draft, email: e.target.value })}
                 autoComplete="email"
@@ -342,7 +344,7 @@ export function InterestExperience() {
             {JOB_TITLE_OPTIONS.map((option) => (
               <button
                 key={option}
-                className={`rounded-xl border px-4 py-3 text-left ${draft.jobTitle === option ? "border-red" : "border-white/15"}`}
+                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.jobTitle === option ? "border-red" : "border-white/15"}`}
                 onClick={() => {
                   setDraft({ ...draft, jobTitle: option });
                   if (option !== "Outro") {
@@ -372,7 +374,7 @@ export function InterestExperience() {
             {COMPANY_SIZE_BANDS.map((option) => (
               <button
                 key={option}
-                className={`rounded-xl border px-4 py-3 text-left ${draft.companySize === option ? "border-red" : "border-white/15"}`}
+                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.companySize === option ? "border-red" : "border-white/15"}`}
                 onClick={() => {
                   setDraft({ ...draft, companySize: option });
                   trackFunnel("QUESTION_COMPLETED", { step: "companySize", utm });
@@ -391,7 +393,7 @@ export function InterestExperience() {
               return (
                 <button
                   key={option}
-                  className={`rounded-xl border px-4 py-3 text-left ${on ? "border-red" : "border-white/15"}`}
+                  className={`min-h-12 rounded-xl border px-4 py-3 text-left ${on ? "border-red" : "border-white/15"}`}
                   onClick={() => {
                     setDraft({
                       ...draft,
@@ -422,7 +424,7 @@ export function InterestExperience() {
             {PARAGUAY_RELATIONSHIPS.map((option) => (
               <button
                 key={option}
-                className={`rounded-xl border px-4 py-3 text-left ${draft.relationship === option ? "border-red" : "border-white/15"}`}
+                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.relationship === option ? "border-red" : "border-white/15"}`}
                 onClick={() => {
                   setDraft({ ...draft, relationship: option });
                   trackFunnel("QUESTION_COMPLETED", { step: "relationship", utm });
@@ -439,7 +441,7 @@ export function InterestExperience() {
             {PARTICIPATION_INTENTS.map((option) => (
               <button
                 key={option}
-                className={`rounded-xl border px-4 py-3 text-left ${draft.intent === option ? "border-red" : "border-white/15"}`}
+                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.intent === option ? "border-red" : "border-white/15"}`}
                 onClick={() => {
                   setDraft({ ...draft, intent: option });
                   trackFunnel("QUESTION_COMPLETED", { step: "intent", utm });
@@ -467,15 +469,15 @@ export function InterestExperience() {
         )}
       </div>
       {error && <p id="interest-error" className="mt-6 text-red" role="alert">{error}</p>}
-      <div className="mt-10 flex flex-wrap gap-3">
+      <div className="mt-10 flex flex-col-reverse gap-3 sm:flex-row sm:flex-wrap">
         {stepIndex > 0 && (
-          <button className="rounded-full border border-white/20 px-6 py-3 text-xs uppercase tracking-widest" onClick={() => setStepIndex(stepIndex - 1)}>
+          <button className="min-h-12 rounded-full border border-white/20 px-6 py-3 text-xs uppercase tracking-widest" onClick={() => setStepIndex(stepIndex - 1)}>
             Voltar
           </button>
         )}
         <button
           disabled={saving}
-          className="rounded-full bg-red px-8 py-3 text-xs font-bold uppercase tracking-widest disabled:opacity-50"
+          className="min-h-12 w-full rounded-full bg-red px-8 py-3 text-xs font-bold uppercase tracking-widest disabled:opacity-50 sm:w-auto"
           onClick={() => void goNext()}
         >
           {saving ? "Salvando…" : step === "consent" ? "Enviar pré-inscrição" : "Continuar"}

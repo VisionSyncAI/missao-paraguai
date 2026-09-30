@@ -34,4 +34,14 @@ export function initNav() {
       document.body.style.overflow = "";
     });
   });
+
+  const sticky = document.querySelector(".sticky-cta");
+  const heroCta = document.querySelector(".hero-cta-wrap");
+  if (sticky && heroCta && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      ([entry]) => sticky.classList.toggle("is-on", !entry.isIntersecting),
+      { threshold: 0.15 },
+    );
+    observer.observe(heroCta);
+  }
 }
