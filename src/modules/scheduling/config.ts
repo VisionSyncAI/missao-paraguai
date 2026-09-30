@@ -9,6 +9,7 @@ export function calConfig() {
   return { apiUrl, apiKey, eventTypeId, calLink, embedOrigin, webhookSecret, configured };
 }
 
-export function allowLocalScheduler(env = process.env.NODE_ENV, configured = calConfig().configured) {
-  return env !== "production" && !configured;
+/** Agenda do CRM quando o Cal.diy não está configurado — inclusive em produção. */
+export function allowLocalScheduler(_env = process.env.NODE_ENV, configured = calConfig().configured) {
+  return !configured;
 }

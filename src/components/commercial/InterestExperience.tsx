@@ -284,7 +284,9 @@ export function InterestExperience() {
             />
           </div>
         ) : (
-          <p className="mt-8 text-red">Agenda do consultor indisponível. Configure o motor de scheduling.</p>
+          <p className="mt-8 max-w-xl text-gray">
+            Não há horários livres neste momento. Seu interesse já foi registrado — a equipe entra em contato pelo e-mail informado.
+          </p>
         )}
         <p className="mt-8 text-sm text-gray">Agende sua conversa estratégica para continuar.</p>
         {error && <p className="mt-4 text-red">{error}</p>}

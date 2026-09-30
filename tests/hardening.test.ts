@@ -72,8 +72,9 @@ describe("sessão HMAC", () => {
 describe("cal produção", () => {
   it("adapter local só em não-produção sem Cal", () => {
     expect(allowLocalScheduler("development", false)).toBe(true);
-    expect(allowLocalScheduler("production", false)).toBe(false);
+    expect(allowLocalScheduler("production", false)).toBe(true);
     expect(allowLocalScheduler("development", true)).toBe(false);
+    expect(allowLocalScheduler("production", true)).toBe(false);
   });
 });
 
