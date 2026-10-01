@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="image" href="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2200&q=70" />
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/legacy/main.css?v=8" />
+  <link rel="stylesheet" href="/legacy/main.css?v=10" />
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -369,7 +369,7 @@
       <div class="wrap fronts-head reveal">
         <p class="eyebrow">O que você vai ver</p>
         <h2>Não é sobre visitar o Paraguai. É sobre entender como ele funciona.</h2>
-        <p class="lede">Conexões que continuam depois da missão: grupo limitado a 15 empresários por turma e rodada B2B organizada por setor e objetivo.</p>
+        <p class="lede">Conexões que continuam depois da missão: grupo de 20 empresas brasileiras, com até 5 participantes por empresa e rodada B2B organizada por setor e objetivo.</p>
       </div>
       <article class="front-card">
         <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1800&q=70" alt="Mesa de negócios" loading="lazy" />
@@ -663,7 +663,7 @@
       <p class="eyebrow">Por que fazer parte</p>
       <article class="benefit"><b>01</b><div><h3>Acesso</h3><p class="lede">Governo, indústria e negócios no mesmo eixo — sujeito à confirmação oficial.</p></div></article>
       <article class="benefit"><b>02</b><div><h3>Contexto</h3><p class="lede">Números oficiais, setores e tributação lidos no lugar em que acontecem.</p></div></article>
-      <article class="benefit"><b>03</b><div><h3>Conexões</h3><p class="lede">Grupo limitado a 15 empresários por turma. Qualidade das reuniões acima do volume.</p></div></article>
+      <article class="benefit"><b>03</b><div><h3>Conexões</h3><p class="lede">Grupo de 20 empresas brasileiras, com até 5 participantes por empresa. Qualidade das reuniões acima do volume.</p></div></article>
       <article class="benefit"><b>04</b><div><h3>Experiência</h3><p class="lede">Não é excursão. É inteligência de mercado, relacionamento e repertório.</p></div></article>
       <article class="benefit"><b>05</b><div><h3>Ação</h3><p class="lede">Você volta com um mapa de possibilidades — e os próximos passos organizados.</p></div></article>
     </section>
@@ -686,7 +686,7 @@
         <div class="editions-head reveal">
           <p class="eyebrow">Edições limitadas</p>
           <h2>Uma nova missão a cada trimestre</h2>
-          <p class="lede">15 empresários por turma</p>
+          <p class="lede">20 empresas brasileiras · até 5 participantes por empresa</p>
         </div>
         <p class="editions-kicker">Missão Paraguai · Novembro 2026</p>
         <p class="lede editions-lead">Próxima edição no Paraguai. Novas edições ao longo do ano, conforme programação e demanda.</p>
@@ -695,88 +695,145 @@
 
     <section class="invest" id="investimento">
       <div class="wrap">
-        <div class="invest-head reveal">
-          <p class="eyebrow">Investimento</p>
-          <h2>Escolha o nível da sua imersão</h2>
-          <p class="lede">Uma experiência executiva construída para aproximar empresários de empresas, instituições, tecnologia e oportunidades no Paraguai.</p>
+        <div class="invest-head reveal" data-lots-open>
+          <p class="eyebrow">Lotes e experiências</p>
+          <h2>Escolha sua experiência</h2>
+          <p class="lede lot-sub">Sua participação começa pela condição comercial que você escolher.</p>
+          <p class="lede">As condições da PROVISION são organizadas por lotes e possuem datas definidas de encerramento. Ao término de cada período, a próxima condição comercial entra automaticamente em vigor.</p>
+          <p class="lot-urge" data-urgency-line>⚡ A condição atual está chegando ao fim.</p>
+          <p class="lot-micro">Não espere a próxima virada de lote para decidir.</p>
         </div>
 
-        <div class="invest-tiers">
-          <article class="tier">
-            <p class="eyebrow">Modalidade Executive</p>
-            <h3>5 dias de imersão executiva</h3>
-            <p class="meta">Inclui</p>
-            <ul class="tier-list">
-              <li>Hospedagem em hotel</li>
-              <li>Transporte durante a missão</li>
-              <li>Visitas a fábricas e empresas</li>
-              <li>Agenda empresarial</li>
-              <li>Agenda institucional</li>
-              <li>Treinamentos e conteúdos executivos</li>
-              <li>Networking com empresários e executivos</li>
-              <li>Acompanhamento durante a missão</li>
-              <li>Experiências e conexões estratégicas Brasil ↔ Paraguai</li>
-            </ul>
-            <p class="tier-note">Uma experiência completa para quem quer viver o ecossistema empresarial e institucional do Paraguai.</p>
+        <div class="lot-banner" data-lot-banner data-lots-open>
+          <p class="eyebrow" data-banner-kicker>⚡ Condição comercial atual</p>
+          <p data-lot-banner-copy>O lote vigente está chegando ao fim. Garanta sua participação antes da próxima virada de condição.</p>
+        </div>
+
+        <div class="lot-closed" data-lots-closed hidden>
+          <p class="eyebrow">PROVISION</p>
+          <h2>Inscrições encerradas</h2>
+          <p class="lede">O período comercial desta edição foi concluído. Não há uma nova condição automática depois do encerramento.</p>
+        </div>
+
+        <div class="lot-grid" data-lots-open>
+          <article class="lot is-current" data-lot="1" id="lote-01">
+            <p class="lot-seal" data-seal>⚡ Esgotando</p>
+            <p class="lot-kicker">Lote 01</p>
             <p class="price">R$ 19.997</p>
-            <p class="per">por participante</p>
-            <p class="tier-cap">Limitadas a 15 empresários por turma</p>
-          </article>
-
-          <article class="tier is-vip" id="vip">
-            <p class="eyebrow">Executive VIP</p>
-            <h3>Uma experiência mais personalizada.</h3>
-            <p class="meta">Inclui tudo da modalidade Executive +</p>
+            <h3>Experiência executiva</h3>
+            <p class="lot-line">Garanta esta condição antes da virada do lote.</p>
+            <p class="lot-date">Até 07 de outubro de 2026</p>
             <ul class="tier-list">
-              <li>Agenda individualizada</li>
-              <li>Reuniões direcionadas aos objetivos do participante</li>
-              <li>Curadoria estratégica de conexões</li>
-              <li>Suporte estratégico adicional</li>
-              <li>Maior personalização da agenda</li>
-              <li>Direcionamento de oportunidades relacionadas ao projeto ou negócio do participante</li>
+              <li>Participação na Imersão PROVISION</li>
+              <li>Programação executiva de 16 a 21 de novembro de 2026</li>
+              <li>Agenda de negócios e conteúdo</li>
+              <li>Visitas técnicas</li>
+              <li>Agenda institucional</li>
+              <li>Networking executivo</li>
+              <li>Business Day</li>
+              <li>Rodadas B2B</li>
+              <li>Kit exclusivo do participante</li>
+              <li>Hospedagem conforme condições da experiência</li>
+              <li>Suporte operacional durante a imersão</li>
             </ul>
-            <p class="tier-note">Não é apenas uma experiência maior. É uma experiência mais específica para os seus objetivos.</p>
+            <div class="lot-now" data-only-current>
+              <p>Sua empresa pode participar com uma delegação de até 5 pessoas.</p>
+              <p>Garanta a condição atual antes do encerramento do lote.</p>
+            </div>
+            <a class="btn btn-red lot-cta" data-lot-cta href="/interesse" target="_parent">Garantir participação <span class="arrow">↗</span></a>
+            <p class="lot-after" data-lot-after>Após esta data, a próxima condição comercial será aplicada.</p>
+            <p class="lot-next" data-only-current>Próxima condição: R$ 22.997</p>
+          </article>
+
+          <article class="lot" data-lot="2">
+            <p class="lot-seal" data-seal>Próxima condição</p>
+            <p class="lot-kicker">Lote 02</p>
+            <p class="price">R$ 22.997</p>
+            <h3>Experiência executiva</h3>
+            <p class="lot-line">Garanta esta condição antes da próxima virada de lote.</p>
+            <p class="lot-date">Até 13 de outubro de 2026</p>
+            <p class="lot-same">A mesma experiência executiva do lote anterior, em uma nova faixa de condição.</p>
+            <a class="btn btn-red lot-cta" data-lot-cta href="/interesse" target="_parent" hidden>Garantir participação <span class="arrow">↗</span></a>
+            <p class="lot-after" data-lot-after hidden>Depois desta data, o próximo lote entra em vigor.</p>
+            <p class="lot-next" data-only-current hidden>Próxima condição: R$ 25.997</p>
+          </article>
+
+          <article class="lot" data-lot="3">
+            <p class="lot-seal" data-seal>Próxima condição</p>
+            <p class="lot-kicker">Lote 03</p>
+            <p class="price">R$ 25.997</p>
+            <h3>Experiência executiva</h3>
+            <p class="lot-line">Última condição antes da experiência VIP.</p>
+            <p class="lot-date">Até 21 de outubro de 2026</p>
+            <p class="lot-same">A mesma experiência executiva dos lotes anteriores.</p>
+            <a class="btn btn-red lot-cta" data-lot-cta href="/interesse" target="_parent" hidden>Garantir participação <span class="arrow">↗</span></a>
+            <p class="lot-after" data-lot-after hidden>Depois desta data, a experiência VIP segue como condição própria.</p>
+            <p class="lot-next" data-only-current hidden>Próxima condição: R$ 29.997</p>
+          </article>
+
+          <article class="lot is-vip" data-lot="vip" id="vip">
+            <p class="lot-seal" data-seal>Experiência VIP</p>
+            <p class="lot-kicker">VIP</p>
             <p class="price">R$ 29.997</p>
-            <p class="per">por participante</p>
-            <p class="tier-cap">Mesma turma · atendimento e agenda individualizados</p>
+            <h3>Experiência VIP</h3>
+            <p class="lot-line">Uma experiência personalizada para empresários e executivos que desejam maior proximidade estratégica durante a imersão.</p>
+            <p class="lot-date">Até 26 de outubro de 2026</p>
+            <p class="lot-vip-urgent" data-vip-urgent hidden>Últimos dias para garantir a experiência VIP.</p>
+            <ul class="tier-list">
+              <li>Todos os benefícios da experiência executiva</li>
+              <li>Consultoria estratégica</li>
+              <li>Espaço para perguntas e direcionamentos individuais</li>
+              <li>Orientação de mercado</li>
+              <li>Suporte estratégico durante a experiência</li>
+              <li>Suporte pós-evento</li>
+              <li>Documentação e materiais de continuidade</li>
+              <li>Experiência personalizada</li>
+            </ul>
+            <a class="btn btn-red lot-cta" data-lot-cta href="/interesse" target="_parent">Quero minha experiência VIP <span class="arrow">↗</span></a>
           </article>
         </div>
 
-        <div class="invest-split reveal">
-          <p><b>Executive</b>Experiência coletiva, completa e estruturada.</p>
-          <p><b>Executive VIP</b>Experiência personalizada, com agenda e conexões direcionadas aos objetivos de cada participante.</p>
-        </div>
+        <p class="lot-select" data-lots-open>20 empresas brasileiras · Até 5 participantes por empresa. Uma experiência desenhada para um grupo seleto de empresários e executivos.</p>
 
-        <div class="compare-wrap reveal">
+        <div class="compare-wrap reveal" data-lots-open>
+          <h3 class="lot-compare-title">O que está incluído na experiência</h3>
           <table class="compare">
             <thead>
               <tr>
                 <th scope="col">Entrega</th>
-                <th scope="col">Executive</th>
-                <th scope="col">Executive VIP</th>
+                <th scope="col">Experiência executiva</th>
+                <th scope="col">VIP</th>
               </tr>
             </thead>
             <tbody>
-              <tr><th scope="row">Imersão 5 dias</th><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><th scope="row">Hotel</th><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><th scope="row">Transporte</th><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><th scope="row">Visitas empresariais</th><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Imersão executiva</th><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Agenda de negócios</th><td class="yes">✓</td><td class="yes">✓</td></tr>
               <tr><th scope="row">Agenda institucional</th><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><th scope="row">Treinamentos</th><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Visitas técnicas</th><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Business Day</th><td class="yes">✓</td><td class="yes">✓</td></tr>
               <tr><th scope="row">Networking</th><td class="yes">✓</td><td class="yes">✓</td></tr>
-              <tr><th scope="row">Agenda personalizada</th><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><th scope="row">Reuniões direcionadas</th><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><th scope="row">Curadoria estratégica</th><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><th scope="row">Suporte adicional</th><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Rodadas B2B</th><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Kit do participante</th><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Hospedagem</th><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Suporte operacional</th><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Tradução com tecnologia de IA</th><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Consultoria estratégica</th><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Orientação de mercado</th><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Suporte pós-evento</th><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><th scope="row">Documentação de continuidade</th><td class="no">—</td><td class="yes">✓</td></tr>
             </tbody>
           </table>
         </div>
 
-        <p class="invest-legal">Agendas institucionais, reuniões com autoridades e demais compromissos estão sujeitos à programação e confirmação dos participantes envolvidos. Passagem aérea não está incluída. Alimentação pode ser contratada à parte.</p>
+        <p class="invest-legal">Agendas institucionais, reuniões com autoridades e demais compromissos estão sujeitos à programação e confirmação dos participantes envolvidos. Passagem aérea não está incluída. Alimentação pode ser contratada à parte. O ingresso de acompanhante, quando desejado, é adicional e não altera o valor do ingresso principal.</p>
 
-        <div class="invest-actions">
-          <a class="btn btn-red" href="/interesse" target="_parent">Quero participar da missão <span class="arrow">↗</span></a>
-          <a class="btn btn-ghost" href="#contato" data-modality="Executive VIP">Quero conhecer a experiência VIP <span class="arrow">↗</span></a>
+        <div class="lot-finale" data-lots-open>
+          <h3>O próximo passo começa antes da viagem.</h3>
+          <p>Conheça. Conecte. Explore. Transforme relações em possibilidades de negócio.</p>
+          <div class="invest-actions">
+            <a class="btn btn-red" href="/interesse" target="_parent">Solicitar minha participação <span class="arrow">↗</span></a>
+            <a class="btn btn-ghost" href="#contato">Falar com a equipe PROVISION <span class="arrow">↗</span></a>
+          </div>
         </div>
       </div>
     </section>
@@ -786,7 +843,7 @@
       <h2>Antes de decidir.</h2>
       <div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f0" id="q0">Quando acontece a missão?<span>+</span></button>
-        <div class="acc-panel" id="f0">A primeira edição oficial é de 16 a 21 de novembro de 2026, no Paraguai. Novas edições ao longo do ano, conforme programação e demanda. Cada turma é limitada a 15 empresários.</div>
+        <div class="acc-panel" id="f0">A primeira edição oficial é de 16 a 21 de novembro de 2026, no Paraguai. Novas edições ao longo do ano, conforme programação e demanda. A edição reúne 20 empresas brasileiras, com até 5 participantes por empresa.</div>
         <button class="acc" type="button" aria-expanded="true" aria-controls="f1" id="q1">O que está incluso?<span>+</span></button>
         <div class="acc-panel is-open" id="f1">Programação de 5 dias, hotel, transporte interno da agenda, visitas empresariais, encontros institucionais conforme confirmação, rodada de negócios e orientação de entrada.</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f2" id="q2">Para quem é a missão?<span>+</span></button>
@@ -800,11 +857,11 @@
         <button class="acc" type="button" aria-expanded="false" aria-controls="f6" id="q6">Preciso de documentação?<span>+</span></button>
         <div class="acc-panel" id="f6">Documentos de viagem e eventuais exigências migratórias são de responsabilidade do participante. A missão orienta; não substitui o processo formal nem garante documentos.</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f7" id="q7">Como funciona o pagamento?<span>+</span></button>
-        <div class="acc-panel" id="f7">Investimento de R$ 19.997 à vista ou 12x de R$ 1.666,42 na modalidade Executive. Executive VIP: R$ 29.997. Condições de faturamento · [CONTEÚDO A CONFIRMAR].</div>
+        <div class="acc-panel" id="f7">A condição vigente segue o lote em aberto: R$ 19.997 até 7 de outubro, R$ 22.997 até 13 de outubro, R$ 25.997 até 21 de outubro e experiência VIP a R$ 29.997 até 26 de outubro de 2026. Depois de cada data, a próxima condição entra em vigor. Condições de faturamento · [CONTEÚDO A CONFIRMAR].</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f8" id="q8">Posso participar com minha empresa?<span>+</span></button>
         <div class="acc-panel" id="f8">Sim. Sócio ou executivo pode ir, sujeito a vaga e pré-seleção. Cada pessoa ocupa uma vaga.</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f9" id="q9">Existe grupo corporativo?<span>+</span></button>
-        <div class="acc-panel" id="f9">O grupo é limitado a 15 empresários por turma. Condições para mais de um executivo do mesmo CNPJ · [CONTEÚDO A CONFIRMAR].</div>
+        <div class="acc-panel" id="f9">Cada empresa pode participar com uma delegação de até 5 pessoas. Para grupos maiores, a equipe PROVISION orienta o formato.</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f10" id="q10">A passagem aérea está incluída?<span>+</span></button>
         <div class="acc-panel" id="f10">Não.</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f11" id="q11">A alimentação está incluída?<span>+</span></button>
@@ -835,11 +892,11 @@
             </article>
             <article>
               <b>Investimento</b>
-              <span>12x de R$ 1.666,42 · ou R$ 19.997 à vista</span>
+              <span>Condição vigente conforme o lote · a partir de R$ 19.997</span>
             </article>
             <article>
               <b>Vagas</b>
-              <span>Limitadas a 15 empresários por turma</span>
+              <span>20 empresas brasileiras · até 5 participantes por empresa</span>
             </article>
           </div>
         </div>

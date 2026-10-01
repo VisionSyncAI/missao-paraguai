@@ -137,6 +137,10 @@
   .compare thead th:first-child,
   .compare tbody th { text-align: left; }
   .invest-actions { flex-direction: column; }
+  .invest-actions .btn,
+  .lot-cta { width: 100%; justify-content: center; }
+  .lot.is-current { transform: none; }
+  .lot .price { font-size: clamp(2.6rem, 12vw, 3.2rem); }
   .invest-actions .btn { width: 100%; justify-content: center; }
   .route-visual-live { min-height: 0; }
   .route-map-embed { height: min(70vh, 640px); }

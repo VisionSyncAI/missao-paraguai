@@ -16,6 +16,8 @@ export const INTEREST_STEPS = [
   "objective",
   "relationship",
   "intent",
+  "delegation",
+  "companion",
   "consent",
 ] as const;
 
@@ -32,6 +34,9 @@ export type InterestDraft = {
   objective: string;
   relationship: string;
   intent: string;
+  delegationSize: number | null;
+  oversizedGroup: boolean;
+  companionRequested: boolean | null;
   consent: boolean;
 };
 
@@ -47,6 +52,9 @@ export function emptyDraft(): InterestDraft {
     objective: "",
     relationship: "",
     intent: "",
+    delegationSize: null,
+    oversizedGroup: false,
+    companionRequested: null,
     consent: false,
   };
 }
@@ -100,6 +108,19 @@ export function validateStep(step: InterestStep, draft: InterestDraft) {
     if (!PARTICIPATION_INTENTS.includes(draft.intent as (typeof PARTICIPATION_INTENTS)[number])) {
       return "Selecione uma opção.";
     }
+    return null;
+  }
+  if (step === "delegation") {
+    if (draft.oversizedGroup) {
+      return "Cada empresa pode participar com uma delegação de até 5 participantes. Para grupos maiores, entre em contato com a equipe PROVISION.";
+    }
+    if (!draft.delegationSize || draft.delegationSize < 1 || draft.delegationSize > 5) {
+      return "Informe uma delegação de 1 a 5 participantes.";
+    }
+    return null;
+  }
+  if (step === "companion") {
+    if (draft.companionRequested === null) return "Informe se deseja um ingresso adicional de acompanhante.";
     return null;
   }
   if (step === "consent") {

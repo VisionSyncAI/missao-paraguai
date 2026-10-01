@@ -32,6 +32,8 @@ const TITLES: Record<(typeof INTEREST_STEPS)[number], string> = {
   objective: "O que você espera encontrar nessa imersão?",
   relationship: "Você já possui alguma operação ou relacionamento com o Paraguai?",
   intent: "Qual é o seu nível de interesse em participar?",
+  delegation: "Quantas pessoas da sua empresa participam?",
+  companion: "Deseja participar acompanhado?",
   consent: "Podemos seguir com o contato?",
 };
 
@@ -132,6 +134,8 @@ export function InterestExperience() {
         objective: draft.objective,
         relationship: draft.relationship,
         intent: draft.intent,
+        delegationSize: draft.delegationSize ?? undefined,
+        companionRequested: draft.companionRequested === true,
         consent: draft.consent,
         source: "interesse",
         utm,
@@ -451,6 +455,55 @@ export function InterestExperience() {
                 {option}
               </button>
             ))}
+          </div>
+        )}
+        {step === "delegation" && (
+          <div className="grid gap-3">
+            <p className="text-sm text-gray">Sua empresa pode participar com uma delegação de até 5 pessoas.</p>
+            <div className="grid grid-cols-5 gap-2">
+              {[1, 2, 3, 4, 5].map((size) => (
+                <button
+                  key={size}
+                  className={`min-h-12 rounded-xl border px-2 py-3 ${draft.delegationSize === size && !draft.oversizedGroup ? "border-red" : "border-white/15"}`}
+                  onClick={() => setDraft({ ...draft, delegationSize: size, oversizedGroup: false })}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+            <button
+              className={`min-h-12 rounded-xl border px-4 py-3 text-left text-sm ${draft.oversizedGroup ? "border-red" : "border-white/15"}`}
+              onClick={() => setDraft({ ...draft, oversizedGroup: true, delegationSize: null })}
+            >
+              Preciso de um grupo maior
+            </button>
+            {draft.oversizedGroup && (
+              <div className="text-sm text-gray">
+                <p>Cada empresa pode participar com uma delegação de até 5 participantes. Para grupos maiores, entre em contato com a equipe PROVISION.</p>
+                <a className="mt-4 inline-flex min-h-12 items-center text-xs font-bold uppercase tracking-widest text-white" href="/site.html#contato">
+                  Falar com a equipe
+                </a>
+              </div>
+            )}
+          </div>
+        )}
+        {step === "companion" && (
+          <div className="grid gap-3">
+            <p className="text-sm text-gray">
+              Participantes que desejarem levar a esposa poderão adquirir um ingresso adicional para sua acompanhante. Esse ingresso é contabilizado separadamente, sem desconto automático, e não entra no ingresso principal.
+            </p>
+            <button
+              className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.companionRequested === true ? "border-red" : "border-white/15"}`}
+              onClick={() => setDraft({ ...draft, companionRequested: true })}
+            >
+              Sim, quero um ingresso adicional
+            </button>
+            <button
+              className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.companionRequested === false ? "border-red" : "border-white/15"}`}
+              onClick={() => setDraft({ ...draft, companionRequested: false })}
+            >
+              Não
+            </button>
           </div>
         )}
         {step === "consent" && (

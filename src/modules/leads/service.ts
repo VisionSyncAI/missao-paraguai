@@ -34,6 +34,9 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     objective: input.objective || "",
     relationship: input.relationship,
     intent: input.intent,
+    delegationSize: input.delegationSize ?? null,
+    oversizedGroup: false,
+    companionRequested: input.companionRequested ?? null,
     consent: true,
   });
   const relation = mapRelationship(input.relationship);
@@ -43,6 +46,9 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     relationship: input.relationship,
     intent: input.intent,
     jobTitleOption: input.jobTitle,
+    delegationSize: input.delegationSize ?? null,
+    companionRequested: input.companionRequested === true,
+    companionTicket: input.companionRequested ? "adicional, sem desconto, fora do ingresso principal" : null,
     utm: input.utm || {},
   };
   const phone = onlyDigits(input.whatsapp);
@@ -72,6 +78,8 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     interestNetworking: flags.interestNetworking,
     interestB2B: flags.interestB2B,
     interestIndustry: flags.interestIndustry,
+    participateAlone: input.companionRequested !== true,
+    companionCount: input.companionRequested ? 1 : 0,
     source: input.source || "interesse",
     qualificationJson: JSON.stringify(qualification),
     nextAction: existing && ["MEETING_SCHEDULED", "MEETING_CONFIRMED"].includes(existing.status)

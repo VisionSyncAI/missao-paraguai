@@ -47,6 +47,8 @@ export default function LeadDetailPage() {
               <li>Porte: {String((lead.qualification as Record<string, string>).companySize || "—")}</li>
               <li>Relação PY: {String((lead.qualification as Record<string, string>).relationship || "—")}</li>
               <li>Intenção: {String((lead.qualification as Record<string, string>).intent || "—")}</li>
+              <li>Delegação: {String((lead.qualification as Record<string, string>).delegationSize || "—")}</li>
+              <li>Acompanhante adicional: {(lead.qualification as Record<string, boolean>).companionRequested ? "sim, ingresso separado" : "não"}</li>
             </ul>
           ) : null}
           <ul className="mt-6 space-y-1 text-sm">
