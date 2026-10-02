@@ -270,14 +270,14 @@ export function InterestExperience() {
               <p className="mt-2 text-gray">
                 {live
                   ? "Seu horário está confirmado. Você também pode entrar diretamente pela sala da reunião."
-                  : "Seu horário está confirmado. O link da reunião será enviado para o e-mail informado assim que estiver disponível."}
+                  : "Seu horário está confirmado. O consultor vai chamar você pelo WhatsApp informado no horário marcado."}
               </p>
               {meeting.email ? (
                 <p className="mt-3 text-white">{meeting.email}</p>
               ) : (
-                <p className="mt-3 text-gray">O link da reunião será enviado para o e-mail informado no cadastro.</p>
+                <p className="mt-3 text-gray">A confirmação foi enviada para o e-mail informado no cadastro.</p>
               )}
-              <p className="mt-2 text-sm text-gray">Verifique também sua caixa de spam.</p>
+              <p className="mt-2 text-sm text-gray">A confirmação também vai por e-mail. Verifique a caixa de spam.</p>
             </div>
             {live && meeting.meetingUrl ? (
               <a

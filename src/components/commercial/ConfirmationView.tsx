@@ -59,7 +59,7 @@ export function ConfirmationView() {
           </a>
         ) : data.scheduledAt ? (
           <p className="max-w-md text-sm text-gray">
-            O link da reunião será enviado para {data.email || "o e-mail informado"}. Verifique também a caixa de spam.
+            O consultor vai chamar você pelo WhatsApp informado no horário marcado.
           </p>
         ) : null}
       </div>

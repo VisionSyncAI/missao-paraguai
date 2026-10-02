@@ -234,7 +234,13 @@ model MessageOutbox {
   uniqueKey   String    @unique
   sentAt      DateTime?
   error       String?
+  attempts       Int       @default(0)
+  lastAttemptAt  DateTime?
+  nextAttemptAt  DateTime?
+  lockedUntil    DateTime?
   createdAt   DateTime  @default(now())
+
+  @@index([status, nextAttemptAt])
 }
 
 model CalWebhookEvent {

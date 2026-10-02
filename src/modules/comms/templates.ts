@@ -20,7 +20,7 @@ export const EmailCopy = {
         "",
         live
           ? `Entrar na reunião:\n${meetingUrl}`
-          : "O link da reunião será enviado para o e-mail informado.",
+          : "O consultor vai chamar você pelo WhatsApp informado no horário marcado.",
         "",
         "Se não encontrar o e-mail, verifique sua caixa de spam ou lixo eletrônico.",
         "",
@@ -38,7 +38,7 @@ export const EmailCopy = {
         `Sua conversa com ${consultant} está agendada para ${formatSaoPaulo(when)}.`,
         isLiveMeetingLink(meetingUrl)
           ? `Sala da reunião: ${meetingUrl}`
-          : "O link da reunião será enviado neste e-mail assim que a sala estiver disponível. Confira também a caixa de spam.",
+          : "O consultor vai chamar você pelo WhatsApp informado no horário marcado.",
         token ? `Confirmação e apresentação: ${appUrl()}/interesse/confirmacao?t=${token}` : "",
         "",
         "Imersão Paraguai — Vision Cybero AI × Proceit",
