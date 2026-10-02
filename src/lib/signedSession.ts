@@ -1,4 +1,4 @@
-export type SessionKind = "staff" | "participant" | "lead";
+export type SessionKind = "staff" | "participant" | "lead" | "lead_verify";
 
 export type SignedSession = {
   kind: SessionKind;

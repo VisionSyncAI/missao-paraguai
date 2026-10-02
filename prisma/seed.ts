@@ -8,9 +8,11 @@ async function main() {
   const password = process.env.ADMIN_PASSWORD || "altere-esta-senha";
   const adminEmail = (process.env.ADMIN_EMAIL || "ops@imersaoparaguai.com").toLowerCase();
 
+  // Idempotent and non-destructive: this runs before every production deploy, so it only
+  // creates missing reference data and never overwrites or deletes what already exists.
   const consultant = await prisma.consultant.upsert({
     where: { email: "consultor@imersaoparaguai.com" },
-    update: { status: "ACTIVE", name: "Karina Ferreira" },
+    update: {},
     create: {
       name: "Karina Ferreira",
       email: "consultor@imersaoparaguai.com",
@@ -20,12 +22,12 @@ async function main() {
     },
   });
 
-  await prisma.consultantAvailability.deleteMany({ where: { consultantId: consultant.id } });
+  const hasAvailability = (await prisma.consultantAvailability.count({ where: { consultantId: consultant.id } })) > 0;
   const windows = [
     { startMinute: 9 * 60, endMinute: 12 * 60 },
     { startMinute: 14 * 60, endMinute: 19 * 60 },
   ];
-  for (const dayOfWeek of [1, 2, 3, 4, 5]) {
+  for (const dayOfWeek of hasAvailability ? [] : [1, 2, 3, 4, 5]) {
     for (const window of windows) {
       await prisma.consultantAvailability.create({
         data: {
@@ -42,7 +44,7 @@ async function main() {
 
   await prisma.staffUser.upsert({
     where: { email: adminEmail },
-    update: { passwordHash: hashSecret(password), role: "ADMIN", consultantId: consultant.id, name: "Operação Imersão" },
+    update: {},
     create: {
       email: adminEmail,
       passwordHash: hashSecret(password),
@@ -52,16 +54,20 @@ async function main() {
     },
   });
 
-  await prisma.presentation.deleteMany();
-  await prisma.presentation.create({
-    data: {
-      title: "Apresentação Executiva — Imersão Paraguai",
-      description: "Documento oficial da experiência executiva, entregue após o formulário de interesse.",
-      filePath: "content/presentations/imersao-paraguai-executiva.pdf",
-      version: "2026.1",
-      active: true,
-    },
-  });
+  // Presentations are referenced by PresentationDownload (FK RESTRICT): never delete them here.
+  const presentationPath = "content/presentations/imersao-paraguai-executiva.pdf";
+  const presentation = await prisma.presentation.findFirst({ where: { filePath: presentationPath } });
+  if (!presentation) {
+    await prisma.presentation.create({
+      data: {
+        title: "Apresentação Executiva — Imersão Paraguai",
+        description: "Documento oficial da experiência executiva, entregue após o formulário de interesse.",
+        filePath: presentationPath,
+        version: "2026.1",
+        active: true,
+      },
+    });
+  }
 
   const docs = [
     {
@@ -86,7 +92,7 @@ async function main() {
   for (const doc of docs) {
     await prisma.legalDocument.upsert({
       where: { type_version: { type: doc.type, version: doc.version } },
-      update: doc,
+      update: {},
       create: doc,
     });
   }
@@ -158,7 +164,7 @@ async function main() {
 
   await prisma.addon.upsert({
     where: { code: "COMPANION" },
-    update: { enabled: false },
+    update: {},
     create: {
       code: "COMPANION",
       name: "Acompanhante",

@@ -21,7 +21,7 @@ import {
   validateStep,
 } from "@/modules/interest/flow";
 
-type Phase = "intro" | "form" | "schedule" | "done";
+type Phase = "intro" | "form" | "verify" | "schedule" | "done";
 
 const TITLES: Record<(typeof INTEREST_STEPS)[number], string> = {
   name: "Como podemos te chamar?",
@@ -58,6 +58,21 @@ export function InterestExperience() {
   const bookingSent = useRef(false);
   const utm = useMemo(() => (typeof window === "undefined" ? {} : parseUtm(window.location.search)), []);
   const step = INTEREST_STEPS[stepIndex];
+
+  useEffect(() => {
+    // Back from the confirmation e-mail: the verify route already issued the lead session.
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("link") === "invalido") {
+      setError("Este link de confirmação expirou ou é inválido. Envie a pré-inscrição novamente para receber um novo link.");
+    }
+    if (params.get("continuar") === "1") {
+      fetch("/api/leads/me")
+        .then((r) => {
+          if (r.ok) setPhase("schedule");
+        })
+        .catch(() => undefined);
+    }
+  }, []);
 
   useEffect(() => {
     Promise.all([
@@ -148,6 +163,10 @@ export function InterestExperience() {
       setError(json.error || "Não conseguimos salvar seus dados agora. Verifique sua conexão e tente novamente.");
       return;
     }
+    if (json.verificationRequired) {
+      setPhase("verify");
+      return;
+    }
     if (typeof json.token === "string" && json.token) setToken(json.token);
     trackFunnel("INTEREST_SUBMITTED", { utm });
     trackFunnel("CAL_OPENED", { utm });
@@ -196,6 +215,7 @@ export function InterestExperience() {
         <p className="mt-6 max-w-xl text-lg text-gray">
           Uma experiência executiva de 5 dias para empresários que querem conhecer o mercado paraguaio, gerar conexões e identificar oportunidades de negócios.
         </p>
+        {error && <p className="mt-6 max-w-xl text-red" role="alert">{error}</p>}
         <button
           className="mt-10 min-h-12 w-full rounded-full bg-red px-6 py-4 text-xs font-bold uppercase tracking-[0.12em] sm:w-fit sm:px-8 sm:tracking-[0.16em]"
           onClick={() => {
@@ -205,6 +225,19 @@ export function InterestExperience() {
         >
           Começar minha pré-inscrição&nbsp;→
         </button>
+      </section>
+    );
+  }
+
+  if (phase === "verify") {
+    return (
+      <section className="flex min-h-[80dvh] flex-col justify-center">
+        <p className="text-[11px] tracking-[0.28em] uppercase text-red">Confirme seu e-mail</p>
+        <h1 className="mt-6 font-display text-4xl md:text-6xl">Este e-mail já tem uma pré-inscrição.</h1>
+        <p className="mt-4 max-w-xl text-gray">
+          Por segurança, enviamos um link de confirmação para {draft.email}. Abra o link para continuar e agendar sua conversa.
+        </p>
+        <p className="mt-3 max-w-xl text-sm text-gray">O link vale por 24 horas. Verifique também a caixa de spam.</p>
       </section>
     );
   }

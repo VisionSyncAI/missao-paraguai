@@ -57,6 +57,20 @@ export const EmailCopy = {
       ].join("\n"),
     };
   },
+  leadResubmitted(name: string, verifyToken: string) {
+    return {
+      subject: "Confirme sua pré-inscrição — Imersão Paraguai",
+      body: [
+        `Olá, ${name}.`,
+        "",
+        "Recebemos uma nova pré-inscrição usando este e-mail.",
+        "Se foi você, confirme pelo link abaixo para continuar e agendar sua conversa (válido por 24 horas):",
+        `${appUrl()}/api/leads/verify?t=${encodeURIComponent(verifyToken)}`,
+        "",
+        "Se não foi você, ignore esta mensagem. Nenhum dado da sua pré-inscrição foi alterado.",
+      ].join("\n"),
+    };
+  },
   registrationCreated(name: string, token: string) {
     return {
       subject: "Ficha de inscrição aberta — Imersão Paraguai",

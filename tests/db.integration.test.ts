@@ -24,22 +24,51 @@ const payload = {
 };
 
 describe("lead captureInterest (db)", () => {
-  it("primeiro submit cria token; reenvio preserva hash", async () => {
+  it("primeiro submit cria token; reenvio com o mesmo e-mail não altera nem expõe o lead", async () => {
     const email = `lead.token.${Date.now()}@exemplo.com`;
     const first = await captureInterest({ ...payload, email }, { ip: "127.0.0.1", userAgent: "vitest" });
     expect(first.created).toBe(true);
     expect(first.accessToken).toBeTruthy();
+    expect(first.leadId).toBeTruthy();
     expect(first.tokenPreserved).toBe(false);
-    const before = await prisma.lead.findUnique({ where: { id: first.leadId } });
-    const second = await captureInterest({ ...payload, email, objective: "Atualizei o objetivo" }, { ip: "127.0.0.1", userAgent: "vitest" });
+    const before = await prisma.lead.findUnique({ where: { id: first.leadId! } });
+    const second = await captureInterest(
+      { ...payload, email, fullName: "Atacante Qualquer", whatsapp: "11911112222", objective: "Atualizei o objetivo" },
+      { ip: "10.0.0.9", userAgent: "attacker" },
+    );
     expect(second.created).toBe(false);
-    expect(second.tokenPreserved).toBe(true);
+    expect(second.verificationRequired).toBe(true);
     expect(second.accessToken).toBeNull();
-    const after = await prisma.lead.findUnique({ where: { id: first.leadId } });
+    expect(second.leadId).toBeNull();
+    const after = await prisma.lead.findUnique({ where: { id: first.leadId! } });
     expect(after?.accessTokenHash).toBe(before?.accessTokenHash);
-    expect(after?.city).toBe("NOT_PROVIDED");
-    expect(after?.hasCompany).toBe(false);
-    expect(after?.companyId).toBeNull();
+    expect(after?.fullName).toBe(before?.fullName);
+    expect(after?.whatsapp).toBe(before?.whatsapp);
+    expect(after?.objectiveNotes).toBe(before?.objectiveNotes);
+    expect(after?.qualificationJson).toBe(before?.qualificationJson);
+    expect(after?.updatedAt.getTime()).toBe(before?.updatedAt.getTime());
+    const resubmitted = await prisma.activity.findFirst({ where: { leadId: first.leadId!, type: "INTEREST_RESUBMITTED" } });
+    expect(resubmitted).toBeTruthy();
+    const confirmation = await prisma.messageOutbox.findFirst({ where: { leadId: first.leadId!, eventType: "LEAD_RESUBMITTED" } });
+    expect(confirmation?.toAddress).toBe(email);
+    expect(confirmation?.body).toContain("/api/leads/verify?t=");
+    expect(await prisma.lead.count({ where: { email } })).toBe(1);
+  });
+
+  it("reenvios concorrentes com o mesmo e-mail não sobrescrevem o lead", async () => {
+    const email = `lead.race.${Date.now()}@exemplo.com`;
+    const first = await captureInterest({ ...payload, email }, { ip: "127.0.0.1", userAgent: "vitest" });
+    const before = await prisma.lead.findUnique({ where: { id: first.leadId! } });
+    const results = await Promise.all(
+      [1, 2, 3, 4, 5].map((n) =>
+        captureInterest({ ...payload, email, fullName: `Concorrente ${n} Teste`, whatsapp: `1199999000${n}` }, { ip: `10.0.0.${n}`, userAgent: "race" }),
+      ),
+    );
+    expect(results.every((r) => !r.created && r.leadId === null && r.accessToken === null)).toBe(true);
+    const after = await prisma.lead.findUnique({ where: { id: first.leadId! } });
+    expect(after?.fullName).toBe(before?.fullName);
+    expect(after?.whatsapp).toBe(before?.whatsapp);
+    expect(await prisma.lead.count({ where: { email } })).toBe(1);
   });
 });
 
@@ -129,7 +158,7 @@ describe("attachMeetingToLead (db)", () => {
     for (const candidate of slots) {
       try {
         first = await attachMeetingToLead({
-          leadId: captured.leadId,
+          leadId: captured.leadId!,
           scheduledAt: candidate.start,
           consultantId: candidate.consultantId,
         });
@@ -148,12 +177,12 @@ describe("attachMeetingToLead (db)", () => {
     const stored = await prisma.meeting.findUnique({ where: { id: first.meetingId } });
     expect(stored?.meetingUrl).toBe("");
     const second = await attachMeetingToLead({
-      leadId: captured.leadId,
+      leadId: captured.leadId!,
       scheduledAt: slot.start,
       consultantId: slot.consultantId,
     });
     expect(second.meetingId).toBe(first.meetingId);
-    expect(await prisma.meeting.count({ where: { leadId: captured.leadId } })).toBe(1);
+    expect(await prisma.meeting.count({ where: { leadId: captured.leadId! } })).toBe(1);
     expect(await prisma.messageOutbox.count({ where: { uniqueKey: `MEETING_SCHEDULED:${first.meetingId}:email` } })).toBe(1);
   });
 
@@ -162,12 +191,12 @@ describe("attachMeetingToLead (db)", () => {
     const captured = await captureInterest({ ...payload, email }, { ip: "127.0.0.1", userAgent: "vitest" });
     await expect(
       attachMeetingToLead({
-        leadId: captured.leadId,
+        leadId: captured.leadId!,
         scheduledAt: "2020-01-01T12:00:00.000Z",
         consultantId: "inexistente",
       }),
     ).rejects.toThrow();
-    expect(await prisma.meeting.count({ where: { leadId: captured.leadId } })).toBe(0);
+    expect(await prisma.meeting.count({ where: { leadId: captured.leadId! } })).toBe(0);
   });
 
   it("URL inválida não vira sala oficial", async () => {

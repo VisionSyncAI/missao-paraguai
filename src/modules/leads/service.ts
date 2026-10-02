@@ -12,6 +12,9 @@ import { logInfo } from "@/lib/logger";
 import { resolveVerifiedBooking } from "@/modules/scheduling/resolve";
 import { mapInterestFlags, mapRelationship, resolvedJobTitle } from "@/modules/interest/flow";
 import { can } from "@/lib/rbac";
+import { signLeadVerifyToken } from "@/lib/leadVerify";
+
+const RESUBMIT_EMAIL_WINDOW_MS = 10 * 60 * 1000;
 
 function persistableMeetingUrl(url?: string | null) {
   return officialMeetingUrl(url) ?? "";
@@ -60,14 +63,44 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     orderBy: { createdAt: "desc" },
   });
 
+  if (existing) {
+    // An e-mail address is not proof of identity: never overwrite the existing lead or hand out
+    // its session here. The submission is kept for the CRM and the owner confirms via their inbox.
+    await prisma.activity.create({
+      data: {
+        leadId: existing.id,
+        type: "INTEREST_RESUBMITTED",
+        body: `Nova pré-inscrição com este e-mail (dados não aplicados; aguardando confirmação pelo e-mail). Nome informado: ${input.fullName} · WhatsApp informado: ${phone}.`,
+      },
+    });
+    const verifyToken = await signLeadVerifyToken(existing.id);
+    const window = Math.floor(Date.now() / RESUBMIT_EMAIL_WINDOW_MS);
+    const copy = EmailCopy.leadResubmitted(existing.fullName, verifyToken);
+    try {
+      await enqueueEmail({
+        leadId: existing.id,
+        eventType: "LEAD_RESUBMITTED",
+        uniqueKey: emailUnique("LEAD_RESUBMITTED", `${existing.id}:${window}`),
+        to: existing.email,
+        subject: copy.subject,
+        body: copy.body,
+      });
+    } catch (error) {
+      // A concurrent resubmission already queued this window's confirmation e-mail.
+      if (!(error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002")) throw error;
+    }
+    logInfo("lead_resubmitted", { leadId: existing.id });
+    return { accessToken: null as string | null, leadId: null as string | null, created: false, tokenPreserved: true, verificationRequired: true };
+  }
+
   const data = {
     fullName: input.fullName,
     email: input.email,
     whatsapp: phone,
     jobTitle,
-    city: existing?.city || "NOT_PROVIDED",
-    state: existing?.state || "NOT_PROVIDED",
-    hasCompany: existing?.hasCompany ?? false,
+    city: "NOT_PROVIDED",
+    state: "NOT_PROVIDED",
+    hasCompany: false,
     objectivesJson: JSON.stringify(input.interests),
     objectiveNotes: input.objective || null,
     beenToParaguay: relation.beenToParaguay,
@@ -82,47 +115,8 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     companionCount: input.companionRequested ? 1 : 0,
     source: input.source || "interesse",
     qualificationJson: JSON.stringify(qualification),
-    nextAction: existing && ["MEETING_SCHEDULED", "MEETING_CONFIRMED"].includes(existing.status)
-      ? existing.nextAction
-      : "Agendar conversa com consultor",
-    status: existing && ["MEETING_SCHEDULED", "MEETING_CONFIRMED", "MEETING_COMPLETED", "QUALIFIED", "PROPOSAL", "NEGOTIATION"].includes(existing.status)
-      ? existing.status
-      : "FORM_SUBMITTED",
+    nextAction: "Agendar conversa com consultor",
   };
-
-  if (existing) {
-    const updated = await prisma.lead.update({
-      where: { id: existing.id },
-      data,
-    });
-    await prisma.consent.create({
-      data: {
-        leadId: updated.id,
-        type: "CONTACT",
-        version: CONTACT_CONSENT_VERSION,
-        accepted: true,
-        ipHash: hashIp(meta.ip),
-        userAgent: meta.userAgent?.slice(0, 240) || null,
-      },
-    });
-    await prisma.activity.create({
-      data: {
-        leadId: updated.id,
-        type: "INTEREST_SUBMITTED",
-        body: "Pré-inscrição conversacional atualizada.",
-      },
-    });
-    await enqueueEmail({
-      leadId: updated.id,
-      eventType: "LEAD_UPDATED",
-      uniqueKey: emailUnique("LEAD_UPDATED", `${updated.id}:${updated.updatedAt.toISOString()}`),
-      to: updated.email,
-      subject: "Pré-inscrição atualizada — Imersão Paraguai",
-      body: `Olá, ${updated.fullName}.\n\nAtualizamos seu interesse. O link anterior de acesso continua válido.\n`,
-    });
-    logInfo("lead_updated", { leadId: updated.id });
-    return { accessToken: null as string | null, leadId: updated.id, created: false, tokenPreserved: true };
-  }
 
   const accessToken = newAccessToken();
   const lead = await prisma.lead.create({
@@ -169,7 +163,7 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     body: `Olá, ${lead.fullName}.\n\nRecebemos seu perfil. Agende a conversa com um consultor para continuarmos.\n${appUrl()}/interesse`,
   });
   logInfo("lead_created", { leadId: lead.id });
-  return { accessToken, leadId: lead.id, created: true, tokenPreserved: false };
+  return { accessToken, leadId: lead.id as string | null, created: true, tokenPreserved: false, verificationRequired: false };
 }
 
 const leadInclude = {

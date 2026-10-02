@@ -25,12 +25,14 @@ export async function POST(request: NextRequest) {
       ip,
       userAgent: request.headers.get("user-agent"),
     });
-    await setLeadSession(result.leadId);
+    // Only a lead created by this request gets a session; an existing e-mail must be confirmed by its owner.
+    if (result.created && result.leadId) await setLeadSession(result.leadId);
     return NextResponse.json({
       ok: true,
       token: result.accessToken,
       created: result.created,
       tokenPreserved: result.tokenPreserved,
+      verificationRequired: result.verificationRequired,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "UNKNOWN";
