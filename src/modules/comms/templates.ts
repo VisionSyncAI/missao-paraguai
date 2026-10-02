@@ -1,5 +1,6 @@
 import { isLiveMeetingLink } from "@/lib/meetingLink";
 import { formatSaoPaulo } from "@/lib/timezone";
+import { WHATSAPP_URL } from "@/data/site";
 
 function appUrl() {
   return process.env.APP_URL || "http://localhost:3000";
@@ -22,7 +23,7 @@ export const EmailCopy = {
           ? `Entrar na reunião:\n${meetingUrl}`
           : "O consultor vai chamar você pelo WhatsApp informado no horário marcado.",
         "",
-        "Se não encontrar o e-mail, verifique sua caixa de spam ou lixo eletrônico.",
+        `Se preferir, fale direto com a equipe no WhatsApp: ${WHATSAPP_URL}`,
         "",
         "Imersão Paraguai — Vision Cybero AI × Proceit",
       ].join("\n"),

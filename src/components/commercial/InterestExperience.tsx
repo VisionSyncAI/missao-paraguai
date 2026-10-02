@@ -6,6 +6,7 @@ import { SlotPicker } from "@/components/commercial/SlotPicker";
 import { trackFunnel } from "@/components/commercial/trackFunnel";
 import { isLiveMeetingLink } from "@/lib/meetingLink";
 import { formatSaoPaulo } from "@/lib/timezone";
+import { WHATSAPP_URL } from "@/data/site";
 import {
   COMPANY_SIZE_BANDS,
   JOB_TITLE_OPTIONS,
@@ -278,6 +279,9 @@ export function InterestExperience() {
                 <p className="mt-3 text-gray">A confirmação foi enviada para o e-mail informado no cadastro.</p>
               )}
               <p className="mt-2 text-sm text-gray">A confirmação também vai por e-mail. Verifique a caixa de spam.</p>
+              <a className="mt-4 inline-flex min-h-12 items-center text-xs font-bold uppercase tracking-widest text-white underline" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                Se preferir, fale agora no WhatsApp
+              </a>
             </div>
             {live && meeting.meetingUrl ? (
               <a
@@ -515,8 +519,8 @@ export function InterestExperience() {
             {draft.oversizedGroup && (
               <div className="text-sm text-gray">
                 <p>Cada empresa pode participar com uma delegação de até 5 participantes. Para grupos maiores, entre em contato com a equipe PROVISION.</p>
-                <a className="mt-4 inline-flex min-h-12 items-center text-xs font-bold uppercase tracking-widest text-white" href="/site.html#contato">
-                  Falar com a equipe
+                <a className="mt-4 inline-flex min-h-12 items-center text-xs font-bold uppercase tracking-widest text-white" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                  Falar com a equipe no WhatsApp
                 </a>
               </div>
             )}

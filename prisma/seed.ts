@@ -14,9 +14,9 @@ async function main() {
     where: { email: "consultor@imersaoparaguai.com" },
     update: {},
     create: {
-      name: "Karina Ferreira",
+      name: "Karina Ricioni",
       email: "consultor@imersaoparaguai.com",
-      phone: process.env.COMMERCIAL_WHATSAPP || null,
+      phone: process.env.COMMERCIAL_WHATSAPP || "+5551997164254",
       timezone: "America/Sao_Paulo",
       status: "ACTIVE",
     },

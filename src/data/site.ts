@@ -1,4 +1,5 @@
-export const WHATSAPP_NUMBER = "5511999999999";
+export const WHATSAPP_NUMBER = "5551997164254";
+export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Olá! Quero falar sobre a Imersão Paraguai.")}`;
 
 export const site = {
   name: "Imersão Paraguai",
