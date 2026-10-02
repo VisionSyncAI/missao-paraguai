@@ -30,13 +30,21 @@ function trackCta() {
   }).catch(() => undefined);
 }
 
+/** Adds the page's UTMs to a link into the consultative flow, keeping the link's own params (e.g. lote). */
+export function withUtm(target, search) {
+  const url = new URL(target, "https://missaoparaguai.com");
+  new URL(interesseHref(search), "https://missaoparaguai.com").searchParams.forEach((value, key) => {
+    url.searchParams.set(key, value);
+  });
+  return url.pathname + url.search;
+}
+
 export function initForm() {
   const href = interesseHref(window.location.search);
-  document.querySelectorAll("a.btn").forEach((node) => {
+  document.querySelectorAll('a[href^="/interesse"]').forEach((node) => {
     const link = node;
     if (!(link instanceof HTMLAnchorElement)) return;
-    if (!/garantir minha vaga|quero participar/i.test(link.textContent || "")) return;
-    link.href = href;
+    link.setAttribute("href", withUtm(link.getAttribute("href") || "/interesse", window.location.search));
     if (window.top !== window) link.target = "_parent";
     link.addEventListener("click", () => trackCta());
   });

@@ -1,8 +1,10 @@
 import { z } from "zod";
 import { isValidEmail, normalizePhone } from "@/lib/validation/br";
 import {
+  BUSINESS_SEGMENTS,
   COMPANY_SIZE_BANDS,
   JOB_TITLE_OPTIONS,
+  LOT_CODES,
   PARAGUAY_INTERESTS,
   PARAGUAY_RELATIONSHIPS,
   PARTICIPATION_INTENTS,
@@ -13,6 +15,9 @@ export const captureSchema = z.object({
   fullName: z.string().transform(normalizeName).pipe(z.string().min(5).max(160)),
   email: z.string().trim().toLowerCase().refine(isValidEmail, "E-mail inválido"),
   whatsapp: z.string().trim().refine((v) => Boolean(normalizePhone(v)), "WhatsApp inválido"),
+  companyName: z.string().transform(normalizeName).pipe(z.string().min(2).max(160)),
+  segment: z.enum(BUSINESS_SEGMENTS),
+  lot: z.enum(LOT_CODES).optional(),
   jobTitle: z.enum(JOB_TITLE_OPTIONS),
   jobTitleOther: z.string().trim().max(80).optional().or(z.literal("")),
   companySize: z.enum(COMPANY_SIZE_BANDS),

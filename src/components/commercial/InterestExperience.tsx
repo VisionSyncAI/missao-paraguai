@@ -8,8 +8,10 @@ import { isLiveMeetingLink } from "@/lib/meetingLink";
 import { formatSaoPaulo } from "@/lib/timezone";
 import { WHATSAPP_URL } from "@/data/site";
 import {
+  BUSINESS_SEGMENTS,
   COMPANY_SIZE_BANDS,
   JOB_TITLE_OPTIONS,
+  LOT_CODES,
   PARAGUAY_INTERESTS,
   PARAGUAY_RELATIONSHIPS,
   PARTICIPATION_INTENTS,
@@ -24,16 +26,25 @@ import {
 
 type Phase = "intro" | "form" | "verify" | "schedule" | "done";
 
+const LOT_LABELS: Record<(typeof LOT_CODES)[number], string> = {
+  "01": "Lote 01 · R$ 19.997",
+  "02": "Lote 02 · R$ 22.997",
+  "03": "Lote 03 · R$ 25.997",
+  vip: "VIP · R$ 29.997",
+};
+
 const TITLES: Record<(typeof INTEREST_STEPS)[number], string> = {
   name: "Como podemos te chamar?",
   contact: "Como podemos falar com você?",
+  company: "Qual é a sua empresa?",
+  segment: "Em qual segmento sua empresa atua?",
   role: "Qual é o seu cargo atual?",
   companySize: "Qual é o porte aproximado da sua empresa?",
-  interests: "Qual é o seu principal interesse no Paraguai?",
+  interests: "O que você busca no Paraguai?",
   objective: "O que você espera encontrar nessa imersão?",
   relationship: "Você já possui alguma operação ou relacionamento com o Paraguai?",
   intent: "Qual é o seu nível de interesse em participar?",
-  delegation: "Quantas pessoas da sua empresa participam?",
+  delegation: "Pretende levar outros participantes?",
   companion: "Deseja participar acompanhado?",
   consent: "Podemos seguir com o contato?",
 };
@@ -63,6 +74,8 @@ export function InterestExperience() {
   useEffect(() => {
     // Back from the confirmation e-mail: the verify route already issued the lead session.
     const params = new URLSearchParams(window.location.search);
+    const lot = params.get("lote");
+    if (lot && (LOT_CODES as readonly string[]).includes(lot)) setDraft((current) => ({ ...current, lot }));
     if (params.get("link") === "invalido") {
       setError("Este link de confirmação expirou ou é inválido. Envie a pré-inscrição novamente para receber um novo link.");
     }
@@ -143,6 +156,9 @@ export function InterestExperience() {
         fullName: draft.fullName,
         email: draft.email,
         whatsapp: draft.whatsapp,
+        companyName: draft.companyName,
+        segment: draft.segment,
+        lot: draft.lot || undefined,
         jobTitle: draft.jobTitle,
         jobTitleOther: draft.jobTitleOther,
         companySize: draft.companySize,
@@ -153,7 +169,7 @@ export function InterestExperience() {
         delegationSize: draft.delegationSize ?? undefined,
         companionRequested: draft.companionRequested === true,
         consent: draft.consent,
-        source: "interesse",
+        source: new URLSearchParams(window.location.search).get("origem") === "proposta" ? "interesse-proposta" : "interesse",
         utm,
       }),
     });
@@ -211,11 +227,16 @@ export function InterestExperience() {
   if (phase === "intro") {
     return (
       <section className="flex min-h-[80dvh] flex-col justify-center">
-        <p className="text-[11px] tracking-[0.28em] uppercase text-red">Imersão Paraguai</p>
-        <h1 className="mt-6 font-display text-5xl leading-[0.95] md:text-7xl">Imersão Paraguai</h1>
+        <p className="text-[11px] tracking-[0.28em] uppercase text-red">PROVISION · Imersão Sem Fronteiras · Paraguai 2026</p>
+        <h1 className="mt-6 max-w-3xl font-display text-4xl leading-[1.02] md:text-6xl">Antes de confirmar sua participação, vamos entender seu objetivo.</h1>
         <p className="mt-6 max-w-xl text-lg text-gray">
-          Uma experiência executiva de 5 dias para empresários que querem conhecer o mercado paraguaio, gerar conexões e identificar oportunidades de negócios.
+          São poucas perguntas sobre sua empresa e o que você busca no Paraguai. Com base no seu perfil, a equipe PROVISION orienta sua participação e prepara a conversa com você.
         </p>
+        {draft.lot && (
+          <p className="mt-6 w-fit rounded-lg border border-white/15 px-4 py-2 text-xs uppercase tracking-[0.14em] text-white">
+            Condição de interesse: {LOT_LABELS[draft.lot as (typeof LOT_CODES)[number]]}
+          </p>
+        )}
         {error && <p className="mt-6 max-w-xl text-red" role="alert">{error}</p>}
         <button
           className="mt-10 min-h-12 w-full rounded-full bg-red px-6 py-4 text-xs font-bold uppercase tracking-[0.12em] sm:w-fit sm:px-8 sm:tracking-[0.16em]"
@@ -224,7 +245,7 @@ export function InterestExperience() {
             setPhase("form");
           }}
         >
-          Começar minha pré-inscrição&nbsp;→
+          Começar&nbsp;→
         </button>
       </section>
     );
@@ -304,10 +325,13 @@ export function InterestExperience() {
   if (phase === "schedule") {
     return (
       <section className="min-h-[80dvh] py-8">
-        <p className="text-[11px] tracking-[0.28em] uppercase text-red">Conversa estratégica</p>
-        <h1 className="mt-6 font-display text-4xl md:text-6xl">Vamos conversar sobre o seu cenário?</h1>
-        <p className="mt-4 max-w-xl text-gray">Escolha um dia e horário até 15 de novembro de 2026 para falar com um de nossos consultores.</p>
-        <p className="mt-3 text-sm text-white">Seu interesse foi registrado.</p>
+        <p className="text-[11px] tracking-[0.28em] uppercase text-red">Conversa com a equipe PROVISION</p>
+        <h1 className="mt-6 max-w-3xl font-display text-4xl md:text-6xl">Com base no seu perfil, nossa equipe vai apresentar a experiência.</h1>
+        <p className="mt-4 max-w-xl text-gray">Escolha um dia e horário até 15 de novembro de 2026. O consultor já recebe o contexto da sua empresa e do que você busca no Paraguai.</p>
+        <p className="mt-3 text-sm text-white">
+          Seu interesse foi registrado. Prefere falar agora?{" "}
+          <a className="underline underline-offset-4" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Falar com a equipe PROVISION</a>
+        </p>
         {scheduler?.provider === "cal" && scheduler.embedOrigin && scheduler.calLink ? (
           <div className="mt-8">
             <ConsultantScheduler embedOrigin={scheduler.embedOrigin} calLink={scheduler.calLink} onBooked={onBooked} />
@@ -382,6 +406,36 @@ export function InterestExperience() {
             </label>
           </div>
         )}
+        {step === "company" && (
+          <label className="block text-sm text-gray">
+            Nome da empresa
+            <input
+              autoFocus
+              autoComplete="organization"
+              aria-describedby="interest-error"
+              className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-xl outline-none md:text-2xl"
+              value={draft.companyName}
+              onChange={(e) => setDraft({ ...draft, companyName: e.target.value })}
+            />
+          </label>
+        )}
+        {step === "segment" && (
+          <div className="grid gap-2 sm:grid-cols-2">
+            {BUSINESS_SEGMENTS.map((option) => (
+              <button
+                key={option}
+                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.segment === option ? "border-red" : "border-white/15"}`}
+                onClick={() => {
+                  setDraft({ ...draft, segment: option });
+                  trackFunnel("QUESTION_COMPLETED", { step: "segment", utm });
+                  setStepIndex((i) => i + 1);
+                }}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        )}
         {step === "role" && (
           <div className="grid gap-2">
             {JOB_TITLE_OPTIONS.map((option) => (
@@ -430,7 +484,8 @@ export function InterestExperience() {
           </div>
         )}
         {step === "interests" && (
-          <div className="grid gap-2">
+          <div className="grid gap-2 sm:grid-cols-2">
+            <p className="text-sm text-gray sm:col-span-2">Marque todas as opções que se aplicam.</p>
             {PARAGUAY_INTERESTS.map((option) => {
               const on = draft.interests.includes(option);
               return (

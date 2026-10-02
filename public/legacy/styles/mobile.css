@@ -61,7 +61,7 @@
     padding: calc(var(--nav-h) + env(safe-area-inset-top) + 20px) 0 24px;
     gap: 18px;
   }
-  .hero-kicker { letter-spacing: 0.32em; font-size: 0.78rem; }
+  .hero-kicker { letter-spacing: 0.16em; font-size: 0.78rem; }
   .hero-title { font-size: clamp(3.2rem, 16vw, 4.6rem); line-height: 0.88; }
   .hero-title .fill { background-image: url("https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=900&q=70"); }
   .hero-claim { font-size: 1.05rem; letter-spacing: 0.06em; }

@@ -37,6 +37,21 @@ export default function LeadDetailPage() {
           <h1 className="mt-4 text-4xl">{String(lead.name)}</h1>
           <p className="mt-2 text-gray">{String(lead.companyName)} · {String(lead.jobTitle || "—")}</p>
           <p className="mt-1 text-sm">{String(lead.email)} · {String(lead.whatsapp)}</p>
+          {typeof lead.qualification === "object" && lead.qualification !== null ? (() => {
+            const q = lead.qualification as Record<string, unknown>;
+            const seeking = Array.isArray(q.seeking) ? (q.seeking as string[]).join(" · ") : "—";
+            return (
+              <div className="mt-6 rounded-xl border border-white/15 p-4 text-sm">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-red">Contexto para a conversa</p>
+                <ul className="mt-3 space-y-1">
+                  <li>Segmento: {String(lead.segment || q.segment || "—")}</li>
+                  <li>Busca no Paraguai: {seeking}</li>
+                  <li>Lote de interesse: {q.lotOfInterest ? String(q.lotOfInterest).toUpperCase() : "não indicado"}</li>
+                  <li>Participantes da empresa: {String(q.delegationSize || "—")}</li>
+                </ul>
+              </div>
+            );
+          })() : null}
           <p className="mt-1 text-sm text-gray">CPF {String(lead.cpfMasked)} · CNPJ {String(lead.cnpj)}</p>
           <div className="mt-6 text-sm text-gray">
             {(lead.objectives as string[] | undefined)?.join(" · ")}

@@ -44,7 +44,7 @@
 .hero-kicker {
   margin: 0;
   font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-  letter-spacing: 0.62em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 500;
 }
@@ -228,7 +228,7 @@
 .hero-by .logo-proceit { height: 34px; max-width: 180px; }
 .hero-by .pipe { opacity: 0.4; }
 
-.hero-cta-wrap { margin-top: 22px; }
+.hero-cta-wrap { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; }
 
 .rise {
   opacity: 0;

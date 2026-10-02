@@ -936,6 +936,18 @@
   color: #e8e8e2;
   font-size: 0.9rem;
 }
+.apply-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 6px;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 .apply-legal {
   margin: 4px 0 0;
   font-size: 0.78rem;

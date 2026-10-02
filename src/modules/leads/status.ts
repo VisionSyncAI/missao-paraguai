@@ -111,18 +111,34 @@ export const COMPANY_SIZE_BANDS = [
   "Acima de R$ 100 milhões",
 ] as const;
 
+/** "O que você busca no Paraguai?" — also feeds the B2B matching and the interest score. */
 export const PARAGUAY_INTERESTS = [
-  "Expandir minha empresa",
-  "Abrir operação no Paraguai",
-  "Encontrar fornecedores",
-  "Encontrar parceiros comerciais",
-  "Conhecer oportunidades no agro",
-  "Conhecer oportunidades na indústria",
-  "Logística e comércio exterior",
+  "Expansão",
+  "Parcerias",
+  "B2B",
+  "Fornecedores",
   "Investimentos",
   "Tecnologia",
-  "Ainda estou explorando possibilidades",
+  "Agro",
+  "Indústria",
+  "Logística",
+  "Networking",
+  "Inteligência de mercado",
 ] as const;
+
+export const BUSINESS_SEGMENTS = [
+  "Indústria",
+  "Agro",
+  "Logística",
+  "Tecnologia",
+  "Serviços",
+  "Infraestrutura",
+  "Comércio",
+  "Outro",
+] as const;
+
+/** Commercial condition the visitor came from (lot card on the site). */
+export const LOT_CODES = ["01", "02", "03", "vip"] as const;
 
 export const PARAGUAY_RELATIONSHIPS = [
   "Já opero no Paraguai",

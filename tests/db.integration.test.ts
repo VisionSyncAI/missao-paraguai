@@ -12,10 +12,13 @@ const payload = {
   fullName: "Maria Silva Teste",
   email: "",
   whatsapp: "11988887777",
+  companyName: "Metalúrgica Teste Ltda",
+  segment: "Indústria" as const,
+  lot: "01" as const,
   jobTitle: "Diretor(a) / C-Level" as const,
   jobTitleOther: "",
   companySize: "R$ 5 milhões – R$ 20 milhões" as const,
-  interests: ["Expandir minha empresa"] as ["Expandir minha empresa"],
+  interests: ["Expansão", "B2B"] as ("Expansão" | "B2B")[],
   objective: "",
   relationship: "Ainda não" as const,
   intent: "Quero conversar com um consultor" as const,
@@ -31,6 +34,14 @@ describe("lead captureInterest (db)", () => {
     expect(first.accessToken).toBeTruthy();
     expect(first.leadId).toBeTruthy();
     expect(first.tokenPreserved).toBe(false);
+    const created = await prisma.lead.findUnique({ where: { id: first.leadId! }, include: { company: true } });
+    expect(created?.company?.legalName).toBe("Metalúrgica Teste Ltda");
+    expect(created?.company?.segment).toBe("Indústria");
+    expect(created?.interestB2B).toBe(true);
+    expect(created?.wantsOpenOperation).toBe(true);
+    const qualification = JSON.parse(created!.qualificationJson);
+    expect(qualification.lotOfInterest).toBe("01");
+    expect(qualification.seeking).toEqual(["Expansão", "B2B"]);
     const before = await prisma.lead.findUnique({ where: { id: first.leadId! } });
     const second = await captureInterest(
       { ...payload, email, fullName: "Atacante Qualquer", whatsapp: "11911112222", objective: "Atualizei o objetivo" },

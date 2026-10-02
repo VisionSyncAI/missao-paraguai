@@ -26,25 +26,14 @@ function appUrl() {
 
 /** Fluxo oficial de captação: /interesse → captureInterest → Lead → CRM → Cal.diy → Meeting. */
 export async function captureInterest(input: CaptureInput, meta: { ip: string | null; userAgent: string | null }) {
-  const jobTitle = resolvedJobTitle({
-    fullName: input.fullName,
-    email: input.email,
-    whatsapp: input.whatsapp,
-    jobTitle: input.jobTitle,
-    jobTitleOther: input.jobTitleOther || "",
-    companySize: input.companySize,
-    interests: input.interests,
-    objective: input.objective || "",
-    relationship: input.relationship,
-    intent: input.intent,
-    delegationSize: input.delegationSize ?? null,
-    oversizedGroup: false,
-    companionRequested: input.companionRequested ?? null,
-    consent: true,
-  });
+  const jobTitle = resolvedJobTitle({ jobTitle: input.jobTitle, jobTitleOther: input.jobTitleOther || "" });
   const relation = mapRelationship(input.relationship);
   const flags = mapInterestFlags(input.interests);
   const qualification = {
+    companyName: input.companyName,
+    segment: input.segment,
+    seeking: input.interests,
+    lotOfInterest: input.lot ?? null,
     companySize: input.companySize,
     relationship: input.relationship,
     intent: input.intent,
@@ -70,7 +59,7 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
       data: {
         leadId: existing.id,
         type: "INTEREST_RESUBMITTED",
-        body: `Nova pré-inscrição com este e-mail (dados não aplicados; aguardando confirmação pelo e-mail). Nome informado: ${input.fullName} · WhatsApp informado: ${phone}.`,
+        body: `Nova pré-inscrição com este e-mail (dados não aplicados; aguardando confirmação pelo e-mail). Nome informado: ${input.fullName} · WhatsApp informado: ${phone} · Empresa informada: ${input.companyName} (${input.segment})${input.lot ? ` · Lote de interesse: ${input.lot}` : ""}.`,
       },
     });
     const verifyToken = await signLeadVerifyToken(existing.id);
@@ -100,7 +89,7 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     jobTitle,
     city: "NOT_PROVIDED",
     state: "NOT_PROVIDED",
-    hasCompany: false,
+    hasCompany: true,
     objectivesJson: JSON.stringify(input.interests),
     objectiveNotes: input.objective || null,
     beenToParaguay: relation.beenToParaguay,
@@ -123,6 +112,7 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     data: {
       ...data,
       accessTokenHash: sha256(accessToken),
+      company: { create: { legalName: input.companyName, segment: input.segment } },
       status: "FORM_SUBMITTED",
       consents: {
         create: [

@@ -56,9 +56,14 @@ describe("qualificação estruturada", () => {
     expect(mapRelationship("Ainda não").beenToParaguay).toBe(false);
   });
   it("mapeia interesses para flags", () => {
-    const flags = mapInterestFlags(["Investimentos", "Conhecer oportunidades na indústria"]);
+    const flags = mapInterestFlags(["Investimentos", "Indústria"]);
     expect(flags.interestInvest).toBe(true);
     expect(flags.interestIndustry).toBe(true);
+    expect(flags.interestB2B).toBe(false);
+    const b2b = mapInterestFlags(["Fornecedores", "Expansão"]);
+    expect(b2b.interestB2B).toBe(true);
+    expect(b2b.wantsOpenOperation).toBe(true);
+    expect(mapInterestFlags(["Parcerias"]).interestNetworking).toBe(true);
   });
 });
 
@@ -124,14 +129,21 @@ describe("schema de captação", () => {
       fullName: "Ana Souza Lima",
       email: "ana@empresa.com",
       whatsapp: "11988887777",
+      companyName: "Indústria Exemplo SA",
+      segment: "Indústria",
       jobTitle: "CEO / Presidente",
       companySize: "R$ 5 milhões – R$ 20 milhões",
-      interests: ["Expandir minha empresa"],
+      interests: ["Expansão"],
       relationship: "Ainda não",
       intent: "Quero conversar com um consultor",
       consent: true,
     };
     expect(captureSchema.safeParse(base).success).toBe(true);
+    expect(captureSchema.safeParse({ ...base, lot: "vip" }).success).toBe(true);
+    expect(captureSchema.safeParse({ ...base, lot: "04" }).success).toBe(false);
+    expect(captureSchema.safeParse({ ...base, companyName: "" }).success).toBe(false);
+    expect(captureSchema.safeParse({ ...base, segment: "Turismo" }).success).toBe(false);
+    expect(captureSchema.safeParse({ ...base, interests: ["Expandir minha empresa"] }).success).toBe(false);
     expect(captureSchema.safeParse({ ...base, consent: false }).success).toBe(false);
     expect(captureSchema.safeParse({ ...base, email: "invalido" }).success).toBe(false);
   });

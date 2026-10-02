@@ -1,5 +1,6 @@
 import { isValidEmail, normalizePhone } from "@/lib/validation/br";
 import {
+  BUSINESS_SEGMENTS,
   COMPANY_SIZE_BANDS,
   JOB_TITLE_OPTIONS,
   PARAGUAY_INTERESTS,
@@ -10,6 +11,8 @@ import {
 export const INTEREST_STEPS = [
   "name",
   "contact",
+  "company",
+  "segment",
   "role",
   "companySize",
   "interests",
@@ -27,6 +30,9 @@ export type InterestDraft = {
   fullName: string;
   email: string;
   whatsapp: string;
+  companyName: string;
+  segment: string;
+  lot: string;
   jobTitle: string;
   jobTitleOther: string;
   companySize: string;
@@ -45,6 +51,9 @@ export function emptyDraft(): InterestDraft {
     fullName: "",
     email: "",
     whatsapp: "",
+    companyName: "",
+    segment: "",
+    lot: "",
     jobTitle: "",
     jobTitleOther: "",
     companySize: "",
@@ -74,6 +83,16 @@ export function validateStep(step: InterestStep, draft: InterestDraft) {
     if (!isValidEmail(draft.email)) return "Informe um e-mail válido.";
     return null;
   }
+  if (step === "company") {
+    if (normalizeName(draft.companyName).length < 2) return "Informe o nome da sua empresa.";
+    return null;
+  }
+  if (step === "segment") {
+    if (!BUSINESS_SEGMENTS.includes(draft.segment as (typeof BUSINESS_SEGMENTS)[number])) {
+      return "Selecione o segmento da empresa.";
+    }
+    return null;
+  }
   if (step === "role") {
     if (!JOB_TITLE_OPTIONS.includes(draft.jobTitle as (typeof JOB_TITLE_OPTIONS)[number])) {
       return "Selecione o cargo.";
@@ -90,7 +109,7 @@ export function validateStep(step: InterestStep, draft: InterestDraft) {
     return null;
   }
   if (step === "interests") {
-    if (!draft.interests.length) return "Selecione ao menos um interesse.";
+    if (!draft.interests.length) return "Selecione ao menos uma opção.";
     const invalid = draft.interests.some(
       (item) => !PARAGUAY_INTERESTS.includes(item as (typeof PARAGUAY_INTERESTS)[number]),
     );
@@ -141,15 +160,15 @@ export function mapRelationship(value: string) {
 
 export function mapInterestFlags(interests: string[]) {
   return {
-    wantsOpenOperation: interests.includes("Abrir operação no Paraguai"),
+    wantsOpenOperation: interests.includes("Expansão"),
     interestInvest: interests.includes("Investimentos"),
-    interestNetworking: interests.includes("Encontrar parceiros comerciais"),
-    interestB2B: interests.includes("Encontrar fornecedores") || interests.includes("Encontrar parceiros comerciais"),
-    interestIndustry: interests.includes("Conhecer oportunidades na indústria"),
+    interestNetworking: interests.includes("Networking") || interests.includes("Parcerias"),
+    interestB2B: interests.includes("B2B") || interests.includes("Fornecedores") || interests.includes("Parcerias"),
+    interestIndustry: interests.includes("Indústria"),
   };
 }
 
-export function resolvedJobTitle(draft: InterestDraft) {
+export function resolvedJobTitle(draft: Pick<InterestDraft, "jobTitle" | "jobTitleOther">) {
   return draft.jobTitle === "Outro" ? normalizeName(draft.jobTitleOther) : draft.jobTitle;
 }
 

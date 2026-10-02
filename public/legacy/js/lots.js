@@ -1,8 +1,9 @@
 const EXECUTIVE = [
-  { id: "1", start: "2026-01-01", end: "2026-10-07" },
-  { id: "2", start: "2026-10-08", end: "2026-10-13" },
-  { id: "3", start: "2026-10-14", end: "2026-10-21" },
+  { id: "1", label: "Lote 01", price: "R$ 19.997", start: "2026-01-01", end: "2026-10-07" },
+  { id: "2", label: "Lote 02", price: "R$ 22.997", start: "2026-10-08", end: "2026-10-13" },
+  { id: "3", label: "Lote 03", price: "R$ 25.997", start: "2026-10-14", end: "2026-10-21" },
 ];
+const VIP_END = "2026-10-26";
 
 function todayInSaoPaulo() {
   return new Intl.DateTimeFormat("en-CA", {
@@ -13,7 +14,7 @@ function todayInSaoPaulo() {
   }).format(new Date());
 }
 
-function daysUntil(today, end) {
+export function daysUntil(today, end) {
   const startMs = Date.parse(`${today}T12:00:00Z`);
   const endMs = Date.parse(`${end}T12:00:00Z`);
   return Math.round((endMs - startMs) / 86400000);
@@ -30,29 +31,66 @@ export function executivePhase(today, start, end) {
 }
 
 export function vipPhase(today) {
-  if (today > "2026-10-26") return "closed";
-  if (today === "2026-10-26") return "vipLastDay";
+  if (today > VIP_END) return "closed";
+  if (today === VIP_END) return "vipLastDay";
   if (today >= "2026-10-22") return "vipLastDays";
   return "vip";
 }
 
-const SEAL = {
-  upcoming: "Próxima condição",
-  special: "⚡ Condição especial",
-  ending: "⚡ Esgotando",
-  lastDays: "⚡ Últimos dias",
-  lastDay: "⚡ Encerra hoje",
-  closed: "Encerrado",
-  vip: "Experiência VIP",
-  vipLastDays: "⚡ Últimos dias",
-  vipLastDay: "⚡ Encerra hoje",
-};
+function ddmm(ymd) {
+  return `${ymd.slice(8, 10)}/${ymd.slice(5, 7)}`;
+}
+
+function endsIn(today, end) {
+  const left = daysUntil(today, end);
+  if (left <= 0) return "encerra hoje";
+  if (left === 1) return "encerra amanhã";
+  return `encerra em ${left} dias`;
+}
+
+/**
+ * Commercial urgency comes only from the date-based change of condition: never seats, occupancy
+ * or stock. Returns the seal for each card and the banner line for the given São Paulo date.
+ */
+export function lotCopy(today) {
+  const states = EXECUTIVE.map((lot) => ({ ...lot, phase: executivePhase(today, lot.start, lot.end) }));
+  const current = states.find((lot) => lot.phase !== "upcoming" && lot.phase !== "closed") || null;
+  const vip = vipPhase(today);
+  const closed = vip === "closed" && !current;
+
+  /** @type {Record<string, string>} */
+  const seals = {};
+  for (const lot of states) {
+    seals[lot.id] = lot.phase === "upcoming"
+      ? `A partir de ${ddmm(lot.start)}`
+      : lot.phase === "closed"
+        ? "Encerrado"
+        : `Vigente · ${endsIn(today, lot.end)}`;
+  }
+  seals.vip = vip === "closed"
+    ? "Encerrado"
+    : current
+      ? "Experiência VIP"
+      : `VIP · ${endsIn(today, VIP_END)}`;
+
+  let banner = "";
+  if (current) {
+    const next = states[states.indexOf(current) + 1];
+    const when = `${endsIn(today, current.end)} (${ddmm(current.end)})`;
+    banner = next
+      ? `${current.label} vigente: esta condição ${when}. Próxima virada: ${next.label} · ${next.price} a partir de ${ddmm(next.start)}.`
+      : `${current.label} vigente: esta condição ${when}. Depois dela, segue apenas a experiência VIP, até ${ddmm(VIP_END)}.`;
+  } else if (!closed) {
+    banner = `Experiência VIP disponível: ${endsIn(today, VIP_END)} (${ddmm(VIP_END)}). Depois desta data, as inscrições desta edição se encerram.`;
+  }
+  return { states, current, vip, closed, seals, banner };
+}
 
 export function initLots() {
   const root = document.querySelector("#investimento");
   if (!root) return;
   const today = todayInSaoPaulo();
-  const closed = today >= "2026-10-27";
+  const { states, current, vip, closed, seals, banner } = lotCopy(today);
   root.querySelectorAll("[data-lots-open]").forEach((node) => {
     node.hidden = closed;
   });
@@ -60,25 +98,9 @@ export function initLots() {
   if (closedBox) closedBox.hidden = !closed;
   if (closed) return;
 
-  const states = EXECUTIVE.map((lot) => ({ id: lot.id, phase: executivePhase(today, lot.start, lot.end) }));
-  const current = states.find((lot) => lot.phase !== "upcoming" && lot.phase !== "closed");
-  const vip = vipPhase(today);
   const vipCurrent = !current && vip !== "closed";
-
-  const banner = root.querySelector("[data-lot-banner-copy]");
-  if (banner) {
-    if (vipCurrent) {
-      banner.textContent = vip === "vipLastDay"
-        ? "A experiência VIP encerra hoje."
-        : "Últimos dias para garantir a experiência VIP.";
-    } else if (current && (current.phase === "lastDay")) {
-      banner.textContent = "Esta condição encerra hoje. Depois desta data, a próxima condição comercial será aplicada.";
-    } else if (current && current.phase === "lastDays") {
-      banner.textContent = "Últimos dias desta condição. Garanta sua participação antes da próxima virada.";
-    } else {
-      banner.textContent = "O lote vigente está chegando ao fim. Garanta sua participação antes da próxima virada de condição.";
-    }
-  }
+  const bannerCopy = root.querySelector("[data-lot-banner-copy]");
+  if (bannerCopy) bannerCopy.textContent = banner;
 
   root.querySelectorAll("[data-lot]").forEach((card) => {
     const id = card.getAttribute("data-lot");
@@ -90,7 +112,7 @@ export function initLots() {
     card.classList.toggle("is-closed", phase === "closed");
     card.classList.toggle("is-upcoming", phase === "upcoming");
     const seal = card.querySelector("[data-seal]");
-    if (seal) seal.textContent = SEAL[phase] || "";
+    if (seal) seal.textContent = seals[id] || "";
     const cta = card.querySelector("[data-lot-cta]");
     if (cta) cta.hidden = !canBuy;
     card.querySelectorAll("[data-only-current]").forEach((node) => {
@@ -98,7 +120,5 @@ export function initLots() {
     });
     const after = card.querySelector("[data-lot-after]");
     if (after) after.hidden = !isCurrent;
-    const urgent = card.querySelector("[data-vip-urgent]");
-    if (urgent) urgent.hidden = phase !== "vipLastDays" && phase !== "vipLastDay";
   });
 }

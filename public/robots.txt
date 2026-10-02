@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /participante
+Disallow: /api/
+Disallow: /checkout
+Disallow: /reuniao
+
+Sitemap: https://missaoparaguai.com/sitemap.xml
