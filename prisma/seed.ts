@@ -210,6 +210,16 @@ async function main() {
       create: type,
     });
   }
+
+  // Evidence that the pre-deploy step ran for a given deployment (Railway does not surface its logs).
+  await prisma.auditLog.create({
+    data: {
+      action: "PREDEPLOY_SEED",
+      resource: "Deployment",
+      resourceId: process.env.RAILWAY_DEPLOYMENT_ID || "local",
+      metadata: JSON.stringify({ commit: process.env.RAILWAY_GIT_COMMIT_SHA || null }),
+    },
+  });
 }
 
 main()
