@@ -298,7 +298,7 @@
   line-height: 0.98;
   text-transform: uppercase;
   letter-spacing: -0.04em;
-  max-width: 14ch;
+  max-width: 18ch;
 }
 .xp-impact em {
   color: var(--color-red);

@@ -74,7 +74,7 @@ function phaseForCurrent(id: LotId, daysLeft: number): LotPhase {
   if (daysLeft <= 0) return "today";
   if (id === "vip") return "last";
   if (daysLeft <= 2) return "last";
-  if (daysLeft <= 6) return "burning";
+  if (daysLeft <= 7) return "burning";
   return "special";
 }
 

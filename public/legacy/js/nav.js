@@ -21,18 +21,26 @@ export function initNav() {
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  toggle?.addEventListener("click", () => {
-    const open = !drawer.classList.contains("is-open");
+  const setDrawer = (open) => {
     drawer.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
     document.body.style.overflow = open ? "hidden" : "";
-  });
+    if (open) drawer.querySelector("a")?.focus();
+  };
+  toggle?.addEventListener("click", () => setDrawer(!drawer.classList.contains("is-open")));
   drawer?.querySelectorAll("a").forEach((a) => {
-    a.addEventListener("click", () => {
-      drawer.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
-    });
+    a.addEventListener("click", () => setDrawer(false));
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && drawer?.classList.contains("is-open")) {
+      setDrawer(false);
+      toggle.focus();
+    }
+  });
+  // The drawer only exists below the desktop nav breakpoint; never leave it open (and the page locked) after a resize.
+  window.matchMedia("(min-width: 1101px)").addEventListener("change", (event) => {
+    if (event.matches) setDrawer(false);
   });
 
   const sticky = document.querySelector(".sticky-cta");

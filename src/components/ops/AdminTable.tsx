@@ -30,24 +30,26 @@ export function AdminTable({
       {error && <p className="text-red">{error}</p>}
       {!error && rows.length === 0 && <p className="text-gray">Nenhum registro.</p>}
       {rows.length > 0 && (
-        <table className="w-full text-left text-sm">
-          <thead className="text-gray">
-            <tr>
-              {columns.map((c) => (
-                <th key={c.key} className="py-2">{c.label}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, i) => (
-              <tr key={String(row.id || i)} className="border-t border-white/10">
+        <div className="-mx-5 overflow-x-auto px-5">
+          <table className="w-full min-w-[640px] text-left text-sm">
+            <thead className="text-gray">
+              <tr>
                 {columns.map((c) => (
-                  <td key={c.key} className="py-3">{String(row[c.key] ?? "—")}</td>
+                  <th key={c.key} className="whitespace-nowrap py-2 pr-4">{c.label}</th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rows.map((row, i) => (
+                <tr key={String(row.id || i)} className="border-t border-white/10">
+                  {columns.map((c) => (
+                    <td key={c.key} className="py-3 pr-4">{String(row[c.key] ?? "—")}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </AdminShell>
   );

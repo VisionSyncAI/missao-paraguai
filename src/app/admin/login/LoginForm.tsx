@@ -25,10 +25,16 @@ export function LoginForm() {
   }
   return (
     <form onSubmit={onSubmit} className="grid gap-4">
-      <input name="email" type="email" required placeholder="E-mail" className="rounded-lg border border-white/15 bg-black p-3" />
-      <input name="password" type="password" required placeholder="Senha" className="rounded-lg border border-white/15 bg-black p-3" />
-      {error && <p className="text-red">{error}</p>}
-      <button className="rounded-xl bg-red px-5 py-3 text-xs font-bold tracking-[0.14em] uppercase">Entrar</button>
+      <label className="grid gap-2 text-sm text-gray">
+        E-mail
+        <input name="email" type="email" required autoComplete="username" inputMode="email" className="rounded-lg border border-white/15 bg-black p-3 text-base text-white" />
+      </label>
+      <label className="grid gap-2 text-sm text-gray">
+        Senha
+        <input name="password" type="password" required autoComplete="current-password" className="rounded-lg border border-white/15 bg-black p-3 text-base text-white" />
+      </label>
+      {error && <p className="text-red" role="alert">{error}</p>}
+      <button className="min-h-12 rounded-xl bg-red px-5 py-3 text-xs font-bold tracking-[0.14em] uppercase">Entrar</button>
     </form>
   );
 }

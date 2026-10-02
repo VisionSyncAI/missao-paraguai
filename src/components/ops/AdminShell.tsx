@@ -21,9 +21,9 @@ export function AdminShell({ title, children }: { title: string; children: React
             <p className="text-[11px] tracking-[0.2em] uppercase text-red">Operação</p>
             <h1 className="mt-2 text-4xl">{title}</h1>
           </div>
-          <nav className="flex flex-wrap gap-3 text-xs uppercase tracking-widest text-gray">
+          <nav aria-label="Operação" className="flex flex-wrap gap-x-4 text-xs uppercase tracking-widest text-gray">
             {LINKS.map(([href, label]) => (
-              <Link key={href} href={href} className="hover:text-white">
+              <Link key={href} href={href} className="inline-flex min-h-11 items-center hover:text-white">
                 {label}
               </Link>
             ))}

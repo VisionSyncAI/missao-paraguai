@@ -15,9 +15,9 @@ export function ParticipantShell({ title, children }: { title: string; children:
       <div className="mx-auto max-w-3xl">
         <p className="text-[11px] tracking-[0.2em] uppercase text-red">Área do participante</p>
         <h1 className="mt-2 text-4xl">{title}</h1>
-        <nav className="mt-6 flex flex-wrap gap-3 text-xs uppercase tracking-widest text-gray">
+        <nav aria-label="Área do participante" className="mt-6 flex flex-wrap gap-x-4 text-xs uppercase tracking-widest text-gray">
           {LINKS.map(([href, label]) => (
-            <Link key={href} href={href} className="hover:text-white">
+            <Link key={href} href={href} className="inline-flex min-h-11 items-center hover:text-white">
               {label}
             </Link>
           ))}

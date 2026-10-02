@@ -197,13 +197,13 @@ export function InterestExperience() {
           Uma experiência executiva de 5 dias para empresários que querem conhecer o mercado paraguaio, gerar conexões e identificar oportunidades de negócios.
         </p>
         <button
-          className="mt-10 w-fit rounded-full bg-red px-8 py-4 text-xs font-bold uppercase tracking-[0.16em]"
+          className="mt-10 min-h-12 w-full rounded-full bg-red px-6 py-4 text-xs font-bold uppercase tracking-[0.12em] sm:w-fit sm:px-8 sm:tracking-[0.16em]"
           onClick={() => {
             trackFunnel("INTEREST_STARTED", { utm, cta: "COMECAR_PRE_INSCRICAO" });
             setPhase("form");
           }}
         >
-          Começar minha pré-inscrição →
+          Começar minha pré-inscrição&nbsp;→
         </button>
       </section>
     );
@@ -311,6 +311,7 @@ export function InterestExperience() {
             Nome completo
             <input
               autoFocus
+              autoComplete="name"
               aria-describedby="interest-error"
               className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-xl outline-none md:text-2xl"
               value={draft.fullName}
@@ -335,6 +336,7 @@ export function InterestExperience() {
               E-mail
               <input
                 className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-xl outline-none md:text-2xl"
+                type="email"
                 inputMode="email"
                 value={draft.email}
                 onChange={(e) => setDraft({ ...draft, email: e.target.value })}
@@ -507,10 +509,10 @@ export function InterestExperience() {
           </div>
         )}
         {step === "consent" && (
-          <label className="flex items-start gap-3 text-sm text-gray">
+          <label className="flex min-h-11 cursor-pointer items-start gap-3 text-sm text-gray">
             <input
               type="checkbox"
-              className="mt-1"
+              className="mt-0.5 h-5 w-5 shrink-0 accent-[#ff454a]"
               checked={draft.consent}
               onChange={(e) => setDraft({ ...draft, consent: e.target.checked })}
             />

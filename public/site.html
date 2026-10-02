@@ -17,9 +17,9 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2200&q=70" />
+  <link rel="preload" as="image" imagesrcset="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=70 800w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1400&q=70 1400w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2400&q=70 2400w" imagesizes="100vw" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/legacy/main.css?v=10" />
+  <link rel="stylesheet" href="/legacy/main.css?v=12" />
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -51,7 +51,7 @@
     <div class="nav-inner">
       <a class="brand-lockup" href="#topo" aria-label="Imersão Paraguai — Vision Cybero AI e Proceit">
         <span class="brand-card is-mark">
-          <img src="/logos/vision-cybero.png" alt="Vision Cybero AI" />
+          <img src="/logos/vision-cybero-sm.png" alt="Vision Cybero AI" />
           <span>
             <b>Vision Cybero AI</b>
             <small>Technology for a smarter tomorrow</small>
@@ -59,7 +59,7 @@
         </span>
         <span class="brand-split" aria-hidden="true"></span>
         <span class="brand-card is-wordmark">
-          <img src="/logos/proceit.png" alt="PROCEIT — Soluciones inteligentes" />
+          <img src="/logos/proceit-sm.png" alt="PROCEIT — Soluciones inteligentes" />
         </span>
       </a>
       <nav class="nav-links" aria-label="Seções">
@@ -87,7 +87,7 @@
   <main id="conteudo">
     <section class="hero" id="topo">
       <div class="hero-media">
-        <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2400&q=70" alt="Vista noturna de cidade e rio, com pontes e skyline" width="2400" height="1350" />
+        <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2400&q=70" srcset="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=70 800w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1400&q=70 1400w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2400&q=70 2400w" sizes="100vw" fetchpriority="high" alt="Vista noturna de cidade e rio, com pontes e skyline" width="2400" height="1350" />
         <div class="hero-shade"></div>
       </div>
       <div class="hero-inner">
@@ -139,9 +139,9 @@
           <a class="hero-scroll" href="#negocios">Scroll para explorar <i>↓</i></a>
           <p class="hero-by">
             Realização
-            <img class="logo-vision" src="/logos/vision-cybero.png" alt="Vision Cybero AI" />
+            <img class="logo-vision" src="/logos/vision-cybero-sm.png" alt="Vision Cybero AI" />
             <span class="pipe">|</span>
-            <img class="logo-proceit" src="/logos/proceit.png" alt="PROCEIT" />
+            <img class="logo-proceit" src="/logos/proceit-sm.png" alt="PROCEIT" />
           </p>
         </div>
       </div>
@@ -175,7 +175,7 @@
               </div>
             </article>
             <article class="xp-card is-right">
-              <img src="/mission/xp-02-conexoes.jpg" alt="Magno Oliveira em encontro institucional no Paraguai" />
+              <img src="/mission/xp-02-conexoes.jpg" alt="Magno Oliveira em encontro institucional no Paraguai" loading="lazy" decoding="async" />
               <div class="xp-card-copy">
                 <p class="xp-cat"><b>02</b> · Conexões institucionais</p>
                 <p class="xp-loc">Paraguai</p>
@@ -184,7 +184,7 @@
               </div>
             </article>
             <article class="xp-card is-group">
-              <img src="/mission/xp-03-delegacao.png" alt="Delegação em agenda empresarial no Paraguai" />
+              <img src="/mission/xp-03-delegacao.jpg" alt="Delegação em agenda empresarial no Paraguai" loading="lazy" decoding="async" />
               <div class="xp-card-copy">
                 <p class="xp-cat"><b>03</b> · Missão empresarial</p>
                 <p class="xp-loc">Paraguai</p>
@@ -193,7 +193,7 @@
               </div>
             </article>
             <article class="xp-card">
-              <img src="/mission/xp-04-relacao.jpg" alt="Reunião institucional em ambiente empresarial no Paraguai" />
+              <img src="/mission/xp-04-relacao.jpg" alt="Reunião institucional em ambiente empresarial no Paraguai" loading="lazy" decoding="async" />
               <div class="xp-card-copy">
                 <p class="xp-cat"><b>04</b> · Relacionamento</p>
                 <p class="xp-loc">Paraguai</p>
@@ -202,7 +202,7 @@
               </div>
             </article>
             <article class="xp-card">
-              <img src="/mission/xp-05-tech.jpg" alt="Profissionais em ambiente técnico e empresarial no Paraguai" />
+              <img src="/mission/xp-05-tech.jpg" alt="Profissionais em ambiente técnico e empresarial no Paraguai" loading="lazy" decoding="async" />
               <div class="xp-card-copy">
                 <p class="xp-cat"><b>05</b> · Tecnologia & negócios</p>
                 <p class="xp-loc">Paraguai</p>
@@ -211,7 +211,7 @@
               </div>
             </article>
             <article class="xp-card">
-              <img src="/mission/xp-06-institucional.png" alt="Agenda institucional da missão Brasil–Paraguai" />
+              <img src="/mission/xp-06-institucional.png" alt="Agenda institucional da missão Brasil–Paraguai" loading="lazy" decoding="async" />
               <div class="xp-card-copy">
                 <p class="xp-cat"><b>06</b> · Agenda de alto nível</p>
                 <p class="xp-loc">Paraguai</p>
@@ -244,7 +244,7 @@
           <div>
             <div class="xp-curators">
               <article class="xp-curator">
-                <img src="/curators/magno-oliveira.png" alt="Magno Oliveira, curador da Imersão Paraguai" width="336" height="336" />
+                <img src="/curators/magno-oliveira.jpg" alt="Magno Oliveira, curador da Imersão Paraguai" width="336" height="336" />
                 <strong>Magno Oliveira</strong>
                 <span>Curador · CEO, PROCEIT</span>
               </article>
@@ -256,14 +256,14 @@
             </div>
             <div class="xp-partners">
               <div class="xp-partner">
-                <img src="/logos/vision-cybero.png" alt="Vision Cybero AI" />
+                <img src="/logos/vision-cybero-sm.png" alt="Vision Cybero AI" />
                 <p>Vision Cybero AI</p>
                 <strong>Tachieli Lopes</strong>
                 <span>CTO</span>
               </div>
               <span class="xp-times" aria-hidden="true">×</span>
               <div class="xp-partner">
-                <img src="/logos/proceit.png" alt="PROCEIT" />
+                <img src="/logos/proceit-sm.png" alt="PROCEIT" />
                 <strong>Magno Oliveira</strong>
                 <span>CEO</span>
               </div>
@@ -299,12 +299,12 @@
         </div>
         <div class="why-layout">
           <div class="why-visual">
-            <img class="is-on" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=70" alt="Skyline corporativo" />
-            <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=70" alt="Reunião de negócios" />
-            <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1400&q=70" alt="Logística" />
-            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1400&q=70" alt="Indústria" />
-            <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1400&q=70" alt="Energia e infraestrutura" />
-            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=70" alt="Conexões empresariais" />
+            <img class="is-on" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=70" alt="Skyline corporativo" loading="lazy" decoding="async" />
+            <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=70" alt="Reunião de negócios" loading="lazy" decoding="async" />
+            <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1400&q=70" alt="Logística" loading="lazy" decoding="async" />
+            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1400&q=70" alt="Indústria" loading="lazy" decoding="async" />
+            <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1400&q=70" alt="Energia e infraestrutura" loading="lazy" decoding="async" />
+            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=70" alt="Conexões empresariais" loading="lazy" decoding="async" />
           </div>
           <div class="why-list">
             <button class="why-item is-on" type="button">
@@ -440,7 +440,7 @@
     </section>
 
     <section class="manifesto">
-      <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=2000&q=70" alt="Vista urbana noturna" />
+      <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=2000&q=70" srcset="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=70 800w, https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1400&q=70 1400w, https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=2000&q=70 2000w" sizes="100vw" alt="Vista urbana noturna" loading="lazy" decoding="async" />
       <div class="overlay"></div>
       <div class="manifesto-copy">
         <p class="eyebrow">Veja antes de decidir</p>
@@ -592,6 +592,70 @@
         <p id="map-note">Principal destino das exportações paraguaias. Base natural para empresas brasileiras que pensam em uma segunda operação.</p>
         <p class="note">Brasil e Argentina continuam entre os principais destinos, mas a diversificação internacional está avançando. Fontes: BCP e MIC, 2025–2026.</p>
       </div>
+    </section>
+
+    <section class="news wrap" id="noticias">
+      <p class="eyebrow">Notícias em destaque</p>
+      <h2>De vender energia a transformá-la aqui.</h2>
+      <article class="news-feature">
+        <div>
+          <p class="news-kicker">ABC Color · Negócios</p>
+          <p class="lede">A Araico descreveu à ABC a intenção de usar a energia dentro do território para alimentar infraestrutura tecnológica de grande escala. A leitura publicada é que o valor de cada megawatt pode se multiplicar quando deixa de sair apenas como matéria-prima.</p>
+          <blockquote class="news-quote">
+            “O Paraguai tem o que o mundo inteiro está buscando: energia limpa, abundante e confiável. Até hoje a vendíamos como matéria-prima; a partir de agora vamos transformá-la aqui.”
+            <cite>Araico, à ABC</cite>
+          </blockquote>
+          <p class="news-source"><a class="btn btn-ghost" href="https://www.abc.com.py/negocios/2026/09/29/us-12000-millones-la-mayor-inversion-privada-de-la-historia-del-paraguay-ya-estaria-en-marcha/" target="_blank" rel="noopener noreferrer">Ler na ABC <span class="arrow">↗</span></a></p>
+        </div>
+        <div class="news-points">
+          <article>
+            <h3>Três etapas. A primeira, em dezembro.</h3>
+            <p>Alejandro Zuccolillo, um dos fundadores, disse à ABC Negócios que o projeto já começou. A primeira etapa estaria ativa em dezembro de 2026. A segunda teria um horizonte de cerca de um ano.</p>
+          </article>
+          <article>
+            <h3>Quem fornece a energia</h3>
+            <p>Na primeira etapa, o contrato seria com a ANDE. Com o avanço da Iguazú AI City, o desenho também contempla geradores privados.</p>
+          </article>
+          <article>
+            <h3>Um cliente âncora</h3>
+            <p>A Araico apresenta o campus como potencial cliente âncora do sistema elétrico. “Nenhum investidor constrói uma usina sem saber quem vai comprar a energia. Até hoje, o Paraguai não tinha esse cliente. A Iguazú AI City é esse cliente”, disseram os porta-vozes à ABC.</p>
+          </article>
+          <article>
+            <h3>Mais do que servidores</h3>
+            <p>A escala pede construção, engenharia, eletricidade, refrigeração, fibra óptica, telecomunicações, manutenção, logística e segurança. Com o tempo, a Araico espera atrair empresas de tecnologia, startups, universidades e centros de pesquisa.</p>
+          </article>
+          <article>
+            <h3>Quem está por trás</h3>
+            <p>A Araico Corporation foi criada por Alejandro Zuccolillo e Nicolás Arréllaga. A ABC cita, entre os atores vinculados, o Founders Fund e o BID Invest, além de empresários e investidores da região.</p>
+          </article>
+          <article>
+            <h3>Uma vez por geração</h3>
+            <p>“Durante anos ouvimos que projetos dessa magnitude só eram possíveis nos Estados Unidos, na Europa ou na Ásia. Nós acreditamos no contrário”, disseram os fundadores à ABC.</p>
+          </article>
+        </div>
+      </article>
+      <article class="news-feature">
+        <div>
+          <p class="news-kicker">H2FOZ · Paraguai · 29/09/2026</p>
+          <h3 class="news-title">Paraguai tem o terceiro menor custo de vida da América Latina.</h3>
+          <p class="lede">Levantamento da consultoria Wise coloca o Paraguai atrás apenas da Venezuela e da Bolívia entre os países menos caros da região. A conta considera custos mensais médios com moradia, alimentação, transporte, saúde, educação e lazer.</p>
+          <p class="news-source"><a class="btn btn-ghost" href="https://www.h2foz.com.br/paraguai/custo-de-vida-america-latina-paraguai/" target="_blank" rel="noopener noreferrer">Ler no H2FOZ <span class="arrow">↗</span></a></p>
+        </div>
+        <div class="news-points">
+          <article>
+            <h3>US$ 935 por mês</h3>
+            <p>É o custo médio mensal de vida no Paraguai segundo a Wise. Venezuela (US$ 802) e Bolívia (US$ 883) aparecem à frente.</p>
+          </article>
+          <article>
+            <h3>Abaixo do Brasil</h3>
+            <p>O Brasil fica em quinto, com US$ 977, depois do Equador (US$ 958).</p>
+          </article>
+          <article>
+            <h3>Menos da metade do Panamá</h3>
+            <p>Na outra ponta estão Panamá (US$ 2.180), Costa Rica (US$ 2.097), Uruguai (US$ 1.589) e Argentina (US$ 1.310).</p>
+          </article>
+        </div>
+      </article>
     </section>
 
     <section class="visit">
@@ -911,7 +975,7 @@
     </section>
 
     <section class="finale">
-      <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2000&q=70" alt="Skyline ao entardecer" />
+      <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2000&q=70" srcset="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=70 800w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1400&q=70 1400w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2000&q=70 2000w" sizes="100vw" alt="Skyline ao entardecer" loading="lazy" decoding="async" />
       <div class="overlay"></div>
       <div class="finale-copy">
         <p class="eyebrow">Paraguai · Novembro 2026</p>
@@ -928,10 +992,11 @@
         <strong>Imersão Paraguai</strong>
         Realização Vision Cybero AI · Proceit
       </div>
-      <nav>
+      <nav aria-label="Rodapé">
         <a href="#negocios">Negócios</a>
         <a href="#conhecimento">Programa</a>
         <a href="#edicoes">Edições</a>
+        <a href="#noticias">Notícias</a>
         <a href="#investimento">Investimento</a>
         <a href="#faq">FAQ</a>
         <a href="#contato">Contato</a>

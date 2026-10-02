@@ -63,6 +63,7 @@
   }
   .hero-kicker { letter-spacing: 0.32em; font-size: 0.78rem; }
   .hero-title { font-size: clamp(3.2rem, 16vw, 4.6rem); line-height: 0.88; }
+  .hero-title .fill { background-image: url("https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=900&q=70"); }
   .hero-claim { font-size: 1.05rem; letter-spacing: 0.06em; }
   .hero-year { font-size: 1.15rem; }
   .hero-micro { font-size: 0.95rem; line-height: 1.5; max-width: 36rem; }
@@ -103,6 +104,7 @@
   .route h2,
   .returns h2,
   .voices h2,
+  .news h2,
   .faq h2,
   .finale h2,
   .xp-head h2,
@@ -129,7 +131,7 @@
   .compare tbody { display: block; }
   .compare tr {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) 72px 96px;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.9fr) minmax(52px, 0.55fr);
     align-items: center;
   }
   .compare th,
@@ -162,6 +164,44 @@
   }
   .sticky-cta .btn { min-height: 48px; }
   .foot { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  .foot nav { gap: 0 20px; }
+  .foot nav a { min-height: 44px; display: inline-flex; align-items: center; }
+
+  .return-row {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    gap: 8px 16px;
+    padding: 22px 0;
+  }
+  .return-row p { grid-column: 1 / -1; margin: 0; }
+
+  /* Tracked uppercase labels stay legible on phones: 12px floor. */
+  .eyebrow,
+  .btn,
+  .news-kicker,
+  .lot-kicker,
+  .lot-seal,
+  .editions-kicker,
+  .placeholder-mark,
+  .xp-cat,
+  .xp-loc,
+  .hero-scroll,
+  .hero-by,
+  .hero-pillars p,
+  .masonry figcaption,
+  .compare th { font-size: 0.75rem; }
+}
+
+/* Phones held sideways: keep the hero close to one screen. */
+@media (max-width: 980px) and (orientation: landscape) and (max-height: 600px) {
+  .hero-map { max-width: 160px; }
+  .hero-quote { font-size: 0.95rem; }
+}
+
+/* Tablet landscape (iPad 1024): hamburger nav, desktop hero, pillars in two rows. */
+@media (min-width: 981px) and (max-width: 1100px) {
+  .hero-pillars { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 14px; }
+  .hero-pillars article:nth-child(3n) { border-right: 0; }
 }
 
 @media (max-width: 430px) {

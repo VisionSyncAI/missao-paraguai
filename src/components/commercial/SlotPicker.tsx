@@ -59,7 +59,7 @@ export function SlotPicker({
               <button
                 key={slot.start}
                 type="button"
-                className={`rounded-lg border px-3 py-2 text-sm ${selected === slot.start ? "border-red bg-red" : "border-white/15"}`}
+                className={`min-h-11 rounded-lg border px-4 py-2 text-sm ${selected === slot.start ? "border-red bg-red" : "border-white/15"}`}
                 onClick={() => onSelect(slot)}
               >
                 {timeLabel(slot.start)}

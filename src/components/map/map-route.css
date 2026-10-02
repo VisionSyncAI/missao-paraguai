@@ -165,8 +165,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-height: 44px;
   padding: 10px 14px;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
