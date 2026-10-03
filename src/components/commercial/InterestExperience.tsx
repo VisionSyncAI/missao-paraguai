@@ -10,21 +10,63 @@ import { WHATSAPP_URL } from "@/data/site";
 import {
   BUSINESS_SEGMENTS,
   COMPANY_SIZE_BANDS,
+  DIAG_CONVERSATIONS,
+  DIAG_OBJECTIVES,
+  DIAG_PROFILES,
+  DIAG_PY_STAGES,
+  DIAG_SEGMENTS,
   JOB_TITLE_OPTIONS,
   LOT_CODES,
+  MARKET_STAGES,
+  MARKET_STAGE_COPY,
   PARAGUAY_INTERESTS,
+  parseMarketStage,
   PARAGUAY_RELATIONSHIPS,
   PARTICIPATION_INTENTS,
+  UNDERSTAND_TOPICS,
 } from "@/modules/leads/status";
 import {
   INTEREST_STEPS,
+  type DiagnosisAnswers,
   type InterestDraft,
+  diagnosisLabel,
+  draftFromDiagnosis,
   emptyDraft,
   parseUtm,
   validateStep,
 } from "@/modules/interest/flow";
 
 type Phase = "intro" | "form" | "verify" | "schedule" | "done";
+
+/** ?origem=… on the CTA → Lead.source, so the CRM knows which part of the site the lead came from. */
+function sourceFromOrigin(origin: string | null) {
+  if (origin === "proposta") return "interesse-proposta";
+  if (origin === "mercado") return "interesse-mercado";
+  if (origin === "diagnostico") return "interesse-diagnostico";
+  if (origin === "decisao") return "interesse-decisao";
+  return "interesse";
+}
+
+/** The home page keeps the diagnosis and the Decision Box answer in localStorage until the form is sent. */
+function readStored(): { diagnosis: DiagnosisAnswers | null; decision: string } {
+  try {
+    const raw = JSON.parse(window.localStorage.getItem("provision.diagnosis") || "null");
+    const valid =
+      raw &&
+      (DIAG_SEGMENTS as readonly string[]).includes(raw.segment) &&
+      (DIAG_OBJECTIVES as readonly string[]).includes(raw.objective) &&
+      (DIAG_PY_STAGES as readonly string[]).includes(raw.pyStage) &&
+      (DIAG_CONVERSATIONS as readonly string[]).includes(raw.conversation) &&
+      (DIAG_PROFILES as readonly string[]).includes(raw.profile);
+    const decision = String(window.localStorage.getItem("provision.decision") || "").slice(0, 1200);
+    return { diagnosis: valid ? (raw as DiagnosisAnswers) : null, decision };
+  } catch {
+    return { diagnosis: null, decision: "" };
+  }
+}
+
+const TRUST_COPY =
+  "Não é necessário ter uma decisão tomada. A primeira conversa serve para entender o momento da sua empresa e avaliar se a PROVISION faz sentido para você.";
 
 const LOT_LABELS: Record<(typeof LOT_CODES)[number], string> = {
   "01": "Lote 01 · R$ 19.997",
@@ -38,13 +80,13 @@ const TITLES: Record<(typeof INTEREST_STEPS)[number], string> = {
   contact: "Como podemos falar com você?",
   company: "Qual é a sua empresa?",
   segment: "Em qual segmento sua empresa atua?",
+  stage: "Em qual momento sua empresa está?",
   role: "Qual é o seu cargo atual?",
   companySize: "Qual é o porte aproximado da sua empresa?",
   interests: "O que você busca no Paraguai?",
   objective: "O que você espera encontrar nessa imersão?",
   relationship: "Você já possui alguma operação ou relacionamento com o Paraguai?",
   intent: "Qual é o seu nível de interesse em participar?",
-  delegation: "Pretende levar outros participantes?",
   companion: "Deseja participar acompanhado?",
   consent: "Podemos seguir com o contato?",
 };
@@ -53,6 +95,10 @@ export function InterestExperience() {
   const [phase, setPhase] = useState<Phase>("intro");
   const [stepIndex, setStepIndex] = useState(0);
   const [draft, setDraft] = useState<InterestDraft>(emptyDraft);
+  // Came from "E a sua empresa?" on the site: the stage is pre-selected and the interests step asks what they want to understand.
+  const [stageFromLink, setStageFromLink] = useState(false);
+  const [diagnosis, setDiagnosis] = useState<DiagnosisAnswers | null>(null);
+  const [decisionBox, setDecisionBox] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [token, setToken] = useState("");
@@ -76,6 +122,21 @@ export function InterestExperience() {
     const params = new URLSearchParams(window.location.search);
     const lot = params.get("lote");
     if (lot && (LOT_CODES as readonly string[]).includes(lot)) setDraft((current) => ({ ...current, lot }));
+    const stored = readStored();
+    if (stored.diagnosis) {
+      const prefill = draftFromDiagnosis(stored.diagnosis);
+      setDiagnosis(stored.diagnosis);
+      setDraft((current) => ({ ...current, ...prefill }));
+    }
+    if (stored.decision) {
+      setDecisionBox(stored.decision);
+      setDraft((current) => (current.objective ? current : { ...current, objective: stored.decision }));
+    }
+    const stage = parseMarketStage(params.get("estagio"));
+    if (stage) {
+      setDraft((current) => ({ ...current, stage }));
+      setStageFromLink(true);
+    }
     if (params.get("link") === "invalido") {
       setError("Este link de confirmação expirou ou é inválido. Envie a pré-inscrição novamente para receber um novo link.");
     }
@@ -159,6 +220,9 @@ export function InterestExperience() {
         companyName: draft.companyName,
         segment: draft.segment,
         lot: draft.lot || undefined,
+        stage: draft.stage || undefined,
+        diagnosis: diagnosis ?? undefined,
+        decisionBox: decisionBox || undefined,
         jobTitle: draft.jobTitle,
         jobTitleOther: draft.jobTitleOther,
         companySize: draft.companySize,
@@ -169,7 +233,7 @@ export function InterestExperience() {
         delegationSize: draft.delegationSize ?? undefined,
         companionRequested: draft.companionRequested === true,
         consent: draft.consent,
-        source: new URLSearchParams(window.location.search).get("origem") === "proposta" ? "interesse-proposta" : "interesse",
+        source: sourceFromOrigin(new URLSearchParams(window.location.search).get("origem")),
         utm,
       }),
     });
@@ -185,6 +249,11 @@ export function InterestExperience() {
       return;
     }
     if (typeof json.token === "string" && json.token) setToken(json.token);
+    try {
+      window.localStorage.removeItem("provision.decision");
+    } catch {
+      // storage unavailable: nothing to clean
+    }
     trackFunnel("INTEREST_SUBMITTED", { utm });
     trackFunnel("CAL_OPENED", { utm });
     setPhase("schedule");
@@ -232,6 +301,19 @@ export function InterestExperience() {
         <p className="mt-6 max-w-xl text-lg text-gray">
           São poucas perguntas sobre sua empresa e o que você busca no Paraguai. Com base no seu perfil, a equipe PROVISION orienta sua participação e prepara a conversa com você.
         </p>
+        {stageFromLink && draft.stage && (
+          <p className="mt-6 w-fit rounded-lg border border-red/60 px-4 py-3 text-xs uppercase tracking-[0.14em] text-white">
+            <span className="block text-[10px] tracking-[0.2em] text-gray">Você selecionou:</span>
+            <span className="mt-1 block font-bold">{MARKET_STAGE_COPY[draft.stage as (typeof MARKET_STAGES)[number]].selected}</span>
+          </p>
+        )}
+        {diagnosis && (
+          <p className="mt-6 w-fit rounded-lg border border-white/20 px-4 py-3 text-xs uppercase tracking-[0.14em] text-white">
+            <span className="block text-[10px] tracking-[0.2em] text-gray">Seu perfil PROVISION</span>
+            <span className="mt-1 block font-bold">{diagnosisLabel(diagnosis)}</span>
+          </p>
+        )}
+        {(stageFromLink || diagnosis || decisionBox) && <p className="mt-4 max-w-xl text-sm text-gray">{TRUST_COPY}</p>}
         {draft.lot && (
           <p className="mt-6 w-fit rounded-lg border border-white/15 px-4 py-2 text-xs uppercase tracking-[0.14em] text-white">
             Condição de interesse: {LOT_LABELS[draft.lot as (typeof LOT_CODES)[number]]}
@@ -365,7 +447,9 @@ export function InterestExperience() {
       <div className="mt-3 h-px w-full bg-white/10">
         <div className="h-px bg-red" style={{ width: `${((stepIndex + 1) / INTEREST_STEPS.length) * 100}%` }} />
       </div>
-      <h1 className="mt-10 font-display text-4xl leading-tight md:text-6xl">{TITLES[step]}</h1>
+      <h1 className="mt-10 font-display text-4xl leading-tight md:text-6xl">
+        {step === "interests" && stageFromLink ? "O que você busca entender no Paraguai?" : TITLES[step]}
+      </h1>
       <div className="mt-10 max-w-xl">
         {step === "name" && (
           <label className="block text-sm text-gray">
@@ -436,6 +520,25 @@ export function InterestExperience() {
             ))}
           </div>
         )}
+        {step === "stage" && (
+          <div className="grid gap-2">
+            {MARKET_STAGES.map((option) => (
+              <button
+                key={option}
+                aria-pressed={draft.stage === option}
+                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.stage === option ? "border-red" : "border-white/15"}`}
+                onClick={() => {
+                  setDraft({ ...draft, stage: option });
+                  trackFunnel("QUESTION_COMPLETED", { step: "stage", utm });
+                  setStepIndex((i) => i + 1);
+                }}
+              >
+                <span className="block text-sm font-bold uppercase tracking-[0.12em]">{MARKET_STAGE_COPY[option].label}</span>
+                <span className="mt-1 block text-sm text-gray">{MARKET_STAGE_COPY[option].detail}</span>
+              </button>
+            ))}
+          </div>
+        )}
         {step === "role" && (
           <div className="grid gap-2">
             {JOB_TITLE_OPTIONS.map((option) => (
@@ -486,7 +589,7 @@ export function InterestExperience() {
         {step === "interests" && (
           <div className="grid gap-2 sm:grid-cols-2">
             <p className="text-sm text-gray sm:col-span-2">Marque todas as opções que se aplicam.</p>
-            {PARAGUAY_INTERESTS.map((option) => {
+            {((stageFromLink ? UNDERSTAND_TOPICS : PARAGUAY_INTERESTS) as readonly string[]).map((option) => {
               const on = draft.interests.includes(option);
               return (
                 <button
@@ -551,36 +654,6 @@ export function InterestExperience() {
             ))}
           </div>
         )}
-        {step === "delegation" && (
-          <div className="grid gap-3">
-            <p className="text-sm text-gray">Sua empresa pode participar com uma delegação de até 5 pessoas.</p>
-            <div className="grid grid-cols-5 gap-2">
-              {[1, 2, 3, 4, 5].map((size) => (
-                <button
-                  key={size}
-                  className={`min-h-12 rounded-xl border px-2 py-3 ${draft.delegationSize === size && !draft.oversizedGroup ? "border-red" : "border-white/15"}`}
-                  onClick={() => setDraft({ ...draft, delegationSize: size, oversizedGroup: false })}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-            <button
-              className={`min-h-12 rounded-xl border px-4 py-3 text-left text-sm ${draft.oversizedGroup ? "border-red" : "border-white/15"}`}
-              onClick={() => setDraft({ ...draft, oversizedGroup: true, delegationSize: null })}
-            >
-              Preciso de um grupo maior
-            </button>
-            {draft.oversizedGroup && (
-              <div className="text-sm text-gray">
-                <p>Cada empresa pode participar com uma delegação de até 5 participantes. Para grupos maiores, entre em contato com a equipe PROVISION.</p>
-                <a className="mt-4 inline-flex min-h-12 items-center text-xs font-bold uppercase tracking-widest text-white" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                  Falar com a equipe no WhatsApp
-                </a>
-              </div>
-            )}
-          </div>
-        )}
         {step === "companion" && (
           <div className="grid gap-3">
             <p className="text-sm text-gray">
@@ -616,6 +689,7 @@ export function InterestExperience() {
         )}
       </div>
       {error && <p id="interest-error" className="mt-6 text-red" role="alert">{error}</p>}
+      {(stageFromLink || diagnosis || decisionBox) && step === "consent" && <p className="mt-6 max-w-xl text-sm text-gray">{TRUST_COPY}</p>}
       <div className="mt-10 flex flex-col-reverse gap-3 sm:flex-row sm:flex-wrap">
         {stepIndex > 0 && (
           <button className="min-h-12 rounded-full border border-white/20 px-6 py-3 text-xs uppercase tracking-widest" onClick={() => setStepIndex(stepIndex - 1)}>
@@ -627,7 +701,7 @@ export function InterestExperience() {
           className="min-h-12 w-full rounded-full bg-red px-8 py-3 text-xs font-bold uppercase tracking-widest disabled:opacity-50 sm:w-auto"
           onClick={() => void goNext()}
         >
-          {saving ? "Salvando…" : step === "consent" ? "Enviar pré-inscrição" : "Continuar"}
+          {saving ? "Salvando…" : step === "consent" ? (stageFromLink || diagnosis || decisionBox ? "Falar com um consultor" : "Enviar pré-inscrição") : "Continuar"}
         </button>
       </div>
     </section>

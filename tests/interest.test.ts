@@ -6,6 +6,7 @@ import { formatSaoPaulo } from "../src/lib/timezone";
 import { bookingHorizonDays, compareYmd, BOOKING_LAST_YMD } from "../src/modules/meetings/window";
 import { groupSlotsByDay } from "../src/components/commercial/SlotPicker";
 import { captureSchema } from "../src/modules/leads/captureSchema";
+import { parseMarketStage } from "../src/modules/leads/status";
 import {
   emptyDraft,
   interesseHref,
@@ -146,5 +147,46 @@ describe("schema de captação", () => {
     expect(captureSchema.safeParse({ ...base, interests: ["Expandir minha empresa"] }).success).toBe(false);
     expect(captureSchema.safeParse({ ...base, consent: false }).success).toBe(false);
     expect(captureSchema.safeParse({ ...base, email: "invalido" }).success).toBe(false);
+  });
+});
+
+describe("momento da empresa (seção “E a sua empresa?”)", () => {
+  const base = {
+    fullName: "Ana Souza Lima",
+    email: "ana@empresa.com",
+    whatsapp: "11988887777",
+    companyName: "Indústria Exemplo SA",
+    segment: "Indústria",
+    jobTitle: "CEO / Presidente",
+    companySize: "R$ 5 milhões – R$ 20 milhões",
+    interests: ["Tributação", "Maquila"],
+    relationship: "Ainda não",
+    intent: "Quero conversar com um consultor",
+    consent: true,
+  };
+  it("aceita os quatro estágios e os temas de “O que você busca entender?”", () => {
+    for (const stage of ["PESQUISANDO", "AVALIANDO", "ESTRUTURANDO", "OPERANDO"]) {
+      expect(captureSchema.safeParse({ ...base, stage }).success).toBe(true);
+    }
+    expect(captureSchema.safeParse({ ...base, stage: "avaliando" }).success).toBe(false);
+    expect(captureSchema.safeParse(base).success).toBe(true);
+  });
+  it("exige o estágio na etapa própria do fluxo", () => {
+    expect(validateStep("stage", emptyDraft())).toBe("Selecione o momento da sua empresa.");
+    expect(validateStep("stage", { ...emptyDraft(), stage: "AVALIANDO" })).toBeNull();
+    expect(validateStep("interests", { ...emptyDraft(), interests: ["Ambiente de negócios", "Outro"] })).toBeNull();
+  });
+  it("os novos temas alimentam os mesmos sinais do CRM", () => {
+    const flags = mapInterestFlags(["Implantação", "Investimentos", "Parceiros"]);
+    expect(flags).toMatchObject({ wantsOpenOperation: true, interestInvest: true, interestNetworking: true, interestB2B: true });
+  });
+});
+
+describe("estagio_empresa vindo do link do site", () => {
+  it("aceita o valor do link em minúsculas e recusa o que não é estágio", () => {
+    expect(parseMarketStage("avaliando")).toBe("AVALIANDO");
+    expect(parseMarketStage("OPERANDO")).toBe("OPERANDO");
+    expect(parseMarketStage("presente")).toBeNull();
+    expect(parseMarketStage(null)).toBeNull();
   });
 });

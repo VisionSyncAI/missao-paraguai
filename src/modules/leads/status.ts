@@ -134,6 +134,7 @@ export const BUSINESS_SEGMENTS = [
   "Serviços",
   "Infraestrutura",
   "Comércio",
+  "Investimento",
   "Outro",
 ] as const;
 
@@ -155,3 +156,56 @@ export const PARTICIPATION_INTENTS = [
   "Quero conversar com um consultor",
   "Quero avaliar para minha empresa/equipe",
 ] as const;
+
+/**
+ * estagio_empresa — "Em qual momento você está?" on the site's market section (?estagio=avaliando…).
+ * Stored on Lead.companyStage for commercial segmentation.
+ */
+export const MARKET_STAGES = ["PESQUISANDO", "AVALIANDO", "ESTRUTURANDO", "OPERANDO"] as const;
+export type MarketStage = (typeof MARKET_STAGES)[number];
+
+export const MARKET_STAGE_COPY: Record<MarketStage, { label: string; detail: string; selected: string }> = {
+  PESQUISANDO: { label: "Quero entender", detail: "Estou começando a pesquisar o Paraguai.", selected: "Quero entender o Paraguai" },
+  AVALIANDO: { label: "Estou avaliando", detail: "Quero entender se existe uma oportunidade para minha empresa.", selected: "Estou avaliando o Paraguai" },
+  ESTRUTURANDO: { label: "Estou estruturando", detail: "Já estou estudando operação, implantação ou expansão.", selected: "Estou estruturando minha entrada no Paraguai" },
+  OPERANDO: { label: "Já estou aqui", detail: "Quero ampliar minha rede, conexões e oportunidades no Paraguai.", selected: "Já estou no Paraguai" },
+};
+
+/** ?estagio=avaliando → "AVALIANDO"; anything else → null. */
+export function parseMarketStage(value: string | null | undefined): MarketStage | null {
+  const upper = (value || "").trim().toUpperCase();
+  return (MARKET_STAGES as readonly string[]).includes(upper) ? (upper as MarketStage) : null;
+}
+
+/** "O que você busca entender?" — asked instead of PARAGUAY_INTERESTS when the visitor picked a stage. */
+export const UNDERSTAND_TOPICS = [
+  "Ambiente de negócios",
+  "Implantação",
+  "Indústria",
+  "Logística",
+  "Tributação",
+  "Maquila",
+  "Parceiros",
+  "Networking",
+  "Investimentos",
+  "Outro",
+] as const;
+
+/** Every option the interests step may store in qualification.seeking. */
+export const SEEKING_OPTIONS = [...new Set([...PARAGUAY_INTERESTS, ...UNDERSTAND_TOPICS])] as [string, ...string[]];
+
+/**
+ * Diagnóstico PROVISION ("O Paraguai faz sentido para a sua empresa?") on the home page.
+ * The site keeps a copy of these lists in src/js/experience.js; tests/diagnosis.test.ts keeps them in sync.
+ */
+export const DIAG_SEGMENTS = ["Indústria", "Agro", "Tecnologia", "Logística", "Serviços", "Investimento", "Outro"] as const;
+export const DIAG_OBJECTIVES = ["Expansão", "Novos parceiros", "Fornecedores", "Produção", "Logística", "Mercado", "Investimento"] as const;
+export const DIAG_PY_STAGES = [
+  "Ainda estou conhecendo",
+  "Já pesquisei",
+  "Já tenho contatos",
+  "Já opero no país",
+  "Estou avaliando expansão",
+] as const;
+export const DIAG_CONVERSATIONS = ["Institucional", "Empresarial", "B2B", "Logística", "Investimento", "Tecnologia"] as const;
+export const DIAG_PROFILES = ["Empresário", "Executivo", "Investidor", "Delegação empresarial"] as const;

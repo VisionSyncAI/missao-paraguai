@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { LEAD_STATUSES } from "@/modules/leads/status";
+import { LEAD_STATUSES, MARKET_STAGE_COPY } from "@/modules/leads/status";
 
 export default function LeadDetailPage() {
   const params = useParams<{ id: string }>();
@@ -44,11 +44,41 @@ export default function LeadDetailPage() {
               <div className="mt-6 rounded-xl border border-white/15 p-4 text-sm">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-red">Contexto para a conversa</p>
                 <ul className="mt-3 space-y-1">
+                  <li>Momento: {typeof lead.companyStage === "string" && lead.companyStage in MARKET_STAGE_COPY ? `${MARKET_STAGE_COPY[lead.companyStage as keyof typeof MARKET_STAGE_COPY].label} (${lead.companyStage})` : "não indicado"}</li>
+                  <li>Origem: {String(lead.source || "—")}</li>
                   <li>Segmento: {String(lead.segment || q.segment || "—")}</li>
                   <li>Busca no Paraguai: {seeking}</li>
                   <li>Lote de interesse: {q.lotOfInterest ? String(q.lotOfInterest).toUpperCase() : "não indicado"}</li>
-                  <li>Participantes da empresa: {String(q.delegationSize || "—")}</li>
                 </ul>
+                {q.diagnosis && typeof q.diagnosis === "object" ? (() => {
+                  const d = q.diagnosis as Record<string, string>;
+                  return (
+                    <div className="mt-4 border-t border-white/10 pt-3">
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-gray">Diagnóstico PROVISION</p>
+                      <ul className="mt-2 space-y-1">
+                        <li>Perfil da empresa: {d.segment}</li>
+                        <li>Busca agora: {d.objective}</li>
+                        <li>Estágio no Paraguai: {d.pyStage}</li>
+                        <li>Conversa mais valiosa: {d.conversation}</li>
+                        <li>Participa como: {d.profile}</li>
+                      </ul>
+                    </div>
+                  );
+                })() : null}
+                {typeof q.decisionBox === "string" && q.decisionBox ? (
+                  <div className="mt-4 border-t border-white/10 pt-3">
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-gray">O que espera encontrar no Paraguai</p>
+                    <p className="mt-2 whitespace-pre-line">{q.decisionBox}</p>
+                  </div>
+                ) : null}
+                {q.scores && typeof q.scores === "object" ? (() => {
+                  const s = q.scores as Record<string, number | string>;
+                  return (
+                    <p className="mt-4 border-t border-white/10 pt-3 text-xs text-gray">
+                      Scores internos ({String(s.version)}): lead {String(s.lead)} · fit {String(s.fit)} · interesse {String(s.interest)}
+                    </p>
+                  );
+                })() : null}
               </div>
             );
           })() : null}

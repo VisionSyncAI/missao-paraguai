@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { hashIp, newAccessToken, sha256 } from "@/lib/crypto";
 import { onlyDigits } from "@/lib/validation/br";
-import { CONTACT_CONSENT_VERSION, PRIVACY_VERSION, TERMS_VERSION } from "@/modules/leads/status";
+import { CONTACT_CONSENT_VERSION, MARKET_STAGE_COPY, PRIVACY_VERSION, TERMS_VERSION } from "@/modules/leads/status";
 import { formatSaoPaulo } from "@/lib/timezone";
 import { emailDeliveryStatus, emailUnique, enqueueEmail } from "@/modules/comms/email";
 import { officialMeetingUrl } from "@/lib/meetingLink";
@@ -11,6 +11,7 @@ import type { CaptureInput } from "@/modules/leads/captureSchema";
 import { logInfo } from "@/lib/logger";
 import { resolveVerifiedBooking } from "@/modules/scheduling/resolve";
 import { mapInterestFlags, mapRelationship, resolvedJobTitle } from "@/modules/interest/flow";
+import { computeScores } from "@/modules/leads/scoring";
 import { can } from "@/lib/rbac";
 import { signLeadVerifyToken } from "@/lib/leadVerify";
 
@@ -34,6 +35,20 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     segment: input.segment,
     seeking: input.interests,
     lotOfInterest: input.lot ?? null,
+    stage: input.stage ?? null,
+    diagnosis: input.diagnosis ?? null,
+    decisionBox: input.decisionBox || null,
+    scores: computeScores({
+      segment: input.segment,
+      jobTitle: input.jobTitle,
+      companySize: input.companySize,
+      stage: input.stage ?? null,
+      intent: input.intent,
+      interests: input.interests,
+      diagnosisCompleted: Boolean(input.diagnosis),
+      decisionBox: input.decisionBox,
+    }),
+    submittedAt: new Date().toISOString(),
     companySize: input.companySize,
     relationship: input.relationship,
     intent: input.intent,
@@ -59,7 +74,7 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
       data: {
         leadId: existing.id,
         type: "INTEREST_RESUBMITTED",
-        body: `Nova pré-inscrição com este e-mail (dados não aplicados; aguardando confirmação pelo e-mail). Nome informado: ${input.fullName} · WhatsApp informado: ${phone} · Empresa informada: ${input.companyName} (${input.segment})${input.lot ? ` · Lote de interesse: ${input.lot}` : ""}.`,
+        body: `Nova pré-inscrição com este e-mail (dados não aplicados; aguardando confirmação pelo e-mail). Nome informado: ${input.fullName} · WhatsApp informado: ${phone} · Empresa informada: ${input.companyName} (${input.segment})${input.lot ? ` · Lote de interesse: ${input.lot}` : ""}${input.stage ? ` · Momento: ${MARKET_STAGE_COPY[input.stage].label}` : ""}.`,
       },
     });
     const verifyToken = await signLeadVerifyToken(existing.id);
@@ -103,6 +118,7 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     participateAlone: input.companionRequested !== true,
     companionCount: input.companionRequested ? 1 : 0,
     source: input.source || "interesse",
+    companyStage: input.stage ?? null,
     qualificationJson: JSON.stringify(qualification),
     nextAction: "Agendar conversa com consultor",
   };
@@ -338,6 +354,7 @@ export function staffLeadDTO(lead: {
   jobTitle: string | null;
   status: string;
   source: string;
+  companyStage?: string | null;
   objectivesJson: string;
   objectiveNotes: string | null;
   beenToParaguay: boolean | null;
@@ -373,6 +390,7 @@ export function staffLeadDTO(lead: {
     jobTitle: lead.jobTitle,
     status: lead.status,
     source: lead.source,
+    companyStage: lead.companyStage ?? null,
     objectives: JSON.parse(lead.objectivesJson) as string[],
     objectiveNotes: lead.objectiveNotes,
     beenToParaguay: lead.beenToParaguay,

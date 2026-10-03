@@ -20,8 +20,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="image" imagesrcset="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=70 800w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1400&q=70 1400w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2400&q=70 2400w" imagesizes="100vw" fetchpriority="high" />
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./src/main.css?v=15" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Great+Vibes&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./src/main.css?v=18" />
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -105,22 +105,21 @@
   <main id="conteudo">
     <section class="hero" id="topo">
       <div class="hero-media">
-        <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2400&q=70" srcset="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=70 800w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1400&q=70 1400w, https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2400&q=70 2400w" sizes="100vw" fetchpriority="high" alt="Vista noturna de cidade e rio, com pontes e skyline" width="2400" height="1350" />
+        <img src="./mission/xp-07-mic-delegacao.jpg" fetchpriority="high" alt="Empresários brasileiros e paraguaios reunidos no Ministério de Indústria e Comércio do Paraguai" width="1600" height="1066" />
         <div class="hero-shade"></div>
       </div>
       <div class="hero-inner">
         <div class="hero-main">
-          <p class="hero-kicker rise d2">PROVISION · Imersão Sem Fronteiras</p>
-          <h1 class="hero-title rise d4"><span class="fill">Paraguai</span></h1>
-          <div class="hero-meta">
-            <p class="hero-claim rise d7">Asunción · Paraguai</p>
-            <div class="hero-year rise d7">16–21 nov 2026 <span class="hero-flag" aria-hidden="true"><span></span><span></span><span></span></span></div>
-          </div>
-          <p class="hero-micro rise d9">Uma experiência executiva de 5 dias para compreender o mercado paraguaio, conhecer as pessoas certas e validar o próximo movimento da sua empresa.</p>
+          <p class="hero-brand rise d2">PROVISION</p>
+          <p class="hero-kicker rise d2">Imersão Sem Fronteiras · Paraguai 2026</p>
+          <h1 class="hero-headline rise d4">O próximo movimento da sua empresa pode começar no Paraguai.</h1>
+          <p class="hero-when rise d7">16–21 nov · Asunción <span class="hero-flag" aria-hidden="true"><span></span><span></span><span></span></span></p>
+          <p class="hero-micro rise d9">Uma experiência executiva para compreender o mercado, acessar o ecossistema empresarial, construir conexões estratégicas e validar possibilidades reais para sua empresa.</p>
           <div class="hero-cta-wrap rise d13">
-            <a class="btn btn-red" href="/interesse">Garantir participação <span class="arrow">↗</span></a>
+            <a class="btn btn-red" href="#diagnostico">Descobrir meu perfil PROVISION <span class="arrow">↓</span></a>
             <a class="btn btn-ghost" href="https://wa.me/5551997164254?text=Ol%C3%A1!%20Quero%20falar%20sobre%20a%20Imers%C3%A3o%20Paraguai." target="_blank" rel="noopener noreferrer">Falar com a equipe PROVISION <span class="arrow">↗</span></a>
           </div>
+          <p class="hero-decide rise d13">Não é uma viagem corporativa.<br />É uma experiência orientada à decisão.</p>
         </div>
         <aside class="hero-side rise d11">
           <p class="hero-dv">Fronteiras<br>que geram<br>oportunidades<strong>Paraguai</strong></p>
@@ -154,7 +153,7 @@
         </div>
         <div class="hero-foot rise d13">
           <p class="hero-cities">Base: Asunción · demais agendas sujeitas a confirmação</p>
-          <a class="hero-scroll" href="#negocios">Scroll para explorar <i>↓</i></a>
+          <a class="hero-scroll" href="#manifesto">Scroll para explorar <i>↓</i></a>
           <p class="hero-by">
             Realização
             <img class="logo-vision" src="./logos/vision-cybero-sm.png" alt="Vision Cybero AI" />
@@ -165,12 +164,183 @@
       </div>
     </section>
 
+
+    <section class="chapter film-chapter" id="manifesto" aria-labelledby="manifesto-title">
+      <div class="wrap">
+        <p class="eyebrow">Filme manifesto</p>
+        <h2 id="manifesto-title" class="sr-only">Manifesto PROVISION</h2>
+      </div>
+      <div class="film" data-film>
+        <!-- Footage slot: when the films exist, add <video class="film-video" data-src="/films/manifesto-16x9.mp4" data-src-mobile="/films/manifesto-9x16.mp4" poster="/films/manifesto.jpg" muted playsinline loop preload="none"></video> here. experience.js loads it only when the film is on screen and keeps these scenes as the fallback. The phrases stay in HTML, never inside the video. -->
+        <div class="film-frame">
+          <figure class="film-scene is-on is-map">
+            <img src="/maps/brasil-paraguai.svg" alt="Mapa da América do Sul com Brasil e Paraguai em destaque" decoding="async" />
+            <svg class="film-route" viewBox="0 0 600 520" aria-hidden="true">
+              <path class="route-line" d="M390.6,364.2L386.5,365.1L382.3,366.0L378.0,366.9L373.8,367.7L369.6,368.6L365.4,369.4L361.2,370.2L357.0,371.0L352.7,371.8L348.5,372.6L344.3,373.4L340.0,374.2L335.8,374.9L331.5,375.7L327.3,376.4L323.0,377.2L318.7,377.9L314.5,378.6L310.2,379.3L305.9,380.0L301.6,380.6L297.4,381.3L293.1,382.0L288.8,382.6L284.5,383.2L280.2,383.8L275.9,384.4L271.6,385.0L267.3,385.6L263.0,386.2" pathLength="1" />
+              <circle class="route-dot" cx="390.6" cy="364.2" r="4.5" />
+              <circle class="route-dot is-end" cx="263" cy="386.2" r="5.5" />
+              <text x="400.6" y="354.2">Brasil</text>
+              <text x="251" y="372.2" text-anchor="end">Asunción</text>
+            </svg>
+            <figcaption><span class="film-kicker">Brasil → Paraguai</span><span class="film-line">O próximo movimento não começa quando você chega.</span></figcaption>
+          </figure>
+          <figure class="film-scene">
+            <img src="./mission/xp-05-tech.jpg" alt="Delegação na sala técnica da hidrelétrica de Yacyretá" loading="lazy" decoding="async" />
+            <figcaption><span class="film-kicker">Energia e indústria · Yacyretá · agenda anterior</span></figcaption>
+          </figure>
+          <figure class="film-scene is-map">
+            <img src="/maps/paraguai.svg" alt="Mapa do Paraguai" loading="lazy" decoding="async" />
+            <svg class="film-pins" viewBox="0 0 520 560" aria-hidden="true">
+              <circle cx="309.8" cy="403.9" r="5" /><circle cx="476.6" cy="397.6" r="5" /><circle cx="356.4" cy="527.7" r="5" />
+            </svg>
+            <figcaption><span class="film-kicker">Agro e logística</span><span class="film-line">Hidrovia, energia e cadeias produtivas.</span></figcaption>
+          </figure>
+          <figure class="film-scene">
+            <img src="./mission/xp-04-vice-ministro-pecuaria.jpg" alt="Reunião com o vice-ministro de Pecuária do Paraguai" loading="lazy" decoding="async" />
+            <figcaption><span class="film-kicker">Agro · MAG · agenda anterior</span></figcaption>
+          </figure>
+          <figure class="film-scene">
+            <img src="./mission/xp-07-mic-delegacao.jpg" alt="Delegação de empresários de Minas Gerais no Ministério de Indústria e Comércio do Paraguai" loading="lazy" decoding="async" />
+            <figcaption><span class="film-kicker">Empresários brasileiros e paraguaios · MIC · jul 2025</span></figcaption>
+          </figure>
+          <figure class="film-scene">
+            <img src="./mission/07-energia.jpg" alt="Apresentação do Paraguai para a delegação brasileira" loading="lazy" decoding="async" />
+            <figcaption><span class="film-kicker">Apresentações e conexões · agenda anterior</span></figcaption>
+          </figure>
+          <figure class="film-scene">
+            <img src="./mission/xp-01-congresso.jpg" alt="Magno Oliveira, CEO da PROCEIT, no Congresso Nacional do Paraguai" loading="lazy" decoding="async" />
+            <figcaption><span class="film-kicker">Congresso Nacional · jul 2025</span><span class="film-line">Começa quando você decide olhar diferente.</span></figcaption>
+          </figure>
+          <figure class="film-scene is-type">
+            <p class="film-route-type" aria-hidden="true"><span>Brasil</span><i></i><span>Paraguai</span></p>
+          </figure>
+          <figure class="film-scene is-end">
+            <div class="film-end">
+              <p class="film-wordmark">PROVISION</p>
+              <p class="film-descriptor">Imersão Sem Fronteiras</p>
+              <p class="film-meta">Paraguai · 2026<br />16–21 nov · Asunción</p>
+              <p class="film-verbs">Conhecer. Conectar. Validar. Transformar.</p>
+            </div>
+          </figure>
+        </div>
+        <div class="wrap film-ui">
+          <button type="button" class="film-toggle" data-film-toggle aria-pressed="false">Pausar</button>
+          <ol class="film-progress" aria-hidden="true"></ol>
+          <p class="film-note">Fotos reais de agendas anteriores da PROCEIT. As frases são do site.</p>
+        </div>
+        <details class="wrap film-transcript">
+          <summary>Ler o filme como texto</summary>
+          <ol>
+            <li>Uma linha sai do Brasil e chega a Asunción. “O próximo movimento não começa quando você chega.”</li>
+            <li>Energia e indústria: sala técnica da hidrelétrica de Yacyretá, em agenda anterior.</li>
+            <li>Agro e logística: hidrovia, energia e cadeias produtivas no mapa do Paraguai.</li>
+            <li>Agro: reunião no Ministério da Agricultura e Pecuária, em agenda anterior.</li>
+            <li>Empresários brasileiros e paraguaios no Ministério de Indústria e Comércio, em julho de 2025.</li>
+            <li>Apresentações e conexões em agenda anterior.</li>
+            <li>Congresso Nacional do Paraguai. “Começa quando você decide olhar diferente.”</li>
+            <li>Brasil → Paraguai.</li>
+            <li>PROVISION · Imersão Sem Fronteiras · Paraguai 2026 · 16–21 nov · Asunción. Conhecer. Conectar. Validar. Transformar.</li>
+          </ol>
+        </details>
+      </div>
+    </section>
     <section class="statement">
       <div class="wrap">
         <p class="display reveal">Você não vai ao Paraguai para conhecer o país. Você vai para descobrir onde estão as oportunidades e decidir o próximo movimento da sua empresa.</p>
       </div>
     </section>
 
+
+    <section class="chapter diag" id="diagnostico" aria-labelledby="diag-title">
+      <div class="wrap diag-wrap">
+        <header class="diag-head">
+          <p class="eyebrow">Diagnóstico PROVISION</p>
+          <h2 id="diag-title">O Paraguai faz sentido para a sua empresa?</h2>
+          <p class="lede">Responda algumas perguntas e descubra quais frentes da PROVISION podem ser mais relevantes para o seu perfil.</p>
+        </header>
+        <form class="diag-form" data-diag novalidate>
+          <div class="diag-bar" aria-hidden="true"><span data-diag-bar></span></div>
+          <fieldset class="diag-step" data-diag-step="1">
+            <legend><span class="diag-count">1 de 5</span>Qual é o perfil da sua empresa?</legend>
+            <div class="diag-options">
+              <label class="diag-option"><input type="radio" name="segment" value="Indústria" required /><span>Indústria</span></label>
+              <label class="diag-option"><input type="radio" name="segment" value="Agro" /><span>Agro</span></label>
+              <label class="diag-option"><input type="radio" name="segment" value="Tecnologia" /><span>Tecnologia</span></label>
+              <label class="diag-option"><input type="radio" name="segment" value="Logística" /><span>Logística</span></label>
+              <label class="diag-option"><input type="radio" name="segment" value="Serviços" /><span>Serviços</span></label>
+              <label class="diag-option"><input type="radio" name="segment" value="Investimento" /><span>Investimento</span></label>
+              <label class="diag-option"><input type="radio" name="segment" value="Outro" /><span>Outro</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="diag-step" data-diag-step="2">
+            <legend><span class="diag-count">2 de 5</span>O que você busca neste momento?</legend>
+            <div class="diag-options">
+              <label class="diag-option"><input type="radio" name="objective" value="Expansão" required /><span>Expansão</span></label>
+              <label class="diag-option"><input type="radio" name="objective" value="Novos parceiros" /><span>Novos parceiros</span></label>
+              <label class="diag-option"><input type="radio" name="objective" value="Fornecedores" /><span>Fornecedores</span></label>
+              <label class="diag-option"><input type="radio" name="objective" value="Produção" /><span>Produção</span></label>
+              <label class="diag-option"><input type="radio" name="objective" value="Logística" /><span>Logística</span></label>
+              <label class="diag-option"><input type="radio" name="objective" value="Mercado" /><span>Mercado</span></label>
+              <label class="diag-option"><input type="radio" name="objective" value="Investimento" /><span>Investimento</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="diag-step" data-diag-step="3">
+            <legend><span class="diag-count">3 de 5</span>Qual é seu estágio em relação ao Paraguai?</legend>
+            <div class="diag-options">
+              <label class="diag-option"><input type="radio" name="pyStage" value="Ainda estou conhecendo" required /><span>Ainda estou conhecendo</span></label>
+              <label class="diag-option"><input type="radio" name="pyStage" value="Já pesquisei" /><span>Já pesquisei</span></label>
+              <label class="diag-option"><input type="radio" name="pyStage" value="Já tenho contatos" /><span>Já tenho contatos</span></label>
+              <label class="diag-option"><input type="radio" name="pyStage" value="Já opero no país" /><span>Já opero no país</span></label>
+              <label class="diag-option"><input type="radio" name="pyStage" value="Estou avaliando expansão" /><span>Estou avaliando expansão</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="diag-step" data-diag-step="4">
+            <legend><span class="diag-count">4 de 5</span>Qual conversa seria mais valiosa para você?</legend>
+            <div class="diag-options">
+              <label class="diag-option"><input type="radio" name="conversation" value="Institucional" required /><span>Institucional</span></label>
+              <label class="diag-option"><input type="radio" name="conversation" value="Empresarial" /><span>Empresarial</span></label>
+              <label class="diag-option"><input type="radio" name="conversation" value="B2B" /><span>B2B</span></label>
+              <label class="diag-option"><input type="radio" name="conversation" value="Logística" /><span>Logística</span></label>
+              <label class="diag-option"><input type="radio" name="conversation" value="Investimento" /><span>Investimento</span></label>
+              <label class="diag-option"><input type="radio" name="conversation" value="Tecnologia" /><span>Tecnologia</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="diag-step" data-diag-step="5">
+            <legend><span class="diag-count">5 de 5</span>Você pretende participar como?</legend>
+            <div class="diag-options">
+              <label class="diag-option"><input type="radio" name="profile" value="Empresário" required /><span>Empresário</span></label>
+              <label class="diag-option"><input type="radio" name="profile" value="Executivo" /><span>Executivo</span></label>
+              <label class="diag-option"><input type="radio" name="profile" value="Investidor" /><span>Investidor</span></label>
+              <label class="diag-option"><input type="radio" name="profile" value="Delegação empresarial" /><span>Delegação empresarial</span></label>
+            </div>
+          </fieldset>
+          <p class="diag-error" data-diag-error role="alert" hidden>Escolha uma opção para continuar.</p>
+          <div class="diag-nav">
+            <button type="button" class="btn btn-ghost" data-diag-back hidden>Voltar</button>
+            <button type="submit" class="btn btn-red" data-diag-next>Ver meu perfil <span class="arrow">→</span></button>
+          </div>
+        </form>
+        <div class="diag-result" data-diag-result tabindex="-1" hidden>
+          <p class="eyebrow">Seu perfil PROVISION</p>
+          <p class="diag-label" data-diag-label></p>
+          <p class="diag-text" data-diag-text></p>
+          <h3>Sua jornada</h3>
+          <ol class="diag-journey">
+            <li><b>01 — Mercado</b><span>Compreender o ambiente econômico e empresarial.</span></li>
+            <li><b data-diag-step2-title>02 — Indústria</b><span data-diag-step2-text>Observar operações e modelos produtivos.</span></li>
+            <li><b>03 — Conexões</b><span>Conhecer empresários e atores do ecossistema.</span></li>
+            <li><b>04 — Business Day</b><span>Apresentar sua empresa e construir conversas B2B.</span></li>
+            <li><b>05 — Next Move</b><span>Organizar os próximos passos após a imersão.</span></li>
+          </ol>
+          <p class="diag-note">Programação sujeita a confirmação. Suas respostas ficam neste navegador e seguem para a equipe só quando você envia o formulário.</p>
+          <div class="diag-actions">
+            <a class="btn btn-red" href="/interesse?origem=diagnostico">Falar com a equipe PROVISION <span class="arrow">↗</span></a>
+            <a class="btn btn-ghost" href="#jornada">Ver a programação <span class="arrow">↓</span></a>
+            <button type="button" class="diag-redo" data-diag-redo>Refazer o diagnóstico</button>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="xp" id="campo" aria-label="Conexões que acontecem no campo">
       <div class="wrap">
         <div class="xp-head reveal">
@@ -270,7 +440,7 @@
       <div class="wrap">
         <div class="xp-facts reveal">
           <article><b>20</b><span>Empresas brasileiras por edição</span></article>
-          <article><b>5</b><span>Participantes por empresa, no máximo</span></article>
+          <article><b>4</b><span>Visitas técnicas no roteiro</span></article>
           <article><b>5</b><span>Dias de programação</span></article>
           <article><b>2</b><span>Países conectados</span></article>
         </div>
@@ -401,11 +571,120 @@
       <p class="note" style="margin-top:20px">Fontes oficiais paraguaias: BCP, MIC, DNIT e REDIEX. 35 mil+ empregos na maquila · 29 mil+ indústrias manufatureiras · US$ 6,12 bi em importações da China · US$ 4,14 bi do Brasil.</p>
     </section>
 
+
+    <section class="chapter pm" id="paraguai" aria-labelledby="pm-title">
+      <div class="wrap">
+        <header class="pm-head reveal">
+          <p class="eyebrow">Paraguai em movimento</p>
+          <h2 id="pm-title">Por que Paraguai?</h2>
+          <p class="lede">Seis indicadores, cada um com valor, ano, fonte e o que ele significa para uma decisão empresarial.</p>
+        </header>
+        <div class="pm-grid">
+          <article class="pm-card" data-tags="investimento tecnologia servicos outro">
+            <p class="pm-name">PIB<span class="pm-fit" hidden>Relevante para o seu perfil</span></p>
+            <p class="pm-value">+6,6%</p>
+            <p class="pm-unit">crescimento do PIB em 2025</p>
+            <p class="pm-meaning"><b>O que isso significa para uma empresa?</b> Um mercado em expansão. A pergunta para a sua empresa é quais setores puxam esse ritmo e onde há espaço para fornecedores e parceiros.</p>
+            <p class="pm-src"><span class="pm-type">Realizado</span> 2025 · <a href="https://www.lanacion.com.py/negocios/2026/03/27/economia-paraguaya-crecio-66-en-el-2025-segun-datos-oficiales-del-bcp/" target="_blank" rel="noopener">BCP, Cuentas Nacionales, via La Nación (27/03/2026) ↗</a> · <span class="pm-type is-proj">Projeção</span> 4,2% para 2026, <a href="https://www.bcp.gov.py/en/web/institucional/w/el-banco-central-del-paraguay-proyecta-un-crecimiento-del-pib-del-6-en-2025-y-del-4-2-en-2026-con-una-inflacion-que-convergeria-gradualmente-a-la-meta-del-3-5-en-2026" target="_blank" rel="noopener">BCP ↗</a></p>
+          </article>
+          <article class="pm-card" data-tags="agro industria logistica investimento">
+            <p class="pm-name">Comércio<span class="pm-fit" hidden>Relevante para o seu perfil</span></p>
+            <p class="pm-value">US$ 16,72 bi</p>
+            <p class="pm-unit">em exportações totais em 2025 (+5,8% sobre 2024)</p>
+            <p class="pm-meaning"><b>O que isso significa para uma empresa?</b> O país já vende para vários mercados. Entender essas rotas ajuda a avaliar se produzir lá para vender fora faz sentido para o seu produto.</p>
+            <p class="pm-src"><span class="pm-type">Realizado</span> 2025 · <a href="https://asunciontimes.com/paraguay-news/economy/foreign-trades-ends-the-year-with-us16720-3-million-in-exports/" target="_blank" rel="noopener">BCP, via Asunción Times ↗</a></p>
+          </article>
+          <article class="pm-card" data-tags="industria">
+            <p class="pm-name">Maquila<span class="pm-fit" hidden>Relevante para o seu perfil</span></p>
+            <p class="pm-value">US$ 1,309 bi</p>
+            <p class="pm-unit">exportados sob o regime de maquila em 2025, recorde do setor</p>
+            <p class="pm-meaning"><b>O que isso significa para uma empresa?</b> Um ambiente produtivo que merece ser compreendido presencialmente por empresas que avaliam produção, fornecedores ou expansão.</p>
+            <p class="pm-src"><span class="pm-type">Realizado</span> 2025 · <a href="https://www.ip.gov.py/ip/2026/01/15/exportaciones-de-maquila-superaron-los-usd-1-309-millones-al-cierre-del-2025/" target="_blank" rel="noopener">Viceministério de Indústria, via Agência IP (15/01/2026) ↗</a></p>
+          </article>
+          <article class="pm-card" data-tags="industria servicos">
+            <p class="pm-name">Indústria<span class="pm-fit" hidden>Relevante para o seu perfil</span></p>
+            <p class="pm-value">35.357</p>
+            <p class="pm-unit">empregos vinculados às indústrias maquiladoras</p>
+            <p class="pm-meaning"><b>O que isso significa para uma empresa?</b> Já existe mão de obra industrial formada em torno do regime. Perfis, custos e formação são pontos a verificar de perto para quem avalia produzir.</p>
+            <p class="pm-src"><span class="pm-type">Realizado</span> 2025 · <a href="https://www.ip.gov.py/ip/2026/01/15/exportaciones-de-maquila-superaron-los-usd-1-309-millones-al-cierre-del-2025/" target="_blank" rel="noopener">Viceministério de Indústria, via Agência IP (15/01/2026) ↗</a></p>
+          </article>
+          <article class="pm-card" data-tags="logistica agro">
+            <p class="pm-name">Logística<span class="pm-fit" hidden>Relevante para o seu perfil</span></p>
+            <p class="pm-value">3ª</p>
+            <p class="pm-unit">maior frota de barcaças do mundo</p>
+            <p class="pm-meaning"><b>O que isso significa para uma empresa?</b> Sem saída para o mar, o país se apoia na hidrovia. Para quem exporta ou importa, esse corredor faz parte do cálculo logístico.</p>
+            <p class="pm-src"><span class="pm-type">Classificação reportada</span> 2026 · <a href="https://www.infobae.com/movant/2026/01/12/paraguay-hub-logistico-transformacion-de-la-mediterraneidad-en-una-oportunidad/" target="_blank" rel="noopener">Infobae (12/01/2026) ↗</a></p>
+          </article>
+          <article class="pm-card" data-tags="industria tecnologia investimento">
+            <p class="pm-name">Energia<span class="pm-fit" hidden>Relevante para o seu perfil</span></p>
+            <p class="pm-value">14.000 + 3.200 MW</p>
+            <p class="pm-unit">de capacidade instalada em Itaipu (com o Brasil) e Yacyretá (com a Argentina)</p>
+            <p class="pm-meaning"><b>O que isso significa para uma empresa?</b> Duas hidrelétricas binacionais de grande porte. Para operações intensivas em energia, disponibilidade e custo são temas a validar com quem distribui e regula.</p>
+            <p class="pm-src"><span class="pm-type">Capacidade instalada</span> dado técnico · <a href="https://pt.wikipedia.org/wiki/Usina_Hidrel%C3%A9trica_de_Itaipu" target="_blank" rel="noopener">Wikipédia: Itaipu ↗</a> · <a href="https://pt.wikipedia.org/wiki/Usina_Hidrel%C3%A9trica_de_Yacyret%C3%A1" target="_blank" rel="noopener">Yacyretá ↗</a></p>
+          </article>
+        </div>
+        <p class="note pm-foot">Cada indicador informa se é dado realizado, projeção, classificação ou capacidade técnica. Consulta feita em 03/10/2026.</p>
+      </div>
+    </section>
+
+    <section class="chapter eco" id="ecossistema" aria-labelledby="eco-title">
+      <div class="wrap">
+        <header class="eco-head reveal">
+          <p class="eyebrow">Mapa do ecossistema PROVISION</p>
+          <h2 id="eco-title">Onde estão os ambientes que podem ser relevantes para a sua empresa?</h2>
+          <p class="lede">Brasil → Paraguai → Asunción. Escolha uma camada para ver onde cada frente acontece e qual é a situação de cada agenda.</p>
+        </header>
+        <div class="eco-layers" role="group" aria-label="Camadas do mapa" data-eco-layers>
+          <button type="button" data-layer="all" aria-pressed="true">Todas</button>
+          <button type="button" data-layer="industria" aria-pressed="false">Indústria</button>
+          <button type="button" data-layer="agro" aria-pressed="false">Agro</button>
+          <button type="button" data-layer="logistica" aria-pressed="false">Logística</button>
+          <button type="button" data-layer="energia" aria-pressed="false">Energia</button>
+          <button type="button" data-layer="instituicoes" aria-pressed="false">Instituições</button>
+          <button type="button" data-layer="b2b" aria-pressed="false">B2B</button>
+        </div>
+        <div class="eco-maps" data-eco>
+          <figure class="eco-map">
+            <img src="/maps/paraguai.svg" alt="Mapa do Paraguai com Asunción, Itaipu e Yacyretá" loading="lazy" decoding="async" width="520" height="560" />
+            <svg viewBox="0 0 520 560" aria-hidden="true">
+              <g class="eco-pin" data-pin="asuncion" transform="translate(308.9 388.6)"><circle r="6" /><text x="-11" y="4" text-anchor="end">Grande Asunción</text></g>
+              <g class="eco-pin" data-pin="itaipu" transform="translate(476.6 397.6)"><circle r="6" /><text x="-11" y="4" text-anchor="end">Itaipu</text></g>
+              <g class="eco-pin" data-pin="yacyreta" transform="translate(356.4 527.7)"><circle r="6" /><text x="-11" y="4" text-anchor="end">Yacyretá</text></g>
+            </svg>
+            <figcaption>Paraguai</figcaption>
+          </figure>
+          <figure class="eco-map is-inset">
+            <img src="/maps/grande-asuncion.svg" alt="Detalhe da Grande Asunción com Luque, Ñemby, Ypané e Villeta" loading="lazy" decoding="async" width="360" height="360" />
+            <svg viewBox="0 0 360 360" aria-hidden="true">
+              <g class="eco-pin" data-pin="asuncion" transform="translate(169.2 92.7)"><circle r="6" /><text x="-11" y="4" text-anchor="end">Asunción</text></g>
+              <g class="eco-pin" data-pin="luque" transform="translate(229.3 97.4)"><circle r="6" /><text x="11" y="4" text-anchor="start">Luque</text></g>
+              <g class="eco-pin" data-pin="nemby" transform="translate(196.5 191.1)"><circle r="6" /><text x="11" y="4" text-anchor="start">Ñemby</text></g>
+              <g class="eco-pin" data-pin="ypane" transform="translate(200.5 232.4)"><circle r="6" /><text x="11" y="4" text-anchor="start">Ypané</text></g>
+              <g class="eco-pin" data-pin="villeta" transform="translate(180.4 277.2)"><circle r="6" /><text x="11" y="4" text-anchor="start">Villeta</text></g>
+            </svg>
+            <figcaption>Grande Asunción</figcaption>
+          </figure>
+          <ul class="eco-list" aria-live="polite">
+            <li data-layers="industria" data-place="luque"><b>ENGINEERING SAECA</b><span>Luque · visita técnica no roteiro de 19/11 · horário a confirmar</span></li>
+            <li data-layers="industria" data-place="nemby"><b>Industrias Reunidas Ñemby (IRN)</b><span>Ñemby · visita industrial no roteiro de 19/11 · horário a confirmar</span></li>
+            <li data-layers="industria logistica" data-place="ypane"><b>Proveo Parque Logístico e Industrial</b><span>Ypané · almoço e visita no roteiro de 19/11 · horário a confirmar</span></li>
+            <li data-layers="logistica" data-place="villeta"><b>TERPORT · unidade Villeta</b><span>Villeta · visita técnica no roteiro de 19/11 · horário a confirmar</span></li>
+            <li data-layers="instituicoes" data-place="asuncion"><b>Ministério da Indústria e Comércio (MIC)</b><span>Asunción · agenda institucional prevista para 18/11 · sujeita a confirmação</span></li>
+            <li data-layers="instituicoes agro" data-place="asuncion"><b>Ministério da Agricultura e Pecuária (MAG)</b><span>Asunción · agenda institucional prevista para 18/11 · sujeita a confirmação</span></li>
+            <li data-layers="instituicoes" data-place="asuncion"><b>Municipalidad de Asunción</b><span>Asunción · agenda institucional prevista para 18/11 · sujeita a confirmação</span></li>
+            <li data-layers="b2b" data-place="asuncion"><b>Crowne Plaza Asunción</b><span>Base da imersão e local do Business Day, 20/11</span></li>
+            <li data-layers="energia" data-place="itaipu"><b>Itaipu (Brasil–Paraguai)</b><span>14.000 MW instalados · referência, não faz parte do roteiro desta edição</span></li>
+            <li data-layers="energia" data-place="yacyreta"><b>Yacyretá (Argentina–Paraguai)</b><span>3.200 MW instalados · visitada em agenda anterior; não faz parte do roteiro desta edição</span></li>
+          </ul>
+        </div>
+        <p class="note eco-foot">Fronteiras: Natural Earth. Posições aproximadas por município. Programação sujeita a confirmação.</p>
+      </div>
+    </section>
     <section class="fronts" id="conexoes">
       <div class="wrap fronts-head reveal">
         <p class="eyebrow">O que você vai ver</p>
         <h2>Não é sobre visitar o Paraguai. É sobre entender como ele funciona.</h2>
-        <p class="lede">Conexões que continuam depois da missão: grupo de 20 empresas brasileiras, com até 5 participantes por empresa e rodada B2B organizada por setor e objetivo.</p>
+        <p class="lede">Conexões que continuam depois da missão: grupo de 20 empresas brasileiras e rodada B2B organizada por setor e objetivo.</p>
       </div>
       <article class="front-card">
         <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1800&q=70" alt="Mesa de negócios" loading="lazy" />
@@ -485,6 +764,198 @@
       </div>
     </section>
 
+    <section class="mkt" id="movimento" aria-labelledby="mkt-title">
+      <div class="wrap">
+        <header class="mkt-head reveal">
+          <p class="eyebrow">Movimento de mercado</p>
+          <h2 id="mkt-title">O mercado já está se movimentando.</h2>
+          <p class="mkt-sub">Empresas brasileiras já estão no Paraguai.<br />Outras estão avaliando novas oportunidades.</p>
+          <p class="mkt-note">Antes de decidir, existe uma etapa essencial: entender o mercado de perto.</p>
+          <p class="mkt-route" aria-label="Brasil para Paraguai"><span>Brasil</span><i aria-hidden="true"></i><span>Paraguai</span></p>
+        </header>
+
+        <article class="mkt-block is-present reveal" aria-labelledby="mkt-present">
+          <div class="mkt-block-head">
+            <p class="mkt-tag"><span aria-hidden="true"></span>Já estão no mercado</p>
+            <h3 id="mkt-present">Quem já está aqui</h3>
+            <p class="mkt-text">Empresas brasileiras já possuem operações ou anunciaram investimentos no Paraguai.</p>
+          </div>
+          <ul class="mkt-wall" aria-label="Empresas brasileiras com operação ou investimento anunciado no Paraguai">
+            <li style="--i:0">JBS</li>
+            <li style="--i:1">Karsten</li>
+            <li style="--i:2">Lupo</li>
+            <li style="--i:3">Kidy</li>
+            <li style="--i:4">Efisa</li>
+            <li style="--i:5">Fiasul</li>
+          </ul>
+          <div class="mkt-foot">
+            <p>Casos citados publicamente em levantamentos sobre investimentos brasileiros no Paraguai.</p>
+            <details class="mkt-src">
+              <summary>Ver fontes</summary>
+              <ul>
+                <li><a href="https://www.tribunapr.com.br/noticias/economia/empresas-brasileiras-migram-operacoes-para-o-paraguai-em-busca-de-impostos-menores/" target="_blank" rel="noopener">JBS, Karsten, Lupo e Kidy · Tribuna do Paraná, com dados da Gazeta do Povo · jul 2026 ↗</a></li>
+                <li><a href="https://www.diariodepernambuco.com.br/colunas/esplanada/2025/10/11697667-rumo-ao-paraguai.html" target="_blank" rel="noopener">Efisa e Fiasul · Coluna Esplanada · out 2025 ↗</a></li>
+              </ul>
+            </details>
+          </div>
+        </article>
+
+        <article class="mkt-block is-eval reveal" aria-labelledby="mkt-eval">
+          <div class="mkt-block-head">
+            <p class="mkt-tag"><span aria-hidden="true"></span>Estão avaliando</p>
+            <h3 id="mkt-eval">E quem está olhando?</h3>
+            <p class="mkt-text">Também existem empresas brasileiras estudando o mercado antes de decidir os próximos passos.</p>
+          </div>
+          <ul class="mkt-wall" aria-label="Empresas reportadas como avaliando oportunidades no Paraguai">
+            <li style="--i:0">Adere</li>
+            <li style="--i:1">Proeletronic</li>
+            <li style="--i:2">Bralyx</li>
+          </ul>
+          <div class="mkt-foot">
+            <p>Empresas reportadas publicamente como avaliando oportunidades no Paraguai.</p>
+            <details class="mkt-src">
+              <summary>Ver fontes</summary>
+              <ul>
+                <li><a href="https://www.tribunapr.com.br/noticias/economia/empresas-brasileiras-migram-operacoes-para-o-paraguai-em-busca-de-impostos-menores/" target="_blank" rel="noopener">Adere, Proeletronic e Bralyx · Tribuna do Paraná · jul 2026 ↗</a></li>
+              </ul>
+            </details>
+          </div>
+        </article>
+
+        <article class="mkt-block is-data reveal" aria-labelledby="mkt-data">
+          <p class="mkt-tag"><span aria-hidden="true"></span>Procura por consultoria</p>
+          <div class="mkt-data">
+            <p class="mkt-figure" id="mkt-data">Cerca de 100</p>
+            <p class="mkt-figure-text">indústrias procuraram uma consultoria especializada em 2026 para entender oportunidades no Paraguai.</p>
+          </div>
+          <div class="mkt-foot">
+            <p>Dado reportado pela consultoria Frontexa em 2026; não representa um censo de todas as empresas interessadas no mercado.</p>
+            <details class="mkt-src">
+              <summary>Ver fonte</summary>
+              <ul>
+                <li><a href="https://www.poder360.com.br/poder-economia/busca-pelo-paraguai-aumentou-com-reforma-tributaria-diz-consultoria/" target="_blank" rel="noopener">Poder360 · entrevista com a fundadora da Frontexa · 27 set 2026 ↗</a></li>
+              </ul>
+            </details>
+          </div>
+        </article>
+
+        <div class="mkt-move reveal">
+          <p class="mkt-big">Nem toda empresa está no mesmo ponto.</p>
+          <ol class="mkt-steps" aria-label="Momentos de entrada no mercado">
+            <li style="--i:0">Pesquisando</li>
+            <li style="--i:1">Entendendo</li>
+            <li style="--i:2">Avaliando</li>
+            <li style="--i:3">Estruturando</li>
+            <li style="--i:4">Conectando</li>
+          </ol>
+        </div>
+
+        <div class="mkt-you" aria-labelledby="mkt-you-title">
+          <header class="mkt-you-head reveal">
+            <h3 id="mkt-you-title">E a sua empresa?</h3>
+            <p class="mkt-sub">Em qual momento você está?</p>
+          </header>
+          <ul class="mkt-stages">
+            <li class="reveal" style="--i:0">
+              <a class="mkt-stage" href="/interesse?estagio=pesquisando&amp;origem=mercado">
+                <span class="mkt-stage-title">Quero entender</span>
+                <span class="mkt-stage-text">Estou começando a pesquisar o Paraguai.</span>
+                <span class="mkt-stage-cta">Quero conhecer <span class="arrow" aria-hidden="true">→</span></span>
+              </a>
+            </li>
+            <li class="reveal" style="--i:1">
+              <a class="mkt-stage" href="/interesse?estagio=avaliando&amp;origem=mercado">
+                <span class="mkt-stage-title">Estou avaliando</span>
+                <span class="mkt-stage-text">Quero entender se existe uma oportunidade para minha empresa.</span>
+                <span class="mkt-stage-cta">Quero avaliar <span class="arrow" aria-hidden="true">→</span></span>
+              </a>
+            </li>
+            <li class="reveal" style="--i:2">
+              <a class="mkt-stage" href="/interesse?estagio=estruturando&amp;origem=mercado">
+                <span class="mkt-stage-title">Estou estruturando</span>
+                <span class="mkt-stage-text">Já estou estudando operação, implantação ou expansão.</span>
+                <span class="mkt-stage-cta">Quero estruturar <span class="arrow" aria-hidden="true">→</span></span>
+              </a>
+            </li>
+            <li class="reveal" style="--i:3">
+              <a class="mkt-stage" href="/interesse?estagio=operando&amp;origem=mercado">
+                <span class="mkt-stage-title">Já estou aqui</span>
+                <span class="mkt-stage-text">Quero ampliar minha rede, conexões e oportunidades no Paraguai.</span>
+                <span class="mkt-stage-cta">Quero me conectar <span class="arrow" aria-hidden="true">→</span></span>
+              </a>
+            </li>
+          </ul>
+          <p class="mkt-trust reveal">Não é necessário ter uma decisão tomada. A primeira conversa serve para entender o momento da sua empresa e avaliar se a PROVISION faz sentido para você.</p>
+        </div>
+
+        <div class="mkt-close reveal">
+          <p class="mkt-big">Você não precisa decidir agora.<br /><em>Primeiro, conheça o mercado.</em></p>
+          <div class="mkt-sign">
+            <p class="mkt-wordmark">PROVISION</p>
+            <p class="mkt-descriptor">Imersão Sem Fronteiras</p>
+            <p class="mkt-slogan">Mercados que conectam negócios.</p>
+          </div>
+          <a class="btn btn-red" href="#conhecimento">Conhecer a próxima missão <span class="arrow">↓</span></a>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="chapter people" id="quem" aria-labelledby="people-title">
+      <div class="wrap">
+        <header class="people-head reveal">
+          <p class="eyebrow">Quem você precisa conhecer?</p>
+          <h2 id="people-title">As conversas certas, por categoria.</h2>
+          <p class="lede">Nomes e organizações são divulgados depois da confirmação formal de cada agenda.</p>
+        </header>
+        <ul class="people-grid">
+          <li class="reveal"><b>Empresários</b><span>Empresas brasileiras participantes: até 20 empresas por edição.</span></li>
+          <li class="reveal"><b>Executivos</b><span>Lideranças e tomadores de decisão das empresas participantes e convidadas.</span></li>
+          <li class="reveal"><b>Empresas paraguaias</b><span>Conexões empresariais selecionadas para o Business Day: cerca de 30 convidados previstos.</span></li>
+          <li class="reveal"><b>Instituições</b><span>Agenda institucional e empresarial prevista para 18/11, sujeita a confirmação.</span></li>
+          <li class="reveal"><b>Especialistas</b><span>Contexto econômico, tributário e operacional nos painéis de 17/11.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="chapter match" id="match" aria-labelledby="match-title">
+      <div class="wrap match-wrap">
+        <header class="match-head reveal">
+          <p class="eyebrow">Match PROVISION</p>
+          <h2 id="match-title">Antes da imersão, entendemos o que cada participante procura.</h2>
+        </header>
+        <div class="match-flow reveal" data-match>
+          <div class="match-tier">
+            <p class="match-role">Você <span data-match-example>· exemplo</span></p>
+            <p class="match-chips" data-match-you><span>Indústria</span><span>Expansão</span><span>Fornecedores</span></p>
+          </div>
+          <p class="match-core" aria-hidden="true">↓<b>Match PROVISION</b>↓</p>
+          <div class="match-tier">
+            <p class="match-role">Conversas B2B</p>
+            <p class="match-chips" data-match-b2b><span>Indústria</span><span>Logística</span></p>
+          </div>
+        </div>
+        <p class="match-big reveal">Networking não é encontrar muitas pessoas.<br /><em>É encontrar as conversas certas.</em></p>
+        <p class="note match-note">A agenda B2B é montada a partir do que cada empresa informa. Reuniões dependem da confirmação dos convidados paraguaios.</p>
+      </div>
+    </section>
+
+    <section class="chapter method" id="metodo" aria-labelledby="method-title">
+      <div class="wrap">
+        <header class="method-head reveal">
+          <p class="eyebrow">PROVISION Method</p>
+          <h2 id="method-title">Seis movimentos, do olhar à ação.</h2>
+        </header>
+        <ol class="method-rail">
+          <li class="reveal" style="--i:0"><span class="method-n">01</span><b lang="en">See</b><span>Ver o mercado.</span><small>16–17 nov</small></li>
+          <li class="reveal" style="--i:1"><span class="method-n">02</span><b lang="en">Understand</b><span>Compreender o contexto.</span><small>17 nov</small></li>
+          <li class="reveal" style="--i:2"><span class="method-n">03</span><b lang="en">Connect</b><span>Encontrar as pessoas certas.</span><small>18 e 20 nov</small></li>
+          <li class="reveal" style="--i:3"><span class="method-n">04</span><b lang="en">Validate</b><span>Testar possibilidades.</span><small>19 nov</small></li>
+          <li class="reveal" style="--i:4"><span class="method-n">05</span><b lang="en">Decide</b><span>Definir o próximo movimento.</span><small>20–21 nov</small></li>
+          <li class="reveal" style="--i:5"><span class="method-n">06</span><b lang="en">Execute</b><span>Transformar decisão em ação.</span><small>depois da imersão</small></li>
+        </ol>
+      </div>
+    </section>
     <section class="program" id="conhecimento">
       <div class="wrap program-head reveal">
         <p class="eyebrow">Uma missão em movimento</p>
@@ -555,6 +1026,71 @@
       </div>
     </section>
 
+
+    <section class="chapter journey" id="jornada" aria-labelledby="journey-title">
+      <div class="wrap">
+        <header class="journey-head reveal">
+          <p class="eyebrow">16 → 21 nov 2026</p>
+          <h2 id="journey-title">Sua jornada</h2>
+          <p class="lede">Programação sujeita a confirmação.</p>
+        </header>
+      </div>
+      <ol class="journey-track" tabindex="0" aria-label="Dias da jornada">
+        <li class="journey-day" data-day="16"><p class="journey-date">16 nov</p><p class="journey-name" lang="en">Arrival</p><p class="journey-line">Chegar com contexto.</p><p class="journey-detail">Recepção, check-in e boas-vindas ao grupo.</p><p class="method-tag">Method · See</p></li>
+        <li class="journey-day" data-day="17"><p class="journey-date">17 nov</p><p class="journey-name" lang="en">Understand</p><p class="journey-line">Compreender o ambiente.</p><p class="journey-detail">Ambiente de negócios, tributação, implantação, comércio exterior e logística.</p><p class="method-tag">Method · Understand</p></li>
+        <li class="journey-day" data-day="18"><p class="journey-date">18 nov</p><p class="journey-name" lang="en">Connect</p><p class="journey-line">Acessar instituições e empresas.</p><p class="journey-detail">Agenda institucional prevista, sujeita a confirmação.</p><p class="method-tag">Method · Connect</p></li>
+        <li class="journey-day" data-day="19"><p class="journey-date">19 nov</p><p class="journey-name" lang="en">Discover</p><p class="journey-line">Ver operações e ecossistemas.</p><p class="journey-detail">Visitas em Luque, Ñemby, Ypané e Villeta. Horários a confirmar.</p><p class="method-tag">Method · Validate</p></li>
+        <li class="journey-day" data-day="20"><p class="journey-date">20 nov</p><p class="journey-name" lang="en">Business</p><p class="journey-line">Transformar contexto em conversas.</p><p class="journey-detail">PROVISION Business Day: apresentações, painel, B2B e networking.</p><p class="method-tag">Method · Connect · Decide</p></li>
+        <li class="journey-day" data-day="21"><p class="journey-date">21 nov</p><p class="journey-name" lang="en">Next Move</p><p class="journey-line">Voltar com próximos passos.</p><p class="journey-detail">Check-out e retorno.</p><p class="method-tag">Method · Decide</p></li>
+      </ol>
+    </section>
+
+    <section class="chapter bday" id="business-day" aria-labelledby="bday-title">
+      <div class="wrap">
+        <header class="bday-head reveal">
+          <p class="eyebrow">20 nov · Crowne Plaza Asunción</p>
+          <h2 id="bday-title">Business Day</h2>
+          <p class="lede">Um dia desenhado para transformar presença em conexão empresarial.</p>
+        </header>
+      </div>
+      <div class="film is-bday" data-film>
+        <!-- Footage + narration slot: <video class="film-video" data-src="/films/business-day.mp4" poster="/films/business-day.jpg" playsinline preload="none"><track kind="captions" src="/films/business-day.pt.vtt" srclang="pt" label="Português" default /></video>. With narration the film starts muted and the sound control below is shown. -->
+        <div class="film-frame">
+          <figure class="film-scene is-on">
+            <img src="./mission/07-energia.jpg" alt="Apresentação do Paraguai para empresários brasileiros" loading="lazy" decoding="async" />
+            <figcaption><span class="film-kicker">Agenda anterior</span><span class="film-line">Aqui, ideias encontram pessoas.</span></figcaption>
+          </figure>
+          <figure class="film-scene">
+            <img src="./mission/xp-07-mic-delegacao.jpg" alt="Empresários brasileiros e paraguaios reunidos no MIC" loading="lazy" decoding="async" />
+            <figcaption><span class="film-kicker">MIC · jul 2025</span><span class="film-line">E conexões começam a se transformar em possibilidades.</span></figcaption>
+          </figure>
+          <figure class="film-scene">
+            <img src="./mission/02-mitic.jpg" alt="Encontro no Ministério de Tecnologias da Informação e Comunicação do Paraguai" loading="lazy" decoding="async" />
+            <figcaption><span class="film-kicker">MITIC · agenda anterior</span><span class="film-line">Porque estar na mesma sala é apenas o começo.</span></figcaption>
+          </figure>
+        </div>
+        <div class="wrap film-ui">
+          <button type="button" class="film-toggle" data-film-toggle aria-pressed="false">Pausar</button>
+          <ol class="film-progress" aria-hidden="true"></ol>
+          <p class="film-note">Registros de agendas anteriores. O Business Day 2026 acontece em 20/11.</p>
+        </div>
+      </div>
+      <div class="wrap">
+        <ul class="bday-grid">
+          <li class="reveal"><b>Apresentações</b><span>PROCEIT, Vision Cybero AI, participantes e empresas convidadas.</span></li>
+          <li class="reveal"><b>Painéis</b><span>Painel empresarial e conexões com empresas paraguaias.</span></li>
+          <li class="reveal"><b>B2B</b><span>Rodadas e reuniões direcionadas, das 14:00 às 15:30.</span></li>
+          <li class="reveal"><b>Networking</b><span>Networking aberto e reuniões empresariais até o encerramento.</span></li>
+          <li class="reveal"><b>Conexões</b><span>Cerca de 50 pessoas previstas: as empresas brasileiras e ~30 convidados paraguaios.</span></li>
+          <li class="reveal"><b>AI Translation</b><span>Tradução assistida por IA da Vision Cybero AI, com fones para o público.</span></li>
+        </ul>
+        <div class="bday-you reveal">
+          <p class="bday-big">Você não vem apenas para assistir.</p>
+          <p class="bday-lines"><span>Sua empresa</span><span>Seus produtos</span><span>Suas necessidades</span><span>Suas oportunidades</span></p>
+        </div>
+        <p class="method-tag">Method · Connect · Decide</p>
+      </div>
+    </section>
     <section class="route" id="oportunidades">
       <div class="wrap">
         <p class="eyebrow">Geografia</p>
@@ -715,11 +1251,70 @@
       <p class="eyebrow">Por que fazer parte</p>
       <article class="benefit"><b>01</b><div><h3>Acesso</h3><p class="lede">Governo, indústria e negócios no mesmo eixo — sujeito à confirmação oficial.</p></div></article>
       <article class="benefit"><b>02</b><div><h3>Contexto</h3><p class="lede">Números oficiais, setores e tributação lidos no lugar em que acontecem.</p></div></article>
-      <article class="benefit"><b>03</b><div><h3>Conexões</h3><p class="lede">Grupo de 20 empresas brasileiras, com até 5 participantes por empresa. Qualidade das reuniões acima do volume.</p></div></article>
+      <article class="benefit"><b>03</b><div><h3>Conexões</h3><p class="lede">Grupo de 20 empresas brasileiras. Qualidade das reuniões acima do volume.</p></div></article>
       <article class="benefit"><b>04</b><div><h3>Experiência</h3><p class="lede">Não é excursão. É inteligência de mercado, relacionamento e repertório.</p></div></article>
       <article class="benefit"><b>05</b><div><h3>Ação</h3><p class="lede">Você volta com um mapa de possibilidades — e os próximos passos organizados.</p></div></article>
     </section>
 
+
+    <section class="chapter brief" id="executive-brief" aria-labelledby="brief-title">
+      <div class="wrap brief-wrap">
+        <header class="brief-head reveal">
+          <p class="eyebrow">Seu PROVISION Executive Brief</p>
+          <h2 id="brief-title">A experiência começa antes de você embarcar.</h2>
+          <p class="lede">Um documento preparado para cada empresa confirmada, a partir do diagnóstico e da conversa com o consultor.</p>
+        </header>
+        <article class="brief-doc reveal" aria-label="Estrutura do Executive Brief">
+          <header><p>PROVISION · Executive Brief</p><p>Paraguai 2026 · <span data-brief-company>Sua empresa</span></p></header>
+          <ol>
+            <li><b>01 — Contexto Paraguai</b><span>Economia, regras e ambiente de negócios em poucas páginas.</span></li>
+            <li><b>02 — Setores relevantes</b><span data-brief-sectors>Os setores ligados ao seu perfil.</span></li>
+            <li><b>03 — Pontos de atenção</b><span>O que validar antes de qualquer decisão.</span></li>
+            <li><b>04 — Objetivos declarados</b><span>O que você disse que procura.</span></li>
+            <li><b>05 — Conexões prioritárias</b><span>Quem faz sentido encontrar, conforme a agenda confirmada.</span></li>
+            <li><b>06 — Perguntas estratégicas</b><span>Perguntas para levar às instituições e às visitas.</span></li>
+            <li><b>07 — Agenda da imersão</b><span>Dia a dia, com horários confirmados.</span></li>
+          </ol>
+          <footer>Entregue aos participantes confirmados antes do embarque.</footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="chapter participant" id="area-participante" aria-labelledby="participant-title">
+      <div class="wrap">
+        <header class="participant-head reveal">
+          <p class="eyebrow">PROVISION Participant</p>
+          <h2 id="participant-title">Tudo da sua imersão em um lugar.</h2>
+          <p class="lede">A área do participante reúne o que você precisa antes, durante e depois da viagem. Acesso para participantes confirmados.</p>
+        </header>
+        <ul class="participant-grid">
+          <li>Agenda</li><li>Participantes</li><li>Business Day</li><li>Contatos</li><li>Materiais</li><li>Mapas</li><li>Documentos</li><li>Atualizações</li><li>Registros da experiência</li>
+        </ul>
+        <p class="note">Os módulos entram em funcionamento conforme a programação é confirmada.</p>
+        <a class="btn btn-ghost" href="/participante">Acessar a área do participante <span class="arrow">↗</span></a>
+      </div>
+    </section>
+
+    <section class="chapter next" id="next-move" aria-labelledby="next-title">
+      <div class="wrap">
+        <header class="next-head reveal">
+          <p class="eyebrow">Next Move</p>
+          <h2 id="next-title">A pergunta que importa é a do dia seguinte.</h2>
+        </header>
+        <ol class="next-questions">
+          <li class="reveal">O que você descobriu?</li>
+          <li class="reveal">Quem você conheceu?</li>
+          <li class="reveal">O que precisa validar?</li>
+          <li class="reveal">Qual é o próximo passo?</li>
+        </ol>
+        <div class="next-follow reveal">
+          <p class="eyebrow">PROVISION Follow-up</p>
+          <p class="next-big">A experiência não acaba no aeroporto.</p>
+          <p class="lede">Depois da imersão, a equipe PROVISION retoma com você os próximos passos: contatos, validações e apoio para quem decidir avançar.</p>
+        </div>
+        <p class="method-tag">Method · Execute</p>
+      </div>
+    </section>
     <section class="paper" style="padding:96px 0">
       <div class="wrap">
         <p class="eyebrow">Tributação</p>
@@ -738,7 +1333,7 @@
         <div class="editions-head reveal">
           <p class="eyebrow">Edições limitadas</p>
           <h2>Próximas edições em definição</h2>
-          <p class="lede">20 empresas brasileiras · até 5 participantes por empresa</p>
+          <p class="lede">20 empresas brasileiras</p>
         </div>
         <p class="editions-kicker">Missão Paraguai · Novembro 2026</p>
         <p class="lede editions-lead">Próxima edição no Paraguai. Novas edições ao longo do ano, conforme programação e demanda.</p>
@@ -786,7 +1381,6 @@
               <li>Suporte operacional durante a imersão</li>
             </ul>
             <div class="lot-now" data-only-current>
-              <p>Sua empresa pode participar com uma delegação de até 5 pessoas.</p>
               <p>Antes de confirmar, a equipe PROVISION conversa com você sobre o seu objetivo.</p>
             </div>
             <a class="btn btn-red lot-cta" data-lot-cta href="/interesse?lote=01">Falar com a equipe PROVISION <span class="arrow">↗</span></a>
@@ -841,7 +1435,7 @@
           </article>
         </div>
 
-        <p class="lot-select" data-lots-open>20 empresas brasileiras · Até 5 participantes por empresa. Uma experiência desenhada para um grupo seleto de empresários e executivos.</p>
+        <p class="lot-select" data-lots-open>20 empresas brasileiras. Uma experiência desenhada para um grupo seleto de empresários e executivos.</p>
 
         <div class="compare-wrap reveal" data-lots-open>
           <h3 class="lot-compare-title">O que está incluído na experiência</h3>
@@ -891,7 +1485,7 @@
       <h2>Antes de decidir.</h2>
       <div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f0" id="q0">Quando acontece a missão?<span>+</span></button>
-        <div class="acc-panel" id="f0">A primeira edição oficial é de 16 a 21 de novembro de 2026, no Paraguai. Novas edições ao longo do ano, conforme programação e demanda. A edição reúne 20 empresas brasileiras, com até 5 participantes por empresa.</div>
+        <div class="acc-panel" id="f0">A primeira edição oficial é de 16 a 21 de novembro de 2026, no Paraguai. Novas edições ao longo do ano, conforme programação e demanda. A edição reúne 20 empresas brasileiras.</div>
         <button class="acc" type="button" aria-expanded="true" aria-controls="f1" id="q1">O que está incluso?<span>+</span></button>
         <div class="acc-panel is-open" id="f1">Programação de 5 dias, hotel, transporte interno da agenda, visitas empresariais, encontros institucionais conforme confirmação, rodada de negócios e orientação de entrada.</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f2" id="q2">Para quem é a missão?<span>+</span></button>
@@ -909,7 +1503,7 @@
         <button class="acc" type="button" aria-expanded="false" aria-controls="f8" id="q8">Posso participar com minha empresa?<span>+</span></button>
         <div class="acc-panel" id="f8">Sim. Sócio ou executivo pode ir, sujeito a vaga e pré-seleção. Cada pessoa ocupa uma vaga.</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f9" id="q9">Existe grupo corporativo?<span>+</span></button>
-        <div class="acc-panel" id="f9">Cada empresa pode participar com uma delegação de até 5 pessoas. Para grupos maiores, a equipe PROVISION orienta o formato.</div>
+        <div class="acc-panel" id="f9">Cada edição reúne no máximo 20 empresas, com um representante por empresa.</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f10" id="q10">A passagem aérea está incluída?<span>+</span></button>
         <div class="acc-panel" id="f10">Não.</div>
         <button class="acc" type="button" aria-expanded="false" aria-controls="f11" id="q11">A alimentação está incluída?<span>+</span></button>
@@ -923,6 +1517,19 @@
       </div>
     </section>
 
+
+    <section class="chapter decision" id="decisao" aria-labelledby="decision-title">
+      <div class="wrap decision-wrap">
+        <form class="decision-box" data-decision>
+          <p class="eyebrow">Antes de decidir, responda uma pergunta</p>
+          <label id="decision-title" for="decision-text">O que você espera encontrar no Paraguai que poderia mudar o próximo movimento da sua empresa?</label>
+          <textarea id="decision-text" name="decision" rows="4" maxlength="1200" required aria-describedby="decision-help"></textarea>
+          <p id="decision-help" class="decision-help">Sua resposta vai junto para a conversa com o consultor, com o seu diagnóstico, quando você enviar o formulário.</p>
+          <p class="decision-error" data-decision-error role="alert" hidden>Escreva sua resposta para continuar.</p>
+          <button type="submit" class="btn btn-red">Conversar com um consultor PROVISION <span class="arrow">↗</span></button>
+        </form>
+      </div>
+    </section>
     <section class="apply" id="contato">
       <div class="wrap apply-grid">
         <div class="apply-copy">
@@ -944,7 +1551,7 @@
             </article>
             <article>
               <b>Vagas</b>
-              <span>20 empresas brasileiras · até 5 participantes por empresa</span>
+              <span>20 empresas brasileiras</span>
             </article>
           </div>
         </div>
@@ -996,6 +1603,6 @@
   <div class="sticky-cta">
     <a class="btn btn-red" href="/interesse">Garantir participação <span class="arrow">↗</span></a>
   </div>
-  <script type="module" src="./src/main.js"></script>
+  <script type="module" src="/legacy/main.js?v=18"></script>
 </body>
 </html>

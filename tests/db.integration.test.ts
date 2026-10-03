@@ -27,6 +27,19 @@ const payload = {
 };
 
 describe("lead captureInterest (db)", () => {
+  it("grava estagio_empresa e a origem da seção de mercado para segmentação", async () => {
+    const email = `lead.stage.${Date.now()}@exemplo.com`;
+    const res = await captureInterest(
+      { ...payload, email, stage: "AVALIANDO", source: "interesse-mercado", interests: ["Tributação", "Maquila"] },
+      { ip: "127.0.0.1", userAgent: "vitest" },
+    );
+    const lead = await prisma.lead.findUnique({ where: { id: res.leadId! } });
+    expect(lead?.companyStage).toBe("AVALIANDO");
+    expect(lead?.source).toBe("interesse-mercado");
+    expect(JSON.parse(lead!.qualificationJson).seeking).toEqual(["Tributação", "Maquila"]);
+    expect(await prisma.lead.count({ where: { companyStage: "AVALIANDO", id: res.leadId! } })).toBe(1);
+  });
+
   it("primeiro submit cria token; reenvio com o mesmo e-mail não altera nem expõe o lead", async () => {
     const email = `lead.token.${Date.now()}@exemplo.com`;
     const first = await captureInterest({ ...payload, email }, { ip: "127.0.0.1", userAgent: "vitest" });

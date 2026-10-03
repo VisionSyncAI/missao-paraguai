@@ -3,7 +3,8 @@ import {
   BUSINESS_SEGMENTS,
   COMPANY_SIZE_BANDS,
   JOB_TITLE_OPTIONS,
-  PARAGUAY_INTERESTS,
+  MARKET_STAGES,
+  SEEKING_OPTIONS,
   PARAGUAY_RELATIONSHIPS,
   PARTICIPATION_INTENTS,
 } from "@/modules/leads/status";
@@ -13,13 +14,13 @@ export const INTEREST_STEPS = [
   "contact",
   "company",
   "segment",
+  "stage",
   "role",
   "companySize",
   "interests",
   "objective",
   "relationship",
   "intent",
-  "delegation",
   "companion",
   "consent",
 ] as const;
@@ -33,6 +34,7 @@ export type InterestDraft = {
   companyName: string;
   segment: string;
   lot: string;
+  stage: string;
   jobTitle: string;
   jobTitleOther: string;
   companySize: string;
@@ -54,6 +56,7 @@ export function emptyDraft(): InterestDraft {
     companyName: "",
     segment: "",
     lot: "",
+    stage: "",
     jobTitle: "",
     jobTitleOther: "",
     companySize: "",
@@ -93,6 +96,12 @@ export function validateStep(step: InterestStep, draft: InterestDraft) {
     }
     return null;
   }
+  if (step === "stage") {
+    if (!MARKET_STAGES.includes(draft.stage as (typeof MARKET_STAGES)[number])) {
+      return "Selecione o momento da sua empresa.";
+    }
+    return null;
+  }
   if (step === "role") {
     if (!JOB_TITLE_OPTIONS.includes(draft.jobTitle as (typeof JOB_TITLE_OPTIONS)[number])) {
       return "Selecione o cargo.";
@@ -111,7 +120,7 @@ export function validateStep(step: InterestStep, draft: InterestDraft) {
   if (step === "interests") {
     if (!draft.interests.length) return "Selecione ao menos uma opção.";
     const invalid = draft.interests.some(
-      (item) => !PARAGUAY_INTERESTS.includes(item as (typeof PARAGUAY_INTERESTS)[number]),
+      (item) => !SEEKING_OPTIONS.includes(item),
     );
     if (invalid) return "Interesse inválido.";
     return null;
@@ -126,15 +135,6 @@ export function validateStep(step: InterestStep, draft: InterestDraft) {
   if (step === "intent") {
     if (!PARTICIPATION_INTENTS.includes(draft.intent as (typeof PARTICIPATION_INTENTS)[number])) {
       return "Selecione uma opção.";
-    }
-    return null;
-  }
-  if (step === "delegation") {
-    if (draft.oversizedGroup) {
-      return "Cada empresa pode participar com uma delegação de até 5 participantes. Para grupos maiores, entre em contato com a equipe PROVISION.";
-    }
-    if (!draft.delegationSize || draft.delegationSize < 1 || draft.delegationSize > 5) {
-      return "Informe uma delegação de 1 a 5 participantes.";
     }
     return null;
   }
@@ -160,10 +160,11 @@ export function mapRelationship(value: string) {
 
 export function mapInterestFlags(interests: string[]) {
   return {
-    wantsOpenOperation: interests.includes("Expansão"),
-    interestInvest: interests.includes("Investimentos"),
-    interestNetworking: interests.includes("Networking") || interests.includes("Parcerias"),
-    interestB2B: interests.includes("B2B") || interests.includes("Fornecedores") || interests.includes("Parcerias"),
+    wantsOpenOperation: interests.includes("Expansão") || interests.includes("Implantação"),
+    interestInvest: interests.includes("Investimentos") || interests.includes("Investimento"),
+    interestNetworking: interests.includes("Networking") || interests.includes("Parcerias") || interests.includes("Parceiros"),
+    interestB2B:
+      interests.includes("B2B") || interests.includes("Fornecedores") || interests.includes("Parcerias") || interests.includes("Parceiros"),
     interestIndustry: interests.includes("Indústria"),
   };
 }
@@ -191,4 +192,53 @@ export function parseUtm(search: string) {
     if (value) utm[key] = value;
   }
   return utm;
+}
+
+/** Answers of the home-page diagnosis, carried to /interesse in localStorage ("provision.diagnosis"). */
+export type DiagnosisAnswers = {
+  segment: string;
+  objective: string;
+  pyStage: string;
+  conversation: string;
+  profile: string;
+  completedAt?: string;
+};
+
+const DIAG_OBJECTIVE_TO_INTEREST: Record<string, string> = {
+  Expansão: "Expansão",
+  "Novos parceiros": "Parcerias",
+  Fornecedores: "Fornecedores",
+  Produção: "Indústria",
+  Logística: "Logística",
+  Mercado: "Inteligência de mercado",
+  Investimento: "Investimentos",
+};
+const DIAG_PY_TO_STAGE: Record<string, string> = {
+  "Ainda estou conhecendo": "PESQUISANDO",
+  "Já pesquisei": "AVALIANDO",
+  "Já tenho contatos": "AVALIANDO",
+  "Estou avaliando expansão": "ESTRUTURANDO",
+  "Já opero no país": "OPERANDO",
+};
+const DIAG_PY_TO_RELATIONSHIP: Record<string, string> = {
+  "Ainda estou conhecendo": "Ainda não",
+  "Já pesquisei": "Estou começando a estudar",
+  "Já tenho contatos": "Já tenho parceiros",
+  "Já opero no país": "Já opero no Paraguai",
+};
+
+/** What the diagnosis can pre-fill in the commercial form; every field stays editable. */
+export function draftFromDiagnosis(d: DiagnosisAnswers): Partial<InterestDraft> {
+  const out: Partial<InterestDraft> = {};
+  if ((BUSINESS_SEGMENTS as readonly string[]).includes(d.segment)) out.segment = d.segment;
+  const interest = DIAG_OBJECTIVE_TO_INTEREST[d.objective];
+  if (interest) out.interests = [interest];
+  if (DIAG_PY_TO_STAGE[d.pyStage]) out.stage = DIAG_PY_TO_STAGE[d.pyStage];
+  if (DIAG_PY_TO_RELATIONSHIP[d.pyStage]) out.relationship = DIAG_PY_TO_RELATIONSHIP[d.pyStage];
+  return out;
+}
+
+/** "INDÚSTRIA · EXPANSÃO · B2B" — the label shown on the result and on the form. */
+export function diagnosisLabel(d: Pick<DiagnosisAnswers, "segment" | "objective" | "conversation">) {
+  return [d.segment, d.objective, d.conversation].filter(Boolean).join(" · ").toUpperCase();
 }

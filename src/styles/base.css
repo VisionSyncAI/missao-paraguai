@@ -48,8 +48,8 @@ a { color: inherit; text-decoration: none; }
 .display, h1, h2, h3 {
   font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -0.05em;
-  line-height: 0.95;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
   margin: 0;
 }
 .lede {

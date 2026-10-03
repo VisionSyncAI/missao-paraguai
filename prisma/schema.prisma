@@ -70,6 +70,8 @@ model Lead {
   status               String    @default("FORM_SUBMITTED")
   source               String    @default("landing")
   qualificationJson    String    @default("{}")
+  /// estagio_empresa: PESQUISANDO | AVALIANDO | ESTRUTURANDO | OPERANDO (seção “E a sua empresa?”)
+  companyStage         String?
   fullName             String
   email                String
   whatsapp             String
@@ -120,6 +122,7 @@ model Lead {
 
   @@index([email])
   @@index([status])
+  @@index([companyStage])
   @@index([consultantId])
 }
 
