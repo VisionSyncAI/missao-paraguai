@@ -352,3 +352,14 @@
 @media (prefers-reduced-motion: reduce) {
   .xp-track, .xp-card, .xp-card img, .xp-card h3 { transition: none !important; }
 }
+.xp-src {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 242, 0.6);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.xp-src:hover { color: var(--color-red); }
