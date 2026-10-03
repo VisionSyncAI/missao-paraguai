@@ -147,7 +147,8 @@
   .route-visual-live { min-height: 0; }
   .route-map-embed { height: min(70vh, 640px); }
   .xp-shell { margin: 0; width: 100%; }
-  .xp-card { height: min(62vh, 460px); }
+  .xp-card img,
+  .xp-card::before { height: min(38vh, 280px); }
   .sticky-cta {
     left: 12px;
     right: 12px;
