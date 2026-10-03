@@ -5,6 +5,14 @@ export const metadata: Metadata = {
   title: "Imersão Paraguai 2026 | Vision Cybero AI × PROCEIT",
   description:
     "Uma experiência para conhecer o Paraguai por dentro, com quem entende de tecnologia, negócios e oportunidades.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
