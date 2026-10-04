@@ -174,8 +174,8 @@
         <h2 id="manifesto-title" class="sr-only">Manifesto PROVISION</h2>
       </div>
       <div class="film" data-film>
-        <!-- Footage slot: when the films exist, add <video class="film-video" data-src="/films/manifesto-16x9.mp4" data-src-mobile="/films/manifesto-9x16.mp4" poster="/films/manifesto.jpg" muted playsinline loop preload="none"></video> here. experience.js loads it only when the film is on screen and keeps these scenes as the fallback. The phrases stay in HTML, never inside the video. -->
         <div class="film-frame">
+          <video class="film-video" data-src="/films/manifesto.mp4" poster="/films/manifesto.jpg" muted playsinline loop preload="none" aria-label="Vídeo manifesto PROVISION. A descrição está em “Ler o filme como texto”."></video>
           <figure class="film-scene is-on is-map">
             <img src="/maps/brasil-paraguai.svg" alt="Mapa da América do Sul com Brasil e Paraguai em destaque" decoding="async" />
             <svg class="film-route" viewBox="0 0 600 520" aria-hidden="true">
@@ -224,11 +224,14 @@
         </div>
         <div class="wrap film-ui">
           <button type="button" class="film-toggle" data-film-toggle aria-pressed="false">Pausar</button>
+          <button type="button" class="film-toggle" data-film-sound aria-pressed="false" hidden>Ativar som</button>
           <ol class="film-progress" aria-hidden="true"></ol>
-          <p class="film-note">Fotos reais de agendas anteriores da PROCEIT. As frases são do site.</p>
+          <p class="film-note">Se o vídeo não carregar, o filme segue com fotos reais de agendas anteriores da PROCEIT.</p>
         </div>
         <details class="wrap film-transcript">
           <summary>Ler o filme como texto</summary>
+          <p>Vídeo de 10 segundos: um executivo observa a cidade pela janela, vista aérea de uma cidade, um caminhão na estrada, uma lavoura com trator, um porto de contêineres com o texto “Outro mercado, outras possibilidades”, um aperto de mão e a janela de um avião com o texto “Algumas decisões começam com uma viagem.”</p>
+          <p>Sem o vídeo, o filme mostra estas cenas:</p>
           <ol>
             <li>Uma linha sai do Brasil e chega a Asunción. “O próximo movimento não começa quando você chega.”</li>
             <li>Energia e indústria: sala técnica da hidrelétrica de Yacyretá, em agenda anterior.</li>

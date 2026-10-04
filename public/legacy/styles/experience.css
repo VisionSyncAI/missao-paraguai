@@ -91,7 +91,11 @@
   overflow: hidden;
   background: var(--color-graphite);
 }
-.film-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
+.film-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; background: #000; opacity: 0; transition: opacity 0.9s ease-out; }
+.film.has-video .film-video { opacity: 1; }
+/* The footage carries its own text, so keep it whole: 16:9 on every screen, scenes and progress hidden. */
+.film.has-video .film-frame { aspect-ratio: 16 / 9; max-height: none; }
+.film.has-video .film-scene, .film.has-video .film-progress { visibility: hidden; }
 .film-scene {
   position: absolute;
   inset: 0;

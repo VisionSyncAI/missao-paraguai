@@ -106,22 +106,24 @@ export function diagnosisLabel(d) {
   return [d.segment, d.objective, d.conversation].join(" · ").toUpperCase();
 }
 
-/* ---------- Films: real photos as scenes, phrases rendered by the page, optional footage slot ---------- */
+/* ---------- Films: real photos as scenes, phrases rendered by the page, optional footage ---------- */
 function initFilm(root) {
   const scenes = [...root.querySelectorAll(".film-scene")];
   const toggle = root.querySelector("[data-film-toggle]");
+  const sound = root.querySelector("[data-film-sound]");
   const progress = root.querySelector(".film-progress");
   if (!scenes.length) return;
   const bars = scenes.map(() => progress?.appendChild(document.createElement("li")));
   let index = 0;
   let timer = 0;
   let playing = false;
-  const reduced = prefersReduced();
-  let userPaused = reduced;
+  let userPaused = prefersReduced();
+  let video = root.querySelector("video.film-video[data-src]");
+  const usingVideo = () => Boolean(video && root.classList.contains("has-video"));
 
   const show = (i) => {
     index = (i + scenes.length) % scenes.length;
-    scenes.forEach((s, k) => s.classList.toggle("is-on", k === index));
+    scenes.forEach((sc, k) => sc.classList.toggle("is-on", k === index));
     bars.forEach((b, k) => {
       if (!b) return;
       b.classList.toggle("is-on", k === index);
@@ -131,7 +133,7 @@ function initFilm(root) {
   const hold = () => (scenes[index].classList.contains("is-map") ? 6200 : 4800);
   const tick = () => {
     clearTimeout(timer);
-    if (!playing) return;
+    if (!playing || usingVideo()) return;
     timer = window.setTimeout(() => {
       show(index + 1);
       tick();
@@ -143,27 +145,63 @@ function initFilm(root) {
       toggle.textContent = on ? "Pausar" : "Reproduzir";
       toggle.setAttribute("aria-pressed", String(!on));
     }
+    if (usingVideo()) {
+      if (on) video.play().catch(() => undefined);
+      else video.pause();
+    }
     tick();
   };
 
-  const video = root.querySelector("video.film-video[data-src]");
+  // Footage loads only when the film is on screen; if it fails, the photo scenes stay.
   const loadVideo = () => {
-    if (!video || video.src) return;
+    if (!video || video.getAttribute("src")) return;
     const mobile = window.innerWidth < 768 && video.dataset.srcMobile;
+    video.addEventListener(
+      "error",
+      () => {
+        video?.remove();
+        video = null;
+        root.classList.remove("has-video");
+        if (sound) sound.hidden = true;
+        tick();
+      },
+      { once: true },
+    );
+    video.addEventListener(
+      "loadeddata",
+      () => {
+        root.classList.add("has-video");
+        if (sound) sound.hidden = false;
+        setPlaying(playing);
+      },
+      { once: true },
+    );
+    video.preload = "auto";
     video.src = mobile ? video.dataset.srcMobile : video.dataset.src;
-    video.addEventListener("error", () => video.remove(), { once: true });
-    if (!prefersReduced()) video.play().catch(() => undefined);
+    video.load();
   };
 
   toggle?.addEventListener("click", () => {
     userPaused = playing;
     setPlaying(!playing);
-    if (video && video.src) playing ? video.play().catch(() => undefined) : video.pause();
+  });
+  sound?.addEventListener("click", () => {
+    if (!video) return;
+    video.muted = !video.muted;
+    sound.textContent = video.muted ? "Ativar som" : "Desativar som";
+    sound.setAttribute("aria-pressed", String(!video.muted));
+    if (!video.muted && video.paused) {
+      userPaused = false;
+      setPlaying(true);
+    }
   });
 
   show(0);
   setPlaying(false);
-  if (!("IntersectionObserver" in window)) return;
+  if (!("IntersectionObserver" in window)) {
+    loadVideo();
+    return;
+  }
   new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
