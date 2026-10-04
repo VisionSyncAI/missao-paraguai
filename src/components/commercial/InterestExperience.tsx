@@ -27,6 +27,8 @@ import {
 } from "@/modules/leads/status";
 import {
   INTEREST_STEPS,
+  consultantCallMessage,
+  type InterestStep,
   type DiagnosisAnswers,
   type InterestDraft,
   diagnosisLabel,
@@ -76,7 +78,7 @@ const LOT_LABELS: Record<(typeof LOT_CODES)[number], string> = {
   vip: "VIP · R$ 29.997",
 };
 
-const TITLES: Record<(typeof INTEREST_STEPS)[number], string> = {
+const TITLES: Record<InterestStep, string> = {
   name: "Como podemos te chamar?",
   contact: "Como podemos falar com você?",
   company: "Qual é a sua empresa?",
@@ -84,7 +86,7 @@ const TITLES: Record<(typeof INTEREST_STEPS)[number], string> = {
   stage: "Em qual momento sua empresa está?",
   role: "Qual é o seu cargo atual?",
   companySize: "Qual é o porte aproximado da sua empresa?",
-  interests: "O que você busca no Paraguai?",
+  interests: "Qual é o seu objetivo principal no Paraguai?",
   objective: "O que você espera encontrar nessa imersão?",
   relationship: "Você já possui alguma operação ou relacionamento com o Paraguai?",
   intent: "Qual é o seu nível de interesse em participar?",
@@ -353,13 +355,13 @@ export function InterestExperience() {
     return (
       <section className="flex min-h-[80dvh] flex-col justify-center">
         <p className="text-[11px] tracking-[0.28em] uppercase text-red">✓ Horário confirmado</p>
-        <h1 className="mt-6 font-display text-5xl md:text-6xl">
-          {meeting ? "Horário confirmado." : "Seu perfil foi recebido."}
+        <h1 className={`mt-6 max-w-3xl font-display ${meeting ? "text-5xl md:text-6xl" : "text-3xl leading-tight md:text-5xl"}`}>
+          {meeting ? "Horário confirmado." : consultantCallMessage(draft.fullName)}
         </h1>
         <p className="mt-4 max-w-xl text-gray">
           {meeting
-            ? "Sua conversa com a equipe da Imersão Paraguai está agendada."
-            : "Agora vamos entender seu momento, seus objetivos e como podemos conectar sua empresa às oportunidades certas no Paraguai."}
+            ? "Sua conversa com a equipe PROVISION está agendada."
+            : "Na conversa, vamos entender seu momento, seus objetivos e como conectar sua empresa às oportunidades certas no Paraguai."}
         </p>
         {meeting ? (
           <div className="mt-10 max-w-xl space-y-8">
@@ -410,11 +412,16 @@ export function InterestExperience() {
     return (
       <section className="min-h-[80dvh] py-8">
         <p className="text-[11px] tracking-[0.28em] uppercase text-red">Conversa com a equipe PROVISION</p>
-        <h1 className="mt-6 max-w-3xl font-display text-4xl md:text-6xl">Com base no seu perfil, nossa equipe vai apresentar a experiência.</h1>
-        <p className="mt-4 max-w-xl text-gray">Escolha um dia e horário até 15 de novembro de 2026. O consultor já recebe o contexto da sua empresa e do que você busca no Paraguai.</p>
-        {wantsPresentation && (
-          <p className="mt-3 max-w-xl text-sm text-white">A equipe PROVISION envia a apresentação executiva atualizada para o e-mail informado.</p>
-        )}
+        <h1 className="mt-6 max-w-3xl font-display text-3xl leading-tight md:text-5xl">{consultantCallMessage(draft.fullName)}</h1>
+        <p className="mt-4 max-w-xl text-gray">O consultor já recebe o contexto da sua empresa e do que você busca no Paraguai. Se preferir, escolha abaixo um dia e horário para a conversa, até 15 de novembro de 2026.</p>
+        {token ? (
+          <a
+            className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/25 px-6 py-3 text-xs font-bold uppercase tracking-[0.12em] sm:w-fit"
+            href={`/api/presentations/download?token=${encodeURIComponent(token)}`}
+          >
+            {wantsPresentation ? "Baixar a apresentação executiva (PDF)" : "Baixar também a apresentação executiva (PDF)"}
+          </a>
+        ) : null}
         <p className="mt-3 text-sm text-white">
           Seu interesse foi registrado. Prefere falar agora?{" "}
           <a className="underline underline-offset-4" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Falar com a equipe PROVISION</a>
@@ -593,7 +600,7 @@ export function InterestExperience() {
         )}
         {step === "interests" && (
           <div className="grid gap-2 sm:grid-cols-2">
-            <p className="text-sm text-gray sm:col-span-2">Marque todas as opções que se aplicam.</p>
+            <p className="text-sm text-gray sm:col-span-2">Marque o principal ou, se fizer sentido, mais de um.</p>
             {((stageFromLink ? UNDERSTAND_TOPICS : PARAGUAY_INTERESTS) as readonly string[]).map((option) => {
               const on = draft.interests.includes(option);
               return (
@@ -668,8 +675,10 @@ export function InterestExperience() {
               onChange={(e) => setDraft({ ...draft, consent: e.target.checked })}
             />
             <span>
-              Concordo em receber informações sobre a Imersão Paraguai e ser contatado pela equipe responsável.
-              Política de Privacidade e Termos serão publicados após aprovação jurídica.
+              Li e concordo com a{" "}
+              <a className="text-white underline underline-offset-4" href="/privacidade" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>{" "}
+              e os{" "}
+              <a className="text-white underline underline-offset-4" href="/termos" target="_blank" rel="noopener noreferrer">Termos de Participação</a>, e autorizo o contato da equipe PROVISION sobre a imersão.
             </span>
           </label>
         )}
@@ -687,7 +696,7 @@ export function InterestExperience() {
           className="min-h-12 w-full rounded-full bg-red px-8 py-3 text-xs font-bold uppercase tracking-widest disabled:opacity-50 sm:w-auto"
           onClick={() => void goNext()}
         >
-          {saving ? "Salvando…" : step === "consent" ? "Quero conhecer a experiência" : "Continuar"}
+          {saving ? "Salvando…" : step === "consent" ? "Enviar meu perfil" : "Continuar"}
         </button>
       </div>
     </section>

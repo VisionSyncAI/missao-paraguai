@@ -1,0 +1,96 @@
+{
+  "edition": "PROVISION — Imersão Sem Fronteiras | Paraguai 2026",
+  "period": {
+    "start": "2026-11-16",
+    "end": "2026-11-21",
+    "city": "Asunción",
+    "hotel": "Crowne Plaza Asunción"
+  },
+  "capacity": {
+    "companies": 20,
+    "representativesPerCompany": 1
+  },
+  "institutional": {
+    "date": "2026-11-18",
+    "status": "confirmado pela organização em 03/10/2026 e previsto nos contratos de participação (cláusulas 10 e 20)",
+    "source": "Contratos de Participação PROVISION Lote 01, 02, 03 e VIP (out/2026): \"A agenda institucional integra a experiência contratada.\"",
+    "items": [
+      "Ministério da Indústria e Comércio (MIC)",
+      "Ministério da Agricultura e Pecuária (MAG)",
+      "Municipalidad de Asunción"
+    ],
+    "pendingDocs": [
+      "PROVISION_Imersao_sem_Fronteiras_Plano_Oficial.docx ainda descreve a agenda institucional como \"prevista\": atualizar para refletir o contrato.",
+      "Guardar a confirmação por escrito de cada instituição."
+    ]
+  },
+  "visits": {
+    "date": "2026-11-19",
+    "items": [
+      {
+        "name": "ENGINEERING SAECA",
+        "city": "Luque",
+        "time": "08:45–09:45"
+      },
+      {
+        "name": "Industrias Reunidas Ñemby (IRN)",
+        "city": "Ñemby",
+        "time": "10:30–11:30"
+      },
+      {
+        "name": "Proveo Parque Logístico e Industrial",
+        "city": "Ypané",
+        "time": "12:15–14:00"
+      },
+      {
+        "name": "TERPORT",
+        "city": "Villeta",
+        "time": "14:30–16:30"
+      }
+    ]
+  },
+  "businessDay": {
+    "date": "2026-11-20",
+    "venue": "Crowne Plaza Asunción",
+    "b2b": "14:00–15:30",
+    "guests": "cerca de 30 convidados e empresas paraguaias, organizados pela PROCEIT a partir dos setores de interesse e das prioridades de conexão dos participantes",
+    "guestSectorsDocumented": false
+  },
+  "commercial": {
+    "source": "Contratos de Participação PROVISION (Lote 01, 02, 03 e VIP)",
+    "preReservation": 3500,
+    "lots": [
+      {
+        "code": "01",
+        "total": 19997,
+        "balance": 16497,
+        "balanceDue": "2026-10-20"
+      },
+      {
+        "code": "02",
+        "total": 22997,
+        "balance": 19497,
+        "balanceDue": "2026-10-20"
+      },
+      {
+        "code": "03",
+        "total": 25997,
+        "balance": 22497,
+        "balanceDue": "2026-10-20"
+      },
+      {
+        "code": "VIP",
+        "total": 29997,
+        "balance": 26497,
+        "balanceDue": "2026-10-26"
+      }
+    ],
+    "openIssues": [
+      "Lote 03 é vendido até 21/10, mas o saldo vence em 20/10.",
+      "Resumo comercial dos quatro contratos indica \"Lote 02\".",
+      "Lote 03: cláusula 5.1 cita \"Lote 02\" e 5.4 cita saldo de R$ 19.497,00.",
+      "VIP: cláusula 5.4 cita saldo de R$ 19.497,00; o resumo indica vencimento 20/10; numeração das cláusulas 28–33 está trocada; o resumo remete o crédito à cláusula 28 (no VIP é a 29).",
+      "Legislação aplicável e foro a validar (cláusula 45/46)."
+    ]
+  }
+}

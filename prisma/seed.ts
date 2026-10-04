@@ -57,16 +57,15 @@ async function main() {
   // Presentations are referenced by PresentationDownload (FK RESTRICT): never delete them here.
   const presentationPath = "content/presentations/imersao-paraguai-executiva.pdf";
   const presentation = await prisma.presentation.findFirst({ where: { filePath: presentationPath } });
+  const presentationData = {
+    title: "Apresentação Executiva — PROVISION Paraguai 2026",
+    description: "Documento oficial da experiência executiva, entregue após o formulário de interesse.",
+    version: "2026-10-04",
+  };
   if (!presentation) {
-    await prisma.presentation.create({
-      data: {
-        title: "Apresentação Executiva — Imersão Paraguai",
-        description: "Documento oficial da experiência executiva, entregue após o formulário de interesse.",
-        filePath: presentationPath,
-        version: "2026.1",
-        active: true,
-      },
-    });
+    await prisma.presentation.create({ data: { ...presentationData, filePath: presentationPath, active: true } });
+  } else {
+    await prisma.presentation.update({ where: { id: presentation.id }, data: presentationData });
   }
 
   const docs = [
@@ -74,19 +73,19 @@ async function main() {
       type: "PRIVACY_POLICY",
       version: PRIVACY_VERSION,
       title: "Política de Privacidade",
-      body: "Os dados do formulário de interesse são usados para contato comercial da Imersão Paraguai, agendamento com consultor e envio da apresentação. Não vendemos bases. CPF, quando informado, fica restrito. Dados de alimentação, quando coletados, destinam-se apenas à operação da missão e acesso limitado.",
+      body: "Texto integral publicado em missaoparaguai.com/privacidade nesta versão. Dados cadastrais, encarregado, canal de privacidade por e-mail, bases legais definitivas, prazos de retenção e transferência internacional em validação jurídica.",
     },
     {
       type: "TERMS",
       version: TERMS_VERSION,
-      title: "Termos de interesse",
-      body: "O envio do formulário não garante vaga nem constitui contratação. A participação depende de qualificação, proposta e pagamento em etapa posterior.",
+      title: "Termos de Participação",
+      body: "Resumo publicado em missaoparaguai.com/termos nesta versão, a partir dos contratos de participação (Lote 01, 02, 03 e VIP). O envio do formulário não garante vaga nem constitui contratação; vale o contrato assinado.",
     },
     {
       type: "CONTACT",
       version: CONTACT_CONSENT_VERSION,
       title: "Consentimento de contato",
-      body: "Autorizo contato por e-mail, telefone e WhatsApp sobre a Imersão Paraguai.",
+      body: "Autorizo contato por e-mail, telefone e WhatsApp sobre a PROVISION Paraguai 2026.",
     },
   ];
   for (const doc of docs) {

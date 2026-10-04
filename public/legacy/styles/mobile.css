@@ -217,3 +217,26 @@
 @media (min-width: 431px) and (max-width: 980px) {
   .hero-pillars { grid-template-columns: 1fr 1fr 1fr; }
 }
+
+/* Phones: 12px floor for tracked labels, 14px for notes and sources (the landing blocks set smaller sizes). */
+@media (max-width: 860px) {
+  .hero-facts, .film-kicker, .film-toggle, .film-transcript summary, .fit-label, .diag-count,
+  .mkt-tag, .mkt-src summary, .pm-name, .pm-type, .agenda-date, .visit-when, .visit-card dt,
+  .eco-layers button, .eco-map figcaption, .bday-count span, .mm-when, .match-role, .match-role span,
+  .xp-src, .org-role, .xp-nav button, .lot-table th, .lot-seal, .lot-table .lot-cta, .buy-steps b,
+  .vip-when, .after-split dt, .conds-grid .conds-status, .vip-col li b, .org-person span,
+  .lot-table .lot-seal, .xp-facts span { font-size: 0.75rem; }
+  .lot-table tbody th { font-size: 0.875rem; }
+  .film-note, .mkt-foot p, .mkt-foot a, .mkt-src a, .pm-bridge a, .pm-meaning b, .pm-src, .pm-src a,
+  .note, .lot-micro, .buy-note, .diag-note, .decision-help { font-size: 0.875rem; }
+}
+
+/* Every width: same legibility floor (12px tracked labels, 14px notes and sources). */
+.eyebrow, .btn, .hero-facts, .hero-cities, .hero-scroll, .hero-by, .film-kicker, .film-toggle, .film-transcript summary,
+.fit-label, .diag-count, .mkt-tag, .mkt-src summary, .pm-name, .pm-type, .agenda-date, .visit-when, .visit-card dt,
+.eco-layers button, .eco-map figcaption, .bday-count span, .mm-when, .match-role, .match-role span, .xp-src,
+.org-role, .org-person span, .xp-cat, .xp-loc, .xp-nav button, .lot-table th, .lot-table .lot-seal, .lot-table .lot-cta,
+.lot-seal, .buy-steps b, .vip-when, .after-split dt, .conds-grid .conds-status, .vip-col li b, .xp-facts span,
+.news-kicker, .lot-kicker, .editions-kicker, .compare th, .lot-table thead th { font-size: 0.75rem; }
+.film-note, .mkt-foot p, .mkt-foot a, .mkt-src a, .pm-bridge a, .pm-meaning b, .pm-src, .pm-src a,
+.note, .lot-micro, .buy-note, .diag-note, .decision-help { font-size: 0.875rem; }

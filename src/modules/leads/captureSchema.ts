@@ -17,12 +17,16 @@ import {
 } from "@/modules/leads/status";
 import { normalizeName } from "@/modules/interest/flow";
 
+/** Optional choices the short form never asked arrive as "": treat them as not informed. */
+const optionalChoice = <T extends readonly [string, ...string[]]>(values: T) =>
+  z.preprocess((v) => (v === "" ? undefined : v), z.enum(values).optional());
+
 export const captureSchema = z.object({
   fullName: z.string().transform(normalizeName).pipe(z.string().min(5).max(160)),
   email: z.string().trim().toLowerCase().refine(isValidEmail, "E-mail inválido"),
   whatsapp: z.string().trim().refine((v) => Boolean(normalizePhone(v)), "WhatsApp inválido"),
   companyName: z.string().transform(normalizeName).pipe(z.string().min(2).max(160)),
-  segment: z.enum(BUSINESS_SEGMENTS),
+  segment: optionalChoice(BUSINESS_SEGMENTS),
   lot: z.enum(LOT_CODES).optional(),
   stage: z.enum(MARKET_STAGES).optional(),
   diagnosis: z
@@ -38,11 +42,11 @@ export const captureSchema = z.object({
   decisionBox: z.string().trim().max(1200).optional().or(z.literal("")),
   jobTitle: z.enum(JOB_TITLE_OPTIONS),
   jobTitleOther: z.string().trim().max(80).optional().or(z.literal("")),
-  companySize: z.enum(COMPANY_SIZE_BANDS),
+  companySize: optionalChoice(COMPANY_SIZE_BANDS),
   interests: z.array(z.enum(SEEKING_OPTIONS)).min(1),
   objective: z.string().trim().max(2000).optional().or(z.literal("")),
-  relationship: z.enum(PARAGUAY_RELATIONSHIPS),
-  intent: z.enum(PARTICIPATION_INTENTS),
+  relationship: optionalChoice(PARAGUAY_RELATIONSHIPS),
+  intent: optionalChoice(PARTICIPATION_INTENTS),
   delegationSize: z.number().int().min(1).max(5).optional(),
   companionRequested: z.boolean().optional(),
   consent: z.literal(true),

@@ -9,7 +9,9 @@ import {
   PARTICIPATION_INTENTS,
 } from "@/modules/leads/status";
 
-export const INTEREST_STEPS = [
+/** Every question the flow knows. Segment, stage, size, objective, relationship and intent are optional:
+ *  they come from the diagnosis when available, or from the conversation with the consultant. */
+export const ALL_STEPS = [
   "name",
   "company",
   "role",
@@ -24,7 +26,10 @@ export const INTEREST_STEPS = [
   "consent",
 ] as const;
 
-export type InterestStep = (typeof INTEREST_STEPS)[number];
+export type InterestStep = (typeof ALL_STEPS)[number];
+
+/** Asked before the first conversation: name, company, role, contact, main objective, consent. */
+export const INTEREST_STEPS: readonly InterestStep[] = ["name", "company", "role", "contact", "interests", "consent"];
 
 export type InterestDraft = {
   fullName: string;
@@ -72,6 +77,12 @@ export function emptyDraft(): InterestDraft {
 
 export function normalizeName(value: string) {
   return value.trim().replace(/\s+/g, " ");
+}
+
+/** Message shown and sent right after the profile arrives: the consultant calls the client by name. */
+export function consultantCallMessage(fullName: string) {
+  const first = normalizeName(fullName).split(" ")[0];
+  return `${first ? `Olá, ${first}!` : "Olá!"} Um de nossos consultores entrará em contato com você para conversar sobre a PROVISION.`;
 }
 
 export function validateStep(step: InterestStep, draft: InterestDraft) {

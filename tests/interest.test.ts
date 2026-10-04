@@ -113,7 +113,7 @@ describe("janela de reunião", () => {
   it("template de reunião confirmada não inventa sala", () => {
     const when = new Date("2026-11-15T13:30:00.000Z");
     const queued = EmailCopy.meetingConfirmed("Ana Souza", "Karina Ricioni", when, null);
-    expect(queued.subject).toBe("Imersão Paraguai — reunião confirmada");
+    expect(queued.subject).toBe("PROVISION Paraguai 2026 — reunião confirmada");
     expect(queued.body).toContain("O consultor vai chamar você pelo WhatsApp informado no horário marcado.");
     expect(queued.body).not.toMatch(/link da reunião será enviado/i);
     expect(queued.body).not.toContain("/reuniao/");

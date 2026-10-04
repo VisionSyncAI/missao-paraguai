@@ -163,3 +163,65 @@
   .lot-table td:last-child { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 6px; }
   .final-actions .btn { width: 100%; }
 }
+
+/* ---------- Structured experience, guests, match note, after-event split ---------- */
+.struct-head { max-width: 46rem; }
+.struct-grid { list-style: none; margin: var(--space-7) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--color-line); border: 1px solid var(--color-line); }
+.struct-grid li { display: grid; gap: 8px; align-content: start; padding: 24px; background: var(--color-bg); min-width: 0; }
+.struct-grid b { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: var(--color-gold); }
+.struct-grid span { color: var(--color-text); }
+.bday-guests { margin: 18px 0 0; max-width: 60ch; color: var(--color-muted); }
+.match-note { margin: 18px 0 0; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.06em; color: var(--color-gold); }
+.after-split { margin: 18px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.after-split div { padding: 18px 20px; border: 1px solid var(--color-line); border-radius: 14px; }
+.after-split dt { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold); }
+.after-split dd { margin: 8px 0 0; color: var(--color-text); }
+
+/* ---------- Conditions of participation ---------- */
+.conds { margin-top: var(--space-8); }
+.conds h3 { font-size: clamp(1.3rem, 2.2vw, 1.8rem); }
+.conds-grid { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.conds-grid li { border: 1px solid var(--color-line); border-radius: 14px; min-width: 0; }
+.conds-grid li > p:first-child, .conds-grid a { display: block; }
+.conds-grid li, .conds-grid a { padding: 18px; }
+.conds-grid li:has(a) { padding: 0; }
+.conds-grid a { height: 100%; color: inherit; text-decoration: none; transition: border-color 0.2s ease, background 0.2s ease; border-radius: 14px; }
+.conds-grid a:hover, .conds-grid a:focus-visible { background: rgba(201, 169, 106, 0.08); }
+.conds-grid p { margin: 0 0 8px; color: var(--color-muted); font-size: 0.94rem; }
+.conds-grid .conds-kind { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--color-text); }
+.conds-grid .conds-status { margin: 0; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); }
+.conds-grid .conds-status.is-ok { color: var(--color-gold); }
+.conds .invest-actions { margin-top: 18px; }
+
+/* ---------- VIP: who it is for + comparison ---------- */
+.vip-who { margin-top: var(--space-6); max-width: 62ch; }
+.vip-who h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
+.vip-who p { margin: 10px 0 0; color: var(--color-text); }
+.vip-compare { margin-top: var(--space-6); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.vip-col { padding: 22px 24px; border: 1px solid var(--color-line); border-radius: 16px; min-width: 0; }
+.vip-col.is-vip { border-color: rgba(201, 169, 106, 0.45); }
+.vip-col ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+.vip-col li { color: var(--color-text); }
+.vip-col li b { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold); margin-right: 6px; }
+.vip-limit { margin: 14px 0 0; color: var(--color-muted); font-size: 0.94rem; }
+
+/* ---------- Decide with the lights on ---------- */
+.decide-steps { margin: 0; padding: 0 0 0 1.4em; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 24px; color: var(--color-text); }
+.decide-steps li::marker { font-family: var(--font-mono); color: var(--color-gold); }
+
+/* ---------- Design residue: investment title, labels, FAQ in the landing type system ---------- */
+.invest-head h2 { font-family: var(--font-display); text-transform: none; letter-spacing: -0.03em; max-width: 16ch; }
+.xp-cat b { color: var(--color-gold); }
+.faq h2 { font-family: var(--font-display); letter-spacing: -0.03em; }
+.faq .acc { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; letter-spacing: -0.01em; align-items: baseline; }
+.faq .acc span { font-family: var(--font-mono); color: var(--color-gold); }
+.faq .acc-panel { font-family: var(--font-body, "IBM Plex Sans", sans-serif); font-size: 1rem; line-height: 1.6; }
+.faq .acc-panel a { color: var(--color-text); text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 1100px) {
+  .struct-grid, .conds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  .struct-grid, .conds-grid, .after-split, .vip-compare { grid-template-columns: 1fr; }
+  .decide-steps { grid-template-columns: 1fr; }
+}

@@ -10,7 +10,7 @@ import { EmailCopy } from "@/modules/comms/templates";
 import type { CaptureInput } from "@/modules/leads/captureSchema";
 import { logInfo } from "@/lib/logger";
 import { resolveVerifiedBooking } from "@/modules/scheduling/resolve";
-import { mapInterestFlags, mapRelationship, resolvedJobTitle } from "@/modules/interest/flow";
+import { consultantCallMessage, mapInterestFlags, mapRelationship, resolvedJobTitle } from "@/modules/interest/flow";
 import { computeScores } from "@/modules/leads/scoring";
 import { can } from "@/lib/rbac";
 import { signLeadVerifyToken } from "@/lib/leadVerify";
@@ -28,7 +28,7 @@ function appUrl() {
 /** Fluxo oficial de captação: /interesse → captureInterest → Lead → CRM → Cal.diy → Meeting. */
 export async function captureInterest(input: CaptureInput, meta: { ip: string | null; userAgent: string | null }) {
   const jobTitle = resolvedJobTitle({ jobTitle: input.jobTitle, jobTitleOther: input.jobTitleOther || "" });
-  const relation = mapRelationship(input.relationship);
+  const relation = mapRelationship(input.relationship || "");
   const flags = mapInterestFlags(input.interests);
   const qualification = {
     companyName: input.companyName,
@@ -74,7 +74,7 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
       data: {
         leadId: existing.id,
         type: "INTEREST_RESUBMITTED",
-        body: `Nova pré-inscrição com este e-mail (dados não aplicados; aguardando confirmação pelo e-mail). Nome informado: ${input.fullName} · WhatsApp informado: ${phone} · Empresa informada: ${input.companyName} (${input.segment})${input.lot ? ` · Lote de interesse: ${input.lot}` : ""}${input.stage ? ` · Momento: ${MARKET_STAGE_COPY[input.stage].label}` : ""}.`,
+        body: `Nova pré-inscrição com este e-mail (dados não aplicados; aguardando confirmação pelo e-mail). Nome informado: ${input.fullName} · WhatsApp informado: ${phone} · Empresa informada: ${input.companyName} (${input.segment || "segmento não informado"})${input.lot ? ` · Lote de interesse: ${input.lot}` : ""}${input.stage ? ` · Momento: ${MARKET_STAGE_COPY[input.stage].label}` : ""}.`,
       },
     });
     const verifyToken = await signLeadVerifyToken(existing.id);
@@ -128,7 +128,7 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     data: {
       ...data,
       accessTokenHash: sha256(accessToken),
-      company: { create: { legalName: input.companyName, segment: input.segment } },
+      company: { create: { legalName: input.companyName, segment: input.segment ?? null } },
       status: "FORM_SUBMITTED",
       consents: {
         create: [
@@ -165,8 +165,8 @@ export async function captureInterest(input: CaptureInput, meta: { ip: string | 
     eventType: "LEAD_CREATED",
     uniqueKey: emailUnique("LEAD_CREATED", lead.id),
     to: lead.email,
-    subject: "Pré-inscrição recebida — Imersão Paraguai",
-    body: `Olá, ${lead.fullName}.\n\nRecebemos seu perfil. Agende a conversa com um consultor para continuarmos.\n${appUrl()}/interesse`,
+    subject: "Pré-inscrição recebida — PROVISION Paraguai 2026",
+    body: `${consultantCallMessage(lead.fullName)}\n\nSe preferir, escolha um dia e horário para a conversa:\n${appUrl()}/interesse\n\nPROVISION · Imersão Sem Fronteiras — Vision Cybero AI × PROCEIT`,
   });
   logInfo("lead_created", { leadId: lead.id });
   return { accessToken, leadId: lead.id as string | null, created: true, tokenPreserved: false, verificationRequired: false };

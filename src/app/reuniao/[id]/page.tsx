@@ -17,7 +17,7 @@ export default async function ReuniaoPage({ params }: { params: Promise<{ id: st
   return (
     <main className="min-h-dvh bg-black px-5 py-16 text-white">
       <div className="mx-auto max-w-xl rounded-2xl border border-white/10 bg-[#0c0c0c] p-8">
-        <p className="text-[11px] tracking-[0.2em] uppercase text-red">Reunião Imersão Paraguai</p>
+        <p className="text-[11px] tracking-[0.2em] uppercase text-red">Reunião PROVISION</p>
         <h1 className="mt-4 text-3xl">{meeting.consultant.name}</h1>
         <p className="mt-3 text-gray">{formatSaoPaulo(meeting.scheduledAt)}</p>
         <p className="mt-6 text-sm text-gray">

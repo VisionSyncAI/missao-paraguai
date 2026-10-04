@@ -22,11 +22,11 @@ const INTENT_WEIGHT: Record<string, number> = {
 };
 
 export type ScoreInput = {
-  segment: string;
+  segment?: string;
   jobTitle: string;
-  companySize: string;
+  companySize?: string;
   stage?: MarketStage | null;
-  intent: string;
+  intent?: string;
   interests: string[];
   diagnosisCompleted: boolean;
   decisionBox?: string | null;
@@ -38,13 +38,13 @@ const clamp = (n: number) => Math.max(0, Math.min(100, Math.round(n)));
 
 export function computeScores(input: ScoreInput): LeadScores {
   const fit = clamp(
-    (PRIORITY_SEGMENTS.has(input.segment) ? 30 : 10) +
+    (input.segment && PRIORITY_SEGMENTS.has(input.segment) ? 30 : 10) +
       (DECISION_MAKERS.has(input.jobTitle) ? 25 : 10) +
-      (LARGER_COMPANIES.has(input.companySize) ? 20 : 8) +
+      (input.companySize && LARGER_COMPANIES.has(input.companySize) ? 20 : 8) +
       (input.stage ? STAGE_FIT[input.stage] : 10),
   );
   const interest = clamp(
-    (INTENT_WEIGHT[input.intent] ?? 15) +
+    (input.intent ? INTENT_WEIGHT[input.intent] ?? 15 : 15) +
       Math.min(input.interests.length, 4) * 5 +
       (input.diagnosisCompleted ? 20 : 0) +
       ((input.decisionBox || "").trim().length >= 20 ? 20 : 0),

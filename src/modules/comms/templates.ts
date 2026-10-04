@@ -10,11 +10,11 @@ export const EmailCopy = {
   meetingConfirmed(name: string, consultant: string, when: Date, meetingUrl?: string | null) {
     const live = isLiveMeetingLink(meetingUrl);
     return {
-      subject: "Imersão Paraguai — reunião confirmada",
+      subject: "PROVISION Paraguai 2026 — reunião confirmada",
       body: [
         `Olá, ${name}.`,
         "",
-        "Seu horário para conversar sobre a Imersão Paraguai foi confirmado.",
+        "Seu horário para conversar sobre a PROVISION Paraguai 2026 foi confirmado.",
         "",
         `Consultor: ${consultant}`,
         `Data e horário: ${formatSaoPaulo(when)}`,
@@ -25,30 +25,30 @@ export const EmailCopy = {
         "",
         `Se preferir, fale direto com a equipe no WhatsApp: ${WHATSAPP_URL}`,
         "",
-        "Imersão Paraguai — Vision Cybero AI × Proceit",
+        "PROVISION · Imersão Sem Fronteiras — Vision Cybero AI × PROCEIT",
       ].join("\n"),
     };
   },
   leadReceived(name: string, consultant: string, when: Date, meetingUrl: string, token?: string) {
     return {
-      subject: "Pré-inscrição recebida — Imersão Paraguai",
+      subject: "Pré-inscrição recebida — PROVISION Paraguai 2026",
       body: [
         `Olá, ${name}.`,
         "",
-        "Recebemos seu interesse na Imersão Paraguai.",
+        "Recebemos seu interesse na PROVISION Paraguai 2026.",
         `Sua conversa com ${consultant} está agendada para ${formatSaoPaulo(when)}.`,
         isLiveMeetingLink(meetingUrl)
           ? `Sala da reunião: ${meetingUrl}`
           : "O consultor vai chamar você pelo WhatsApp informado no horário marcado.",
         token ? `Confirmação e apresentação: ${appUrl()}/interesse/confirmacao?t=${token}` : "",
         "",
-        "Imersão Paraguai — Vision Cybero AI × Proceit",
+        "PROVISION · Imersão Sem Fronteiras — Vision Cybero AI × PROCEIT",
       ].join("\n"),
     };
   },
   meetingUpdated(name: string, status: string, when: Date | null, meetingUrl: string) {
     return {
-      subject: `Reunião ${status.toLowerCase()} — Imersão Paraguai`,
+      subject: `Reunião ${status.toLowerCase()} — PROVISION Paraguai 2026`,
       body: [
         `Olá, ${name}.`,
         "",
@@ -60,7 +60,7 @@ export const EmailCopy = {
   },
   leadResubmitted(name: string, verifyToken: string) {
     return {
-      subject: "Confirme sua pré-inscrição — Imersão Paraguai",
+      subject: "Confirme sua pré-inscrição — PROVISION Paraguai 2026",
       body: [
         `Olá, ${name}.`,
         "",
@@ -74,7 +74,7 @@ export const EmailCopy = {
   },
   registrationCreated(name: string, token: string) {
     return {
-      subject: "Ficha de inscrição aberta — Imersão Paraguai",
+      subject: "Ficha de inscrição aberta — PROVISION Paraguai 2026",
       body: [
         `Olá, ${name}.`,
         "",
@@ -85,7 +85,7 @@ export const EmailCopy = {
   },
   paymentApproved(name: string, token: string) {
     return {
-      subject: "Pagamento confirmado — Imersão Paraguai",
+      subject: "Pagamento confirmado — PROVISION Paraguai 2026",
       body: [
         `Olá, ${name}.`,
         "",
@@ -96,13 +96,13 @@ export const EmailCopy = {
   },
   paymentFailed(name: string) {
     return {
-      subject: "Pagamento não confirmado — Imersão Paraguai",
+      subject: "Pagamento não confirmado — PROVISION Paraguai 2026",
       body: [`Olá, ${name}.`, "", "O gateway não confirmou o pagamento. Fale com o consultor para uma nova tentativa."].join("\n"),
     };
   },
   documentPending(name: string, token: string) {
     return {
-      subject: "Documentos pendentes — Imersão Paraguai",
+      subject: "Documentos pendentes — PROVISION Paraguai 2026",
       body: [`Olá, ${name}.`, "", `Envie os documentos na área do participante: ${appUrl()}/login?t=${token}`].join("\n"),
     };
   },

@@ -10,7 +10,7 @@ export const DIAGNOSIS = {
   objective: ["Expansão", "Novos parceiros", "Fornecedores", "Produção", "Logística", "Mercado", "Investimento"],
   pyStage: ["Ainda estou conhecendo", "Já pesquisei", "Já tenho contatos", "Já opero no país", "Estou avaliando expansão"],
   conversation: ["Institucional", "Empresarial", "B2B", "Logística", "Investimento", "Tecnologia"],
-  profile: ["Empresário", "Executivo", "Investidor", "Delegação empresarial"],
+  profile: ["Empresário", "Executivo", "Investidor", "Representante da empresa"],
 };
 
 /** @type {Record<string, string>} */
@@ -121,8 +121,16 @@ function initFilm(root) {
   let video = root.querySelector("video.film-video[data-src]");
   const usingVideo = () => Boolean(video && root.classList.contains("has-video"));
 
+  // Scene photos wait in data-src: the current one loads when shown, the next one while the current plays.
+  const prime = (k) => {
+    const img = scenes[(k + scenes.length) % scenes.length].querySelector("img[data-src]");
+    if (!img) return;
+    img.src = img.dataset.src;
+    img.removeAttribute("data-src");
+  };
   const show = (i) => {
     index = (i + scenes.length) % scenes.length;
+    prime(index);
     scenes.forEach((sc, k) => sc.classList.toggle("is-on", k === index));
     bars.forEach((b, k) => {
       if (!b) return;
@@ -134,6 +142,7 @@ function initFilm(root) {
   const tick = () => {
     clearTimeout(timer);
     if (!playing || usingVideo()) return;
+    prime(index + 1);
     timer = window.setTimeout(() => {
       show(index + 1);
       tick();
@@ -199,6 +208,7 @@ function initFilm(root) {
   show(0);
   setPlaying(false);
   if (!("IntersectionObserver" in window)) {
+    scenes.forEach((_, k) => prime(k));
     loadVideo();
     return;
   }

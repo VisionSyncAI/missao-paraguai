@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { ConfirmationView } from "@/components/commercial/ConfirmationView";
 
-export const metadata = { title: "Pré-inscrição recebida | Imersão Paraguai" };
+export const metadata = { title: "Pré-inscrição recebida | PROVISION — Imersão Sem Fronteiras", robots: { index: false, follow: false } };
 
 export default function ConfirmacaoPage() {
   return (
