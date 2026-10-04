@@ -48,6 +48,18 @@ function endsIn(today, end) {
   return `encerra em ${left} dias`;
 }
 
+function ddmmyyyy(ymd) {
+  return `${ymd.slice(8, 10)}/${ymd.slice(5, 7)}/${ymd.slice(0, 4)}`;
+}
+
+/** Hero line: lowest condition open today and the date it ends. Same source as the lot table. */
+export function heroOffer(today) {
+  const { current, vip, closed } = lotCopy(today);
+  if (closed) return { price: "Inscrições encerradas", until: "O período comercial desta edição foi concluído." };
+  if (current) return { price: `A partir de ${current.price}`, until: `Condição vigente até ${ddmmyyyy(current.end)}.` };
+  return { price: vip === "closed" ? "" : "Experiência VIP · R$ 29.997", until: `Condição vigente até ${ddmmyyyy(VIP_END)}.` };
+}
+
 /**
  * Commercial urgency comes only from the date-based change of condition: never seats, occupancy
  * or stock. Returns the seal for each card and the banner line for the given São Paulo date.
@@ -87,9 +99,12 @@ export function lotCopy(today) {
 }
 
 export function initLots() {
+  const today = todayInSaoPaulo();
+  const offer = heroOffer(today);
+  document.querySelectorAll("[data-hero-price]").forEach((n) => (n.textContent = offer.price));
+  document.querySelectorAll("[data-hero-until]").forEach((n) => (n.textContent = offer.until));
   const root = document.querySelector("#investimento");
   if (!root) return;
-  const today = todayInSaoPaulo();
   const { states, current, vip, closed, seals, banner } = lotCopy(today);
   root.querySelectorAll("[data-lots-open]").forEach((node) => {
     node.hidden = closed;

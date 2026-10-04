@@ -130,7 +130,7 @@ function initFilm(root) {
       b.classList.toggle("is-done", k < index);
     });
   };
-  const hold = () => (scenes[index].classList.contains("is-map") ? 6200 : 4800);
+  const hold = () => Number(scenes[index].dataset.hold) || (scenes[index].classList.contains("is-map") ? 6200 : 4800);
   const tick = () => {
     clearTimeout(timer);
     if (!playing || usingVideo()) return;

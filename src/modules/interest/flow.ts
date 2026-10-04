@@ -11,17 +11,16 @@ import {
 
 export const INTEREST_STEPS = [
   "name",
-  "contact",
   "company",
-  "segment",
-  "stage",
   "role",
-  "companySize",
+  "contact",
+  "segment",
   "interests",
+  "stage",
+  "companySize",
   "objective",
   "relationship",
   "intent",
-  "companion",
   "consent",
 ] as const;
 
@@ -136,10 +135,6 @@ export function validateStep(step: InterestStep, draft: InterestDraft) {
     if (!PARTICIPATION_INTENTS.includes(draft.intent as (typeof PARTICIPATION_INTENTS)[number])) {
       return "Selecione uma opção.";
     }
-    return null;
-  }
-  if (step === "companion") {
-    if (draft.companionRequested === null) return "Informe se deseja um ingresso adicional de acompanhante.";
     return null;
   }
   if (step === "consent") {

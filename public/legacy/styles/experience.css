@@ -436,6 +436,18 @@
 .decision-error { margin: 0; color: #ff8a8f; }
 .decision-box .btn { justify-self: start; }
 
+/* ---------- Quem organiza ---------- */
+.orgs-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: var(--space-7); }
+.org-card { display: grid; gap: 18px; align-content: start; padding: clamp(22px, 3vw, 36px); border: 1px solid var(--color-line); border-radius: 18px; background: linear-gradient(180deg, rgba(14, 26, 51, 0.5), rgba(5, 5, 5, 0.4)); min-width: 0; }
+.org-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; }
+.org-logo { height: 44px; width: auto; }
+.org-role { margin: 0; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-gold); }
+.org-text { margin: 0; color: var(--color-muted); max-width: 44ch; }
+.org-person { display: flex; align-items: center; gap: 18px; padding-top: 18px; border-top: 1px solid var(--color-line); }
+.org-person img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; flex: none; }
+.org-person strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.2rem, 2vw, 1.5rem); text-transform: uppercase; letter-spacing: 0.02em; }
+.org-person span { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-muted); }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
   .people-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -447,6 +459,9 @@
 }
 @media (max-width: 860px) {
   .chapter { padding: var(--space-9) 0; }
+  .orgs-grid { grid-template-columns: 1fr; }
+  .org-top { flex-direction: column; align-items: flex-start; }
+  .org-person img { width: 72px; height: 72px; }
   .hero-headline { font-size: clamp(2.1rem, 9vw, 3rem); }
   .film-frame { aspect-ratio: 4 / 5; max-height: 78vh; }
   .film-scene.is-map > img, .film-route, .film-pins { top: 6%; height: 58%; }

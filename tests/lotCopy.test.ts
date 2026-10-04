@@ -40,3 +40,14 @@ describe("texto comercial dos lotes (sem escassez simulada)", () => {
     expect(legacyLotCopy("2026-10-02")).toEqual(lotCopy("2026-10-02"));
   });
 });
+
+describe("preço no hero acompanha o lote vigente", () => {
+  it("mostra o menor preço aberto e a data de fim da condição", async () => {
+    const { heroOffer } = await import("../src/js/lots.js");
+    expect(heroOffer("2026-10-03")).toEqual({ price: "A partir de R$ 19.997", until: "Condição vigente até 07/10/2026." });
+    expect(heroOffer("2026-10-08").price).toBe("A partir de R$ 22.997");
+    expect(heroOffer("2026-10-15").until).toBe("Condição vigente até 21/10/2026.");
+    expect(heroOffer("2026-10-24")).toEqual({ price: "Experiência VIP · R$ 29.997", until: "Condição vigente até 26/10/2026." });
+    expect(heroOffer("2026-10-27").price).toBe("Inscrições encerradas");
+  });
+});

@@ -44,6 +44,7 @@ function sourceFromOrigin(origin: string | null) {
   if (origin === "mercado") return "interesse-mercado";
   if (origin === "diagnostico") return "interesse-diagnostico";
   if (origin === "decisao") return "interesse-decisao";
+  if (origin === "apresentacao") return "interesse-apresentacao";
   return "interesse";
 }
 
@@ -87,7 +88,6 @@ const TITLES: Record<(typeof INTEREST_STEPS)[number], string> = {
   objective: "O que você espera encontrar nessa imersão?",
   relationship: "Você já possui alguma operação ou relacionamento com o Paraguai?",
   intent: "Qual é o seu nível de interesse em participar?",
-  companion: "Deseja participar acompanhado?",
   consent: "Podemos seguir com o contato?",
 };
 
@@ -99,6 +99,7 @@ export function InterestExperience() {
   const [stageFromLink, setStageFromLink] = useState(false);
   const [diagnosis, setDiagnosis] = useState<DiagnosisAnswers | null>(null);
   const [decisionBox, setDecisionBox] = useState("");
+  const wantsPresentation = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("origem") === "apresentacao";
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [token, setToken] = useState("");
@@ -313,7 +314,8 @@ export function InterestExperience() {
             <span className="mt-1 block font-bold">{diagnosisLabel(diagnosis)}</span>
           </p>
         )}
-        {(stageFromLink || diagnosis || decisionBox) && <p className="mt-4 max-w-xl text-sm text-gray">{TRUST_COPY}</p>}
+        <p className="mt-4 max-w-xl text-sm text-gray">3 minutos para entendermos seu perfil. Sem pagamento nesta etapa.</p>
+        {(stageFromLink || diagnosis || decisionBox) && <p className="mt-2 max-w-xl text-sm text-gray">{TRUST_COPY}</p>}
         {draft.lot && (
           <p className="mt-6 w-fit rounded-lg border border-white/15 px-4 py-2 text-xs uppercase tracking-[0.14em] text-white">
             Condição de interesse: {LOT_LABELS[draft.lot as (typeof LOT_CODES)[number]]}
@@ -410,6 +412,9 @@ export function InterestExperience() {
         <p className="text-[11px] tracking-[0.28em] uppercase text-red">Conversa com a equipe PROVISION</p>
         <h1 className="mt-6 max-w-3xl font-display text-4xl md:text-6xl">Com base no seu perfil, nossa equipe vai apresentar a experiência.</h1>
         <p className="mt-4 max-w-xl text-gray">Escolha um dia e horário até 15 de novembro de 2026. O consultor já recebe o contexto da sua empresa e do que você busca no Paraguai.</p>
+        {wantsPresentation && (
+          <p className="mt-3 max-w-xl text-sm text-white">A equipe PROVISION envia a apresentação executiva atualizada para o e-mail informado.</p>
+        )}
         <p className="mt-3 text-sm text-white">
           Seu interesse foi registrado. Prefere falar agora?{" "}
           <a className="underline underline-offset-4" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Falar com a equipe PROVISION</a>
@@ -654,25 +659,6 @@ export function InterestExperience() {
             ))}
           </div>
         )}
-        {step === "companion" && (
-          <div className="grid gap-3">
-            <p className="text-sm text-gray">
-              Participantes que desejarem levar a esposa poderão adquirir um ingresso adicional para sua acompanhante. Esse ingresso é contabilizado separadamente, sem desconto automático, e não entra no ingresso principal.
-            </p>
-            <button
-              className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.companionRequested === true ? "border-red" : "border-white/15"}`}
-              onClick={() => setDraft({ ...draft, companionRequested: true })}
-            >
-              Sim, quero um ingresso adicional
-            </button>
-            <button
-              className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.companionRequested === false ? "border-red" : "border-white/15"}`}
-              onClick={() => setDraft({ ...draft, companionRequested: false })}
-            >
-              Não
-            </button>
-          </div>
-        )}
         {step === "consent" && (
           <label className="flex min-h-11 cursor-pointer items-start gap-3 text-sm text-gray">
             <input
@@ -701,7 +687,7 @@ export function InterestExperience() {
           className="min-h-12 w-full rounded-full bg-red px-8 py-3 text-xs font-bold uppercase tracking-widest disabled:opacity-50 sm:w-auto"
           onClick={() => void goNext()}
         >
-          {saving ? "Salvando…" : step === "consent" ? (stageFromLink || diagnosis || decisionBox ? "Falar com um consultor" : "Enviar pré-inscrição") : "Continuar"}
+          {saving ? "Salvando…" : step === "consent" ? "Quero conhecer a experiência" : "Continuar"}
         </button>
       </div>
     </section>
