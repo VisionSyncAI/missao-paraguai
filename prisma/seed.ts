@@ -73,7 +73,7 @@ async function main() {
       type: "PRIVACY_POLICY",
       version: PRIVACY_VERSION,
       title: "Política de Privacidade",
-      body: "Texto integral publicado em missaoparaguai.com/privacidade nesta versão. Dados cadastrais, encarregado, canal de privacidade por e-mail, bases legais definitivas, prazos de retenção e transferência internacional em validação jurídica.",
+      body: "Texto integral publicado em missaoparaguai.com/privacidade nesta versão. Controladoras: PROCEIT e Vision Cybero AI. Canal do titular: WhatsApp +55 51 99716-4254. Bases legais, prazos de retenção, cookies, operadores e transferência internacional estão descritos na página.",
     },
     {
       type: "TERMS",

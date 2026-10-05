@@ -89,7 +89,7 @@ export const COMPANION_TYPES = [
 
 export const EMPLOYEE_BANDS = ["1-10", "11-50", "51-200", "201-500", "500+"] as const;
 
-export const PRIVACY_VERSION = "2026-10-02";
+export const PRIVACY_VERSION = "2026-10-04";
 export const TERMS_VERSION = "2026-10-02";
 export const CONTACT_CONSENT_VERSION = "2026-10-1";
 
