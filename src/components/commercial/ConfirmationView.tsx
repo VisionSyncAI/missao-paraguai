@@ -41,8 +41,14 @@ export function ConfirmationView() {
         <p className="text-[11px] tracking-[0.28em] uppercase text-red">Hipótese recebida</p>
         <h1 className="mt-4 text-4xl md:text-6xl leading-[0.95]">Sua hipótese foi recebida, {data.name.split(" ")[0]}.</h1>
         <p className="mt-5 max-w-xl text-gray">
-          O próximo passo é a conversa com um consultor. Ele entra em contato para entender a empresa, o objetivo e a condição de participação. Sem pagamento nesta etapa.
+          O envio não confirma vaga. O próximo passo é a conversa com um consultor.
         </p>
+        <ol className="mt-4 max-w-xl list-decimal space-y-1 pl-5 text-sm text-gray">
+          <li>Analisamos seu perfil.</li>
+          <li>Entendemos o que você quer encontrar no Paraguai.</li>
+          <li>Apresentamos a experiência, o que está incluído e o que não está.</li>
+          <li>Se houver aderência, avançamos para a pré-reserva de R$ 3.500,00.</li>
+        </ol>
         <ol className="mt-6 flex flex-wrap gap-x-3 gap-y-2 text-[0.72rem] uppercase tracking-[0.14em] text-[#9a9a94]">
           <li>Conversa</li>
           <li aria-hidden="true">→</li>

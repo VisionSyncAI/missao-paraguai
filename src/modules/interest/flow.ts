@@ -82,7 +82,8 @@ export function normalizeName(value: string) {
 /** Message shown and sent right after the profile arrives: the consultant calls the client by name. */
 export function consultantCallMessage(fullName: string) {
   const first = normalizeName(fullName).split(" ")[0];
-  return `${first ? `Olá, ${first}!` : "Olá!"} Um de nossos consultores entrará em contato com você para conversar sobre a PROVISION.`;
+  const hello = first ? `Olá, ${first}.` : "Olá.";
+  return `${hello} Recebemos seu interesse no PROVISION — Imersão Sem Fronteiras. O próximo passo é uma conversa com um consultor. O envio do formulário não confirma vaga.`;
 }
 
 export function validateStep(step: InterestStep, draft: InterestDraft) {
@@ -98,6 +99,9 @@ export function validateStep(step: InterestStep, draft: InterestDraft) {
   }
   if (step === "company") {
     if (normalizeName(draft.companyName).length < 2) return "Informe o nome da sua empresa.";
+    if (draft.delegationSize !== 1 && draft.delegationSize !== 2 && draft.delegationSize !== 3) {
+      return "Informe quantos executivos da sua empresa você pretende levar.";
+    }
     return null;
   }
   if (step === "segment") {

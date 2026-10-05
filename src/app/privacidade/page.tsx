@@ -66,7 +66,7 @@ export default function PrivacidadePage() {
           A Vision Cybero AI opera o site, o CRM e as comunicações digitais. A PROCEIT recebe os dados necessários para organizar a experiência em Asunción: agenda, encontros, deslocamentos e a recepção no território.
         </p>
         <p>
-          A razão social e o CNPJ constam do contrato de participação. Quem pedir pelo canal desta política recebe essa identificação.
+          A identificação societária da organização é tratada no contrato que o consultor envia. Pedidos de titulares seguem pelo canal desta política.
         </p>
         <p>
           O contato para direitos do titular e para assuntos de privacidade é o WhatsApp{" "}

@@ -8,7 +8,8 @@
   },
   "capacity": {
     "companies": 20,
-    "representativesPerCompany": 1
+    "representativesPerCompany": 3,
+    "ticket": "o investimento é por participante"
   },
   "institutional": {
     "date": "2026-11-18",

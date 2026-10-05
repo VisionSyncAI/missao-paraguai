@@ -47,7 +47,7 @@ export const captureSchema = z.object({
   objective: z.string().trim().max(2000).optional().or(z.literal("")),
   relationship: optionalChoice(PARAGUAY_RELATIONSHIPS),
   intent: optionalChoice(PARTICIPATION_INTENTS),
-  delegationSize: z.number().int().min(1).max(5).optional(),
+  delegationSize: z.number().int().min(1).max(3).optional(),
   companionRequested: z.boolean().optional(),
   consent: z.literal(true),
   source: z.string().trim().max(80).optional(),

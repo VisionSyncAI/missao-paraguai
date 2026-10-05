@@ -11,7 +11,7 @@ import {
   PARAGUAY_INTERESTS,
   PARAGUAY_RELATIONSHIPS,
 } from "../src/modules/leads/status";
-import { diagnosisLabel, draftFromDiagnosis, INTEREST_STEPS } from "../src/modules/interest/flow";
+import { diagnosisLabel, draftFromDiagnosis, emptyDraft, INTEREST_STEPS, validateStep } from "../src/modules/interest/flow";
 import { captureSchema } from "../src/modules/leads/captureSchema";
 import { computeScores } from "../src/modules/leads/scoring";
 
@@ -52,8 +52,12 @@ describe("diagnóstico PROVISION", () => {
     }
   });
 
-  it("o formulário não pergunta mais por representantes extras (no máximo 20 pessoas)", () => {
+  it("pergunta quantos executivos, de 1 a 3, no passo da empresa", () => {
     expect(INTEREST_STEPS).not.toContain("delegation" as never);
+    const company = { ...emptyDraft(), companyName: "Empresa XYZ" };
+    expect(validateStep("company", company)).toMatch(/executivos/);
+    expect(validateStep("company", { ...company, delegationSize: 2 })).toBeNull();
+    expect(validateStep("company", { ...company, delegationSize: 4 })).toBeTruthy();
   });
 
   it("aceita diagnóstico e Decision Box no envio e recusa respostas fora da lista", () => {

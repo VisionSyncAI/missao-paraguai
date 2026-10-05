@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", images: ["/og/provision-paraguai-2026.jpg"] },
   title: "PROVISION — Imersão Sem Fronteiras | Paraguai 2026",
   description:
-    "Imersão executiva para 20 empresas brasileiras, até 3 representantes por empresa, em Asunción, de 16 a 21 de novembro de 2026.",
+    "Imersão executiva para 20 empresas brasileiras. O investimento é por participante. Empresas podem participar com até 3 executivos. Passagem aérea não incluída. Asunción, 16 a 21 de novembro de 2026.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

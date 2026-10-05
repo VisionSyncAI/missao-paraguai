@@ -195,6 +195,11 @@ export function InterestExperience() {
       setError(invalid);
       return;
     }
+    if (step === "interests" && decisionBox.trim().length < 12) {
+      setError("Escreva, em uma frase, o que você gostaria de encontrar no Paraguai.");
+      return;
+    }
+    if (step === "interests") trackFunnel("DECISION_BOX_COMPLETE", { utm });
     setError("");
     trackFunnel("QUESTION_COMPLETED", { step, utm });
     if (stepIndex < INTEREST_STEPS.length - 1) {
@@ -499,17 +504,37 @@ export function InterestExperience() {
           </div>
         )}
         {step === "company" && (
-          <label className="block text-sm text-gray">
-            Nome da empresa
-            <input
-              autoFocus
-              autoComplete="organization"
-              aria-describedby="interest-error"
-              className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-xl outline-none md:text-2xl"
-              value={draft.companyName}
-              onChange={(e) => setDraft({ ...draft, companyName: e.target.value })}
-            />
-          </label>
+          <div className="grid gap-8">
+            <label className="block text-sm text-gray">
+              Nome da empresa
+              <input
+                autoFocus
+                autoComplete="organization"
+                aria-describedby="interest-error"
+                className="mt-3 w-full border-b border-white/20 bg-transparent py-3 text-xl outline-none md:text-2xl"
+                value={draft.companyName}
+                onChange={(e) => setDraft({ ...draft, companyName: e.target.value })}
+              />
+            </label>
+            <fieldset>
+              <legend className="text-sm text-gray">Quantos executivos da sua empresa você pretende levar?</legend>
+              <div className="mt-3 grid gap-2">
+                {[1, 2, 3].map((count) => (
+                  <label key={count} className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 ${draft.delegationSize === count ? "border-red" : "border-white/15"}`}>
+                    <input
+                      type="radio"
+                      name="delegationSize"
+                      className="h-5 w-5 accent-[#d71920]"
+                      checked={draft.delegationSize === count}
+                      onChange={() => setDraft({ ...draft, delegationSize: count })}
+                    />
+                    <span>{count === 1 ? "1 participante" : `${count} participantes`}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <p className="text-sm text-gray">O investimento é por participante. O consultor apresenta o valor total e organiza a participação.</p>
+          </div>
         )}
         {step === "role" && (
           <div className="grid gap-2">
@@ -561,6 +586,17 @@ export function InterestExperience() {
                 </button>
               );
             })}
+            <label className="mt-4 block text-sm text-gray sm:col-span-2" htmlFor="decision-box">
+              O que você gostaria de encontrar no Paraguai?
+              <textarea
+                id="decision-box"
+                className="mt-2 w-full rounded-lg border border-white/15 bg-black p-3 text-base text-white"
+                rows={4}
+                maxLength={1200}
+                value={decisionBox}
+                onChange={(e) => setDecisionBox(e.target.value)}
+              />
+            </label>
           </div>
         )}
         {step === "consent" && (

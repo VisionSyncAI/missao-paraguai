@@ -4,6 +4,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { LEAD_STATUSES, MARKET_STAGE_COPY } from "@/modules/leads/status";
 
+/** Clock time since the form arrived. Not a published promise of business hours. */
+function slaLabel(createdAt: unknown, status: string) {
+  const created = new Date(String(createdAt || ""));
+  if (Number.isNaN(created.getTime())) return "SLA: sem data de entrada";
+  const minutes = (Date.now() - created.getTime()) / 60000;
+  const open = status === "FORM_SUBMITTED" || status === "PRESENTATION_AVAILABLE";
+  if (!open) return "SLA_OK · lead já saiu da fila inicial";
+  if (minutes > 120) return "SLA_ESTOURADO · mais de 2 horas sem sair da fila inicial";
+  if (minutes > 15) return "SLA_ATENCAO · mais de 15 minutos na fila inicial";
+  return "SLA_OK · dentro de 15 minutos";
+}
+
 export default function LeadDetailPage() {
   const params = useParams<{ id: string }>();
   const [lead, setLead] = useState<Record<string, unknown> | null>(null);
@@ -35,6 +47,7 @@ export default function LeadDetailPage() {
         <section>
           <a href="/admin/leads" className="text-sm text-gray">← Pipeline</a>
           <h1 className="mt-4 text-4xl">{String(lead.name)}</h1>
+          <p className="mt-2 text-sm text-gray">{slaLabel(lead.createdAt, String(lead.status))}</p>
           <p className="mt-2 text-gray">{String(lead.companyName)} · {String(lead.jobTitle || "—")}</p>
           <p className="mt-1 text-sm">{String(lead.email)} · {String(lead.whatsapp)}</p>
           {typeof lead.qualification === "object" && lead.qualification !== null ? (() => {
@@ -92,7 +105,7 @@ export default function LeadDetailPage() {
               <li>Porte: {String((lead.qualification as Record<string, string>).companySize || "—")}</li>
               <li>Relação PY: {String((lead.qualification as Record<string, string>).relationship || "—")}</li>
               <li>Intenção: {String((lead.qualification as Record<string, string>).intent || "—")}</li>
-              <li>Delegação: {String((lead.qualification as Record<string, string>).delegationSize || "—")}</li>
+              <li>Executivos da empresa: {String((lead.qualification as Record<string, string>).delegationSize || "—")}</li>
               <li>Acompanhante adicional: {(lead.qualification as Record<string, boolean>).companionRequested ? "sim, ingresso separado" : "não"}</li>
             </ul>
           ) : null}

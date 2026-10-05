@@ -67,6 +67,14 @@ export function initFaq() {
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       const expanded = button.getAttribute("aria-expanded") === "true";
+      if (!expanded) {
+        fetch("/api/funnel", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ event: "FAQ_OPEN", cta: button.id || "faq", pathname: window.location.pathname }),
+          keepalive: true,
+        }).catch(() => undefined);
+      }
       buttons.forEach((other) => {
         other.setAttribute("aria-expanded", "false");
         document.getElementById(other.getAttribute("aria-controls"))?.classList.remove("is-open");

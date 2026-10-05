@@ -148,7 +148,7 @@ export const faqs = [
   },
   {
     q: "Como funciona o pagamento?",
-    a: "Imersão R$ 19.900 por participante. VIP Executive R$ 29.900. Gastronomia opcional R$ 2.900. Condições de faturamento e parcelamento · [A CONFIRMAR].",
+    a: "A partir de R$ 19.997 por participante. VIP R$ 29.997 por participante. Pré-reserva R$ 3.500, abatida do total. Passagem aérea não incluída. Condições de pagamento apresentadas pelo consultor durante a confirmação da participação.",
   },
   {
     q: "Posso participar como empresa?",

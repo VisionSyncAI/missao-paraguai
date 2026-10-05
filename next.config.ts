@@ -8,6 +8,36 @@ const nextConfig: NextConfig = {
   },
   allowedDevOrigins: ["127.0.0.1"],
   serverExternalPackages: ["@prisma/client", "prisma"],
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              `script-src 'self' 'unsafe-inline' https:${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"}`,
+              "style-src 'self' 'unsafe-inline' https:",
+              "font-src 'self' data: https:",
+              "img-src 'self' data: blob: https:",
+              "media-src 'self' blob:",
+              "connect-src 'self' https:",
+              "frame-src 'self' https:",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'self'",
+            ].join("; "),
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     // missaoparaguai.com is the canonical domain; www only forwards to it.
     return [

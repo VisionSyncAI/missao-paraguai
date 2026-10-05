@@ -9,7 +9,7 @@ function interesseHref(search) {
   return query ? `/interesse?${query}` : "/interesse";
 }
 
-function trackCta() {
+function track(event, cta) {
   const params = new URLSearchParams(window.location.search);
   const utm = {};
   for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]) {
@@ -20,14 +20,18 @@ function trackCta() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      event: "INTEREST_CTA_CLICKED",
-      cta: "GARANTIR_MINHA_VAGA",
+      event,
+      cta,
       pathname: window.location.pathname,
       source: params.get("utm_source") || "landing",
       utm,
     }),
     keepalive: true,
   }).catch(() => undefined);
+}
+
+function trackCta() {
+  track("INTEREST_CTA_CLICKED", "QUERO_PARTICIPAR");
 }
 
 /** Adds the page's UTMs to a link into the consultative flow, keeping the link's own params (e.g. lote). */
@@ -48,6 +52,19 @@ export function initForm() {
     if (window.top !== window) link.target = "_parent";
     link.addEventListener("click", () => trackCta());
   });
+  document.querySelectorAll('a[href*="wa.me"]').forEach((link) => {
+    link.addEventListener("click", () => track("WHATSAPP_CLICK", "FALAR_COM_CONSULTOR"));
+  });
+  const price = document.getElementById("investimento");
+  if (price && "IntersectionObserver" in window) {
+    const seen = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        track("PRICING_VIEW", "INVESTIMENTO");
+        seen.disconnect();
+      }
+    }, { threshold: 0.4 });
+    seen.observe(price);
+  }
 
   const form = document.getElementById("preselecao");
   if (!form) return;
