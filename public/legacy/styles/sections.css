@@ -997,16 +997,23 @@ textarea { min-height: 110px; resize: vertical; }
 .finale h2 { font-size: clamp(2.6rem, 6vw, 5.6rem); max-width: 14ch; }
 
 .site-footer {
-  padding: 48px 0 96px;
+  padding: 72px 0 96px;
   border-top: 1px solid var(--color-line);
   color: var(--color-muted);
   font-size: 0.86rem;
 }
+.foot-credit { margin-bottom: 56px; }
+.foot-credit h2 { color: var(--color-white); max-width: 18ch; margin: 10px 0 16px; }
+.foot-credit .lede { max-width: 62ch; }
+.site-footer .org-card,
+.site-footer .org-person strong { color: var(--color-text); }
 .foot {
   display: flex;
   justify-content: space-between;
   gap: 24px;
   margin-bottom: 24px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-line);
 }
 .foot nav { display: flex; flex-wrap: wrap; gap: 16px; }
 .foot strong { color: var(--color-white); display: block; margin-bottom: 6px; }

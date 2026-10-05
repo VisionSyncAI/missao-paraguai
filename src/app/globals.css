@@ -7,7 +7,7 @@
   --color-white: #ffffff;
   --color-gray: #a1a1aa;
   --color-gray-dark: #55555c;
-  --color-red: #ff454a;
+  --color-red: #d71920;
   --color-border: rgb(255 255 255 / 0.12);
   --font-display: var(--font-archivo);
   --font-sans: var(--font-plex);
@@ -23,8 +23,8 @@ h1, h2, h3, .display {
   font-family: var(--font-archivo), system-ui, sans-serif;
   letter-spacing: -0.03em;
 }
-::selection { background: #ff454a; color: #fff; }
-:focus-visible { outline: 2px solid #ff454a; outline-offset: 3px; }
+::selection { background: #d71920; color: #fff; }
+:focus-visible { outline: 2px solid #d71920; outline-offset: 3px; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 

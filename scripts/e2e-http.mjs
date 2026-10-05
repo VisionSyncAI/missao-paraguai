@@ -40,7 +40,7 @@ async function req(path, opts = {}) {
 const home = await req("/");
 const interesse = await req("/interesse");
 const site = await req("/site.html");
-const hasCta = site.text.includes("Garantir minha vaga") && site.text.includes("/interesse");
+const hasCta = site.text.includes("Quero participar") && site.text.includes("/interesse");
 const start = interesse.text.includes("Começar minha pré-inscrição") || interesse.text.includes("pr");
 
 const created = await req("/api/leads", {

@@ -13,7 +13,7 @@ prisma             SQLite local (trocar para PostgreSQL em produção)
 
 Fluxo oficial de captação: Landing → Garantir minha vaga → `/interesse` → `captureInterest` → Lead → CRM → Cal.diy → Meeting.
 
-Landing viva: `public/site.html` (Next iframe em `/`) e `index.html` (espelho). Dívida: unificar numa única fonte.
+Landing viva: `public/site.html`, servida em `/` pelo rewrite do Next. CSS e JS canônicos: `public/legacy/`.
 
 Produção: rate limit exige Upstash (`UPSTASH_*`); sem Redis o endpoint crítico **fail-closed**. PostgreSQL: `docs/POSTGRES.md`.
 

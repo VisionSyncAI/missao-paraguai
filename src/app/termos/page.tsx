@@ -18,7 +18,7 @@ export default function TermosPage() {
     >
       <LegalSection title="A experiência">
         <p>PROVISION — Imersão Sem Fronteiras | Paraguai 2026: imersão executiva em Asunción, de 16 a 21 de novembro de 2026, com hospedagem no Crowne Plaza Asunción. Chegada no dia 16, programação executiva de 17 a 20 e retorno no dia 21.</p>
-        <p>Cada edição reúne no máximo 20 empresas brasileiras, com um representante por empresa.</p>
+        <p>Cada edição reúne no máximo 20 empresas brasileiras, com até 3 representantes por empresa.</p>
       </LegalSection>
       <LegalSection title="O que está incluído">
         <ul className="list-disc space-y-1 pl-5">
@@ -33,7 +33,7 @@ export default function TermosPage() {
         <ul className="list-disc space-y-1 pl-5">
           <li>Passagens aéreas e seguro-viagem.</li>
           <li>Despesas médicas e medicamentos.</li>
-          <li>Acompanhantes e representantes adicionais.</li>
+          <li>Acompanhantes e representantes além de 3 por empresa.</li>
           <li>Despesas pessoais e consumo fora da programação.</li>
           <li>Serviços adicionais, como documentação, implantação ou contratação, cotados à parte.</li>
         </ul>

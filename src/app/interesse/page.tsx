@@ -1,4 +1,5 @@
 import { InterestForm } from "@/components/commercial/InterestForm";
+import { SiteFrame } from "@/components/SiteFrame";
 
 export const metadata = {
   title: "Interesse | PROVISION — Imersão Sem Fronteiras",
@@ -8,10 +9,12 @@ export const metadata = {
 
 export default function InteressePage() {
   return (
-    <main className="min-h-dvh bg-black px-5 text-white">
-      <div className="mx-auto max-w-3xl pb-20 pt-10 md:pt-16">
-        <InterestForm />
-      </div>
-    </main>
+    <SiteFrame showCta={false}>
+      <main className="px-5">
+        <div className="mx-auto max-w-3xl pb-20 pt-10 md:pt-16">
+          <InterestForm />
+        </div>
+      </main>
+    </SiteFrame>
   );
 }

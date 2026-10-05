@@ -12,12 +12,25 @@ export async function GET() {
         orderBy: { startsAt: "asc" },
       })
     : [];
+  const meetings = await prisma.meeting.findMany({
+    where: { leadId: session.registration.leadId },
+    orderBy: { scheduledAt: "asc" },
+    select: {
+      id: true,
+      scheduledAt: true,
+      status: true,
+      meetingUrl: true,
+      consultant: { select: { name: true } },
+    },
+  });
   return NextResponse.json({
     participant: {
       id: session.id,
       status: session.status,
       waitlisted: session.waitlisted,
       name: session.registration.fullName,
+      companyName: session.registration.companyName,
+      meetings,
       email: session.registration.email,
       registration: {
         id: session.registration.id,

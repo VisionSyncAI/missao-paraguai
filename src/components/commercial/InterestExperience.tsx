@@ -8,8 +8,6 @@ import { isLiveMeetingLink } from "@/lib/meetingLink";
 import { formatSaoPaulo } from "@/lib/timezone";
 import { WHATSAPP_URL } from "@/data/site";
 import {
-  BUSINESS_SEGMENTS,
-  COMPANY_SIZE_BANDS,
   DIAG_CONVERSATIONS,
   DIAG_OBJECTIVES,
   DIAG_PROFILES,
@@ -21,8 +19,6 @@ import {
   MARKET_STAGE_COPY,
   PARAGUAY_INTERESTS,
   parseMarketStage,
-  PARAGUAY_RELATIONSHIPS,
-  PARTICIPATION_INTENTS,
   UNDERSTAND_TOPICS,
 } from "@/modules/leads/status";
 import {
@@ -86,7 +82,7 @@ const TITLES: Record<InterestStep, string> = {
   stage: "Em qual momento sua empresa está?",
   role: "Qual é o seu cargo atual?",
   companySize: "Qual é o porte aproximado da sua empresa?",
-  interests: "Qual é o seu objetivo principal no Paraguai?",
+  interests: "O que você está avaliando no Paraguai?",
   objective: "O que você espera encontrar nessa imersão?",
   relationship: "Você já possui alguma operação ou relacionamento com o Paraguai?",
   intent: "Qual é o seu nível de interesse em participar?",
@@ -300,9 +296,9 @@ export function InterestExperience() {
     return (
       <section className="flex min-h-[80dvh] flex-col justify-center">
         <p className="text-[11px] tracking-[0.28em] uppercase text-red">PROVISION · Imersão Sem Fronteiras · Paraguai 2026</p>
-        <h1 className="mt-6 max-w-3xl font-display text-4xl leading-[1.02] md:text-6xl">Antes de confirmar sua participação, vamos entender seu objetivo.</h1>
+        <h1 className="mt-6 max-w-3xl font-display text-4xl leading-[1.02] md:text-6xl">Vamos entender se a PROVISION faz sentido para a sua empresa.</h1>
         <p className="mt-6 max-w-xl text-lg text-gray">
-          São poucas perguntas sobre sua empresa e o que você busca no Paraguai. Com base no seu perfil, a equipe PROVISION orienta sua participação e prepara a conversa com você.
+          A primeira resposta é a sua hipótese. Com ela, o consultor chega à conversa sabendo o que você está avaliando no Paraguai.
         </p>
         {stageFromLink && draft.stage && (
           <p className="mt-6 w-fit rounded-lg border border-red/60 px-4 py-3 text-xs uppercase tracking-[0.14em] text-white">
@@ -325,7 +321,7 @@ export function InterestExperience() {
         )}
         {error && <p className="mt-6 max-w-xl text-red" role="alert">{error}</p>}
         <button
-          className="mt-10 min-h-12 w-full rounded-full bg-red px-6 py-4 text-xs font-bold uppercase tracking-[0.12em] sm:w-fit sm:px-8 sm:tracking-[0.16em]"
+          className="mt-10 min-h-12 w-full rounded-[10px] bg-red px-6 py-4 text-xs font-bold uppercase tracking-[0.12em] sm:w-fit sm:px-8 sm:tracking-[0.16em]"
           onClick={() => {
             trackFunnel("INTEREST_STARTED", { utm, cta: "COMECAR_PRE_INSCRICAO" });
             setPhase("form");
@@ -392,7 +388,7 @@ export function InterestExperience() {
             </div>
             {live && meeting.meetingUrl ? (
               <a
-                className="inline-flex rounded-full border border-white/20 px-8 py-4 text-xs font-bold uppercase tracking-[0.16em]"
+                className="inline-flex rounded-[10px] border border-white/20 px-8 py-4 text-xs font-bold uppercase tracking-[0.16em]"
                 href={meeting.meetingUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -416,7 +412,7 @@ export function InterestExperience() {
         <p className="mt-4 max-w-xl text-gray">O consultor já recebe o contexto da sua empresa e do que você busca no Paraguai. Se preferir, escolha abaixo um dia e horário para a conversa, até 15 de novembro de 2026.</p>
         {token ? (
           <a
-            className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/25 px-6 py-3 text-xs font-bold uppercase tracking-[0.12em] sm:w-fit"
+            className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-[10px] border border-white/25 px-6 py-3 text-xs font-bold uppercase tracking-[0.12em] sm:w-fit"
             href={`/api/presentations/download?token=${encodeURIComponent(token)}`}
           >
             {wantsPresentation ? "Baixar a apresentação executiva (PDF)" : "Baixar também a apresentação executiva (PDF)"}
@@ -515,42 +511,6 @@ export function InterestExperience() {
             />
           </label>
         )}
-        {step === "segment" && (
-          <div className="grid gap-2 sm:grid-cols-2">
-            {BUSINESS_SEGMENTS.map((option) => (
-              <button
-                key={option}
-                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.segment === option ? "border-red" : "border-white/15"}`}
-                onClick={() => {
-                  setDraft({ ...draft, segment: option });
-                  trackFunnel("QUESTION_COMPLETED", { step: "segment", utm });
-                  setStepIndex((i) => i + 1);
-                }}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        )}
-        {step === "stage" && (
-          <div className="grid gap-2">
-            {MARKET_STAGES.map((option) => (
-              <button
-                key={option}
-                aria-pressed={draft.stage === option}
-                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.stage === option ? "border-red" : "border-white/15"}`}
-                onClick={() => {
-                  setDraft({ ...draft, stage: option });
-                  trackFunnel("QUESTION_COMPLETED", { step: "stage", utm });
-                  setStepIndex((i) => i + 1);
-                }}
-              >
-                <span className="block text-sm font-bold uppercase tracking-[0.12em]">{MARKET_STAGE_COPY[option].label}</span>
-                <span className="mt-1 block text-sm text-gray">{MARKET_STAGE_COPY[option].detail}</span>
-              </button>
-            ))}
-          </div>
-        )}
         {step === "role" && (
           <div className="grid gap-2">
             {JOB_TITLE_OPTIONS.map((option) => (
@@ -581,23 +541,6 @@ export function InterestExperience() {
             )}
           </div>
         )}
-        {step === "companySize" && (
-          <div className="grid gap-2">
-            {COMPANY_SIZE_BANDS.map((option) => (
-              <button
-                key={option}
-                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.companySize === option ? "border-red" : "border-white/15"}`}
-                onClick={() => {
-                  setDraft({ ...draft, companySize: option });
-                  trackFunnel("QUESTION_COMPLETED", { step: "companySize", utm });
-                  setStepIndex((i) => i + 1);
-                }}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        )}
         {step === "interests" && (
           <div className="grid gap-2 sm:grid-cols-2">
             <p className="text-sm text-gray sm:col-span-2">Marque o principal ou, se fizer sentido, mais de um.</p>
@@ -620,57 +563,11 @@ export function InterestExperience() {
             })}
           </div>
         )}
-        {step === "objective" && (
-          <label className="block text-sm text-gray">
-            Conte brevemente
-            <textarea
-              className="mt-3 w-full border border-white/15 bg-transparent p-4 text-lg outline-none"
-              rows={5}
-              placeholder="Conte brevemente o que você gostaria de encontrar, conhecer ou desenvolver no Paraguai."
-              value={draft.objective}
-              onChange={(e) => setDraft({ ...draft, objective: e.target.value })}
-            />
-          </label>
-        )}
-        {step === "relationship" && (
-          <div className="grid gap-2">
-            {PARAGUAY_RELATIONSHIPS.map((option) => (
-              <button
-                key={option}
-                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.relationship === option ? "border-red" : "border-white/15"}`}
-                onClick={() => {
-                  setDraft({ ...draft, relationship: option });
-                  trackFunnel("QUESTION_COMPLETED", { step: "relationship", utm });
-                  setStepIndex((i) => i + 1);
-                }}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        )}
-        {step === "intent" && (
-          <div className="grid gap-2">
-            {PARTICIPATION_INTENTS.map((option) => (
-              <button
-                key={option}
-                className={`min-h-12 rounded-xl border px-4 py-3 text-left ${draft.intent === option ? "border-red" : "border-white/15"}`}
-                onClick={() => {
-                  setDraft({ ...draft, intent: option });
-                  trackFunnel("QUESTION_COMPLETED", { step: "intent", utm });
-                  setStepIndex((i) => i + 1);
-                }}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        )}
         {step === "consent" && (
           <label className="flex min-h-11 cursor-pointer items-start gap-3 text-sm text-gray">
             <input
               type="checkbox"
-              className="mt-0.5 h-5 w-5 shrink-0 accent-[#ff454a]"
+              className="mt-0.5 h-5 w-5 shrink-0 accent-[#d71920]"
               checked={draft.consent}
               onChange={(e) => setDraft({ ...draft, consent: e.target.checked })}
             />
@@ -687,13 +584,13 @@ export function InterestExperience() {
       {(stageFromLink || diagnosis || decisionBox) && step === "consent" && <p className="mt-6 max-w-xl text-sm text-gray">{TRUST_COPY}</p>}
       <div className="mt-10 flex flex-col-reverse gap-3 sm:flex-row sm:flex-wrap">
         {stepIndex > 0 && (
-          <button className="min-h-12 rounded-full border border-white/20 px-6 py-3 text-xs uppercase tracking-widest" onClick={() => setStepIndex(stepIndex - 1)}>
+          <button className="min-h-12 rounded-[10px] border border-white/20 px-6 py-3 text-xs uppercase tracking-widest" onClick={() => setStepIndex(stepIndex - 1)}>
             Voltar
           </button>
         )}
         <button
           disabled={saving}
-          className="min-h-12 w-full rounded-full bg-red px-8 py-3 text-xs font-bold uppercase tracking-widest disabled:opacity-50 sm:w-auto"
+          className="min-h-12 w-full rounded-[10px] bg-red px-8 py-3 text-xs font-bold uppercase tracking-widest disabled:opacity-50 sm:w-auto"
           onClick={() => void goNext()}
         >
           {saving ? "Salvando…" : step === "consent" ? "Enviar meu perfil" : "Continuar"}

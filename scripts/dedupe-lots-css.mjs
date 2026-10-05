@@ -1,6 +1,6 @@
 import fs from "node:fs";
 
-for (const file of ["public/legacy/styles/sections.css", "src/styles/sections.css"]) {
+for (const file of ["public/legacy/styles/sections.css"]) {
   let css = fs.readFileSync(file, "utf8");
   const marker = ".lot-sub { font-size: 1.15rem; color: #fff; }";
   const first = css.indexOf(marker);
