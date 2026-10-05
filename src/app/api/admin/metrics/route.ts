@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { can, getStaffSession } from "@/lib/auth";
+import { ANALYTICS_DAYS, shapeSiteAnalytics } from "@/lib/siteAnalytics";
 
 export async function GET() {
   const session = await getStaffSession();
@@ -19,9 +20,18 @@ export async function GET() {
       _count: { _all: true },
     }),
   ]);
+  const since = new Date(Date.now() - ANALYTICS_DAYS * 24 * 60 * 60 * 1000);
+  const funnelRows = await prisma.funnelEvent.groupBy({
+    by: ["event", "step"],
+    where: { createdAt: { gte: since } },
+    _count: { _all: true },
+  });
   const statusMap = Object.fromEntries(byStatus.map((s) => [s.status, s._count._all]));
   const meetingMap = Object.fromEntries(meetings.map((s) => [s.status, s._count._all]));
   return NextResponse.json({
+    analytics: shapeSiteAnalytics(
+      funnelRows.map((row) => ({ event: row.event, step: row.step, count: row._count._all })),
+    ),
     total,
     downloads,
     funnel: {

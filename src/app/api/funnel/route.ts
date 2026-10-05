@@ -28,6 +28,7 @@ const schema = z.object({
     "FAQ_OPEN",
     "PRICING_VIEW",
     "DECISION_BOX_COMPLETE",
+    "PAGE_VIEW",
   ]),
   cta: z.string().max(80).optional(),
   source: z.string().max(80).optional(),

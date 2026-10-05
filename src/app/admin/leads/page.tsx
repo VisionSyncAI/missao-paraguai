@@ -18,6 +18,17 @@ type Metrics = {
   total: number;
   downloads: number;
   funnel: Record<string, number>;
+  analytics?: {
+    days: number;
+    visits: number;
+    clicks: { participar: number; apresentacao: number; whatsapp: number; faq: number; investimento: number };
+    form: {
+      started: number;
+      decision: number;
+      submitted: number;
+      steps: { id: string; label: string; count: number }[];
+    };
+  };
 };
 
 export default function LeadsBoardPage() {
@@ -55,6 +66,40 @@ export default function LeadsBoardPage() {
             </button>
           </div>
         </div>
+        {metrics?.analytics && (
+          <section className="mt-8">
+            <h2 className="text-xs uppercase tracking-widest text-gray">Análise do site · {metrics.analytics.days} dias</h2>
+            <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-3">
+              {[
+                ["Visitas", metrics.analytics.visits],
+                ["Cliques em participar", metrics.analytics.clicks.participar],
+                ["Cliques no WhatsApp", metrics.analytics.clicks.whatsapp],
+                ["Pedidos da apresentação", metrics.analytics.clicks.apresentacao],
+                ["Viram o investimento", metrics.analytics.clicks.investimento],
+                ["Abriram uma pergunta", metrics.analytics.clicks.faq],
+              ].map(([label, value]) => (
+                <article key={String(label)} className="rounded-xl border border-white/10 p-4">
+                  <p className="text-2xl">{value}</p>
+                  <p className="text-xs uppercase tracking-widest text-gray">{label}</p>
+                </article>
+              ))}
+            </div>
+            <h3 className="mt-6 text-xs uppercase tracking-widest text-gray">Preenchimento do formulário</h3>
+            <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
+              {[
+                ["Começaram", metrics.analytics.form.started],
+                ...metrics.analytics.form.steps.map((step) => [step.label, step.count] as [string, number]),
+                ["Escreveram o que buscam", metrics.analytics.form.decision],
+                ["Enviaram", metrics.analytics.form.submitted],
+              ].map(([label, value]) => (
+                <article key={String(label)} className="rounded-xl border border-white/10 p-4">
+                  <p className="text-2xl">{value}</p>
+                  <p className="text-xs uppercase tracking-widest text-gray">{label}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
         {metrics && (
           <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-5">
             {[

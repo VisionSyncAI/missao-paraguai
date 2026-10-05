@@ -117,6 +117,17 @@ export function InterestExperience() {
   const step = INTEREST_STEPS[stepIndex];
 
   useEffect(() => {
+    const key = "provision.visit./interesse";
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch {
+      /* conta a visita mesmo se o navegador bloquear o armazenamento */
+    }
+    trackFunnel("PAGE_VIEW", { cta: "INTERESSE", source: "interesse", utm: parseUtm(window.location.search) });
+  }, []);
+
+  useEffect(() => {
     // Back from the confirmation e-mail: the verify route already issued the lead session.
     const params = new URLSearchParams(window.location.search);
     const lot = params.get("lote");

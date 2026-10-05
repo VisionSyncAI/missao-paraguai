@@ -30,8 +30,21 @@ function track(event, cta) {
   }).catch(() => undefined);
 }
 
-function trackCta() {
-  track("INTEREST_CTA_CLICKED", "QUERO_PARTICIPAR");
+function trackVisit() {
+  const key = `provision.visit.${window.location.pathname}`;
+  try {
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+  } catch {
+    /* conta a visita mesmo se o navegador bloquear o armazenamento */
+  }
+  track("PAGE_VIEW", "HOME");
+}
+
+function trackCta(node) {
+  const href = node?.getAttribute?.("href") || "";
+  if (href.includes("origem=apresentacao")) track("INTEREST_CTA_CLICKED", "APRESENTACAO");
+  else track("INTEREST_CTA_CLICKED", "QUERO_PARTICIPAR");
 }
 
 /** Adds the page's UTMs to a link into the consultative flow, keeping the link's own params (e.g. lote). */
@@ -44,13 +57,14 @@ export function withUtm(target, search) {
 }
 
 export function initForm() {
+  trackVisit();
   const href = interesseHref(window.location.search);
   document.querySelectorAll('a[href^="/interesse"]').forEach((node) => {
     const link = node;
     if (!(link instanceof HTMLAnchorElement)) return;
     link.setAttribute("href", withUtm(link.getAttribute("href") || "/interesse", window.location.search));
     if (window.top !== window) link.target = "_parent";
-    link.addEventListener("click", () => trackCta());
+    link.addEventListener("click", () => trackCta(link));
   });
   document.querySelectorAll('a[href*="wa.me"]').forEach((link) => {
     link.addEventListener("click", () => track("WHATSAPP_CLICK", "FALAR_COM_CONSULTOR"));
