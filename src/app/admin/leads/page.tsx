@@ -34,14 +34,18 @@ type Metrics = {
 export default function LeadsBoardPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [metrics, setMetrics] = useState<Metrics | null>(null);
+  const [proposalLink, setProposalLink] = useState("");
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     Promise.all([
       fetch("/api/admin/leads").then((r) => r.json()),
       fetch("/api/admin/metrics").then((r) => r.json()),
-    ]).then(([l, m]) => {
+      fetch("/api/admin/proposal-link").then((r) => r.json()),
+    ]).then(([l, m, proposal]) => {
       setLeads(l.leads || []);
       setMetrics(m);
+      if (proposal?.path) setProposalLink(`${window.location.origin}${proposal.path}`);
     });
   }, []);
 
@@ -66,6 +70,24 @@ export default function LeadsBoardPage() {
             </button>
           </div>
         </div>
+        {proposalLink && (
+          <section className="mt-8 rounded-xl border border-white/10 p-4">
+            <h2 className="text-xs uppercase tracking-widest text-gray">Proposta para a reunião</h2>
+            <p className="mt-2 max-w-2xl text-sm text-gray">Este link não aparece no site. Envie só para quem você está atendendo.</p>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <input className="min-h-11 w-full rounded-lg border border-white/15 bg-black px-3 text-sm" readOnly value={proposalLink} />
+              <button
+                className="min-h-11 shrink-0 rounded-lg bg-red px-4 text-xs font-bold uppercase tracking-widest"
+                onClick={async () => {
+                  await navigator.clipboard.writeText(proposalLink);
+                  setCopied(true);
+                }}
+              >
+                {copied ? "Copiado" : "Copiar link"}
+              </button>
+            </div>
+          </section>
+        )}
         {metrics?.analytics && (
           <section className="mt-8">
             <h2 className="text-xs uppercase tracking-widest text-gray">Análise do site · {metrics.analytics.days} dias</h2>
