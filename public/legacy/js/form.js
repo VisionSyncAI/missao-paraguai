@@ -66,6 +66,9 @@ export function initForm() {
     if (window.top !== window) link.target = "_parent";
     link.addEventListener("click", () => trackCta(link));
   });
+  document.querySelectorAll('a[href="/apresentacao"]').forEach((link) => {
+    link.addEventListener("click", () => track("INTEREST_CTA_CLICKED", "APRESENTACAO"));
+  });
   document.querySelectorAll('a[href*="wa.me"]').forEach((link) => {
     link.addEventListener("click", () => track("WHATSAPP_CLICK", "FALAR_COM_CONSULTOR"));
   });

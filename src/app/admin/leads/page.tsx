@@ -72,8 +72,8 @@ export default function LeadsBoardPage() {
         </div>
         {proposalLink && (
           <section className="mt-8 rounded-xl border border-white/10 p-4">
-            <h2 className="text-xs uppercase tracking-widest text-gray">Proposta para a reunião</h2>
-            <p className="mt-2 max-w-2xl text-sm text-gray">Este link não aparece no site. Envie só para quem você está atendendo.</p>
+            <h2 className="text-xs uppercase tracking-widest text-gray">Apresentação</h2>
+            <p className="mt-2 max-w-2xl text-sm text-gray">Qualquer pessoa baixa por este endereço. Ele também está no site.</p>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <input className="min-h-11 w-full rounded-lg border border-white/15 bg-black px-3 text-sm" readOnly value={proposalLink} />
               <button

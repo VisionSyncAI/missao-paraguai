@@ -13,8 +13,9 @@ describe("link oculto da proposta", () => {
     expect(proposalTokenMatches("")).toBe(false);
   });
 
-  it("não publica o endereço na home", () => {
+  it("a home oferece o download sem publicar o endereço antigo", () => {
     const site = readFileSync(path.join(root, "public/site.html"), "utf8");
+    expect(site).toContain('href="/apresentacao"');
     expect(site).not.toContain(PROPOSAL_SHARE_TOKEN);
     expect(site).not.toContain("/r/");
   });
