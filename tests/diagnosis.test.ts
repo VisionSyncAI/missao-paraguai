@@ -52,12 +52,15 @@ describe("diagnóstico PROVISION", () => {
     }
   });
 
-  it("pergunta quantos executivos, de 1 a 3, no passo da empresa", () => {
+  it("pergunta quantos participantes, de 1 a 5, no passo da empresa", () => {
     expect(INTEREST_STEPS).not.toContain("delegation" as never);
-    const company = { ...emptyDraft(), companyName: "Empresa XYZ" };
-    expect(validateStep("company", company)).toMatch(/executivos/);
-    expect(validateStep("company", { ...company, delegationSize: 2 })).toBeNull();
-    expect(validateStep("company", { ...company, delegationSize: 4 })).toBeTruthy();
+    const company = { ...emptyDraft(), companyName: "Empresa XYZ", companionRequested: false, delegationSize: 2 };
+    expect(validateStep("company", { ...emptyDraft(), companyName: "Empresa XYZ" })).toMatch(/participantes/);
+    expect(validateStep("company", company)).toBeNull();
+    expect(validateStep("company", { ...company, delegationSize: 5 })).toBeNull();
+    expect(validateStep("company", { ...company, delegationSize: 6 })).toBeTruthy();
+    expect(validateStep("company", { ...company, delegationSize: null, oversizedGroup: true })).toMatch(/equipe PROVISION/);
+    expect(validateStep("company", { ...company, companionRequested: null })).toMatch(/acompanhado/);
   });
 
   it("aceita diagnóstico e Decision Box no envio e recusa respostas fora da lista", () => {

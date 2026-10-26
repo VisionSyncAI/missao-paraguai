@@ -12,12 +12,12 @@ export const metadata: Metadata = {
     siteName: "PROVISION",
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "/og/provision-paraguai-2026.jpg", width: 1200, height: 630, alt: "PROVISION — Imersão Sem Fronteiras | Paraguai 2026 · 16–21 nov · Asunción" }],
+    images: [{ url: "/og/provision-paraguai-2026.jpg", width: 1200, height: 630, alt: "PROVISION — Imersão Sem Fronteiras | Paraguai 2026 · 1–5 dez · Asunción" }],
   },
   twitter: { card: "summary_large_image", images: ["/og/provision-paraguai-2026.jpg"] },
   title: "PROVISION — Imersão Sem Fronteiras | Paraguai 2026",
   description:
-    "Imersão executiva para 20 empresas brasileiras. O investimento é por participante. Empresas podem participar com até 3 executivos. Passagem aérea não incluída. Asunción, 16 a 21 de novembro de 2026.",
+    "Imersão executiva para 20 empresas brasileiras. O investimento é por participante. Empresas podem participar com até 5 participantes. Passagem aérea não incluída. Asunción, 1 a 5 de dezembro de 2026.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

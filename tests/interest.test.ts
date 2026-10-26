@@ -69,11 +69,11 @@ describe("qualificação estruturada", () => {
 });
 
 describe("janela de reunião", () => {
-  it("inclui 15 de novembro de 2026 como último dia de agenda", () => {
-    expect(compareYmd(BOOKING_LAST_YMD, { year: 2026, month: 11, day: 15 })).toBe(0);
+  it("inclui 30 de novembro de 2026 como último dia de agenda", () => {
+    expect(compareYmd(BOOKING_LAST_YMD, { year: 2026, month: 11, day: 30 })).toBe(0);
     const from = new Date("2026-09-28T12:00:00-03:00");
     expect(bookingHorizonDays(from)).toBeGreaterThan(14);
-    expect(bookingHorizonDays(from)).toBe(49);
+    expect(bookingHorizonDays(from)).toBe(64);
   });
   it("agrupa horários por dia", () => {
     const groups = groupSlotsByDay([

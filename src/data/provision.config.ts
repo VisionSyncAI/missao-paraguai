@@ -13,11 +13,11 @@ export const PROVISION_LOTS = [
 
 export const PROVISION = {
   companies: 20,
-  representativesPerCompany: 3,
+  representativesPerCompany: 5,
   priceUnit: "por participante",
-  ticket: "O investimento é por participante. Empresas podem participar com até 3 executivos na mesma edição.",
+  ticket: "O investimento é por participante. Empresas podem participar com até 5 participantes na mesma edição.",
   hotel: "Crowne Plaza Asunción",
-  lodging: "5 noites em 1 apartamento individual por participante",
+  lodging: "4 noites em 1 apartamento individual por participante",
   preReservation: PROVISION_PRE_RESERVATION,
   lots: PROVISION_LOTS,
 } as const;

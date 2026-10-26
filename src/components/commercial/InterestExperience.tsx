@@ -425,7 +425,7 @@ export function InterestExperience() {
       <section className="min-h-[80dvh] py-8">
         <p className="text-[11px] tracking-[0.28em] uppercase text-red">Conversa com a equipe PROVISION</p>
         <h1 className="mt-6 max-w-3xl font-display text-3xl leading-tight md:text-5xl">{consultantCallMessage(draft.fullName)}</h1>
-        <p className="mt-4 max-w-xl text-gray">O consultor já recebe o contexto da sua empresa e do que você busca no Paraguai. Se preferir, escolha abaixo um dia e horário para a conversa, até 15 de novembro de 2026.</p>
+        <p className="mt-4 max-w-xl text-gray">O consultor já recebe o contexto da sua empresa e do que você busca no Paraguai. Se preferir, escolha abaixo um dia e horário para a conversa, até 30 de novembro de 2026.</p>
         {token ? (
           <a
             className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-[10px] border border-white/25 px-6 py-3 text-xs font-bold uppercase tracking-[0.12em] sm:w-fit"
@@ -528,18 +528,63 @@ export function InterestExperience() {
               />
             </label>
             <fieldset>
-              <legend className="text-sm text-gray">Quantos executivos da sua empresa você pretende levar?</legend>
+              <legend className="text-sm text-gray">Quantos participantes da sua empresa vão participar?</legend>
+              <p className="mt-2 text-sm text-gray">Máximo de 5 participantes por empresa.</p>
               <div className="mt-3 grid gap-2">
-                {[1, 2, 3].map((count) => (
-                  <label key={count} className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 ${draft.delegationSize === count ? "border-red" : "border-white/15"}`}>
+                {[1, 2, 3, 4, 5].map((count) => (
+                  <label key={count} className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 ${draft.delegationSize === count && !draft.oversizedGroup ? "border-red" : "border-white/15"}`}>
                     <input
                       type="radio"
                       name="delegationSize"
                       className="h-5 w-5 accent-[#d71920]"
-                      checked={draft.delegationSize === count}
-                      onChange={() => setDraft({ ...draft, delegationSize: count })}
+                      checked={draft.delegationSize === count && !draft.oversizedGroup}
+                      onChange={() => setDraft({ ...draft, delegationSize: count, oversizedGroup: false })}
                     />
                     <span>{count === 1 ? "1 participante" : `${count} participantes`}</span>
+                  </label>
+                ))}
+                <label className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 ${draft.oversizedGroup ? "border-red" : "border-white/15"}`}>
+                  <input
+                    type="radio"
+                    name="delegationSize"
+                    className="h-5 w-5 accent-[#d71920]"
+                    checked={draft.oversizedGroup}
+                    onChange={() => setDraft({ ...draft, delegationSize: null, oversizedGroup: true })}
+                  />
+                  <span>Mais de 5 participantes</span>
+                </label>
+              </div>
+              {draft.oversizedGroup && (
+                <div className="mt-4 grid gap-3 rounded-xl border border-white/15 p-4" role="status">
+                  <p className="text-sm text-white">Cada empresa pode participar com uma delegação de até 5 participantes. Para grupos maiores, entre em contato com a equipe PROVISION.</p>
+                  <a
+                    className="inline-flex min-h-12 items-center justify-center rounded-[10px] bg-red px-6 text-xs font-bold uppercase tracking-widest text-white"
+                    href="https://wa.me/5551997164254?text=Ol%C3%A1!%20Quero%20falar%20com%20a%20equipe%20PROVISION%20sobre%20uma%20delega%C3%A7%C3%A3o%20com%20mais%20de%205%20participantes."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Falar com a equipe
+                  </a>
+                </div>
+              )}
+            </fieldset>
+            <fieldset>
+              <legend className="text-sm text-gray">Deseja participar acompanhado?</legend>
+              <p className="mt-2 text-sm text-gray">Participantes que desejarem levar a esposa poderão adquirir um ingresso adicional para sua acompanhante. Esse ingresso é contabilizado à parte, sem desconto, e não entra no ingresso principal.</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {[
+                  { value: false, label: "Não" },
+                  { value: true, label: "Sim, quero um ingresso adicional" },
+                ].map((option) => (
+                  <label key={option.label} className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 ${draft.companionRequested === option.value ? "border-red" : "border-white/15"}`}>
+                    <input
+                      type="radio"
+                      name="companionRequested"
+                      className="h-5 w-5 accent-[#d71920]"
+                      checked={draft.companionRequested === option.value}
+                      onChange={() => setDraft({ ...draft, companionRequested: option.value })}
+                    />
+                    <span>{option.label}</span>
                   </label>
                 ))}
               </div>

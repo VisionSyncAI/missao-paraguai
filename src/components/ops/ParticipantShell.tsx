@@ -17,7 +17,7 @@ export function ParticipantShell({ title, children }: { title: string; children:
         <div className="mx-auto max-w-3xl">
           <p className="font-display text-[0.92rem] font-extrabold tracking-[0.2em]">PROVISION</p>
           <p className="mt-1 text-[0.68rem] uppercase tracking-[0.14em] text-[#9a9a94]">Imersão Sem Fronteiras</p>
-          <p className="mt-4 text-sm text-[#f5f5f2]">16–21 novembro 2026 · Asunción, Paraguai</p>
+          <p className="mt-4 text-sm text-[#f5f5f2]">1–5 dezembro 2026 · Asunción, Paraguai</p>
           <h1 className="mt-6 font-display text-4xl">{title}</h1>
           <nav aria-label="Área do participante" className="mt-6 flex flex-wrap gap-x-4 text-xs uppercase tracking-widest text-[#9a9a94]">
             {LINKS.map(([href, label]) => (

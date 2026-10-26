@@ -119,7 +119,7 @@ async function main() {
       key: "EDITION_DATES",
       value: "",
       decisionStatus: "PENDING_BUSINESS_DECISION",
-      notes: "Landing: imersão de 16 a 21 de novembro de 2026.",
+      notes: "Landing: imersão de 1 a 5 de dezembro de 2026.",
     },
     {
       key: "NFE",

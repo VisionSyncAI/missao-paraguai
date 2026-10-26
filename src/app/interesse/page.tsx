@@ -3,7 +3,7 @@ import { SiteFrame } from "@/components/SiteFrame";
 
 export const metadata = {
   title: "Interesse | PROVISION — Imersão Sem Fronteiras",
-  description: "Conte seu objetivo e fale com um consultor da PROVISION: imersão executiva para 20 empresas brasileiras em Asunción, de 16 a 21 de novembro de 2026.",
+  description: "Conte seu objetivo e fale com um consultor da PROVISION: imersão executiva para 20 empresas brasileiras em Asunción, de 1 a 5 de dezembro de 2026.",
   alternates: { canonical: "/interesse" },
 };
 

@@ -16,16 +16,16 @@ export default function TermosPage() {
       version={TERMS_VERSION}
     >
       <LegalSection title="A experiência">
-        <p>PROVISION — Imersão Sem Fronteiras | Paraguai 2026: imersão executiva em Asunción, de 16 a 21 de novembro de 2026, com hospedagem no Crowne Plaza Asunción. Chegada no dia 16, programação executiva de 17 a 20 e retorno no dia 21.</p>
-        <p>Participação individual. Experiência empresarial. Cada edição reúne no máximo 20 empresas brasileiras, com até 3 executivos por empresa. O investimento é por participante. Empresas podem participar com mais de um executivo na mesma edição. Após o cadastro, o consultor entra em contato para entender o perfil dos participantes, os objetivos da empresa e orientar os próximos passos.</p>
+        <p>PROVISION — Imersão Sem Fronteiras | Paraguai 2026: imersão executiva em Asunción, de 1 a 5 de dezembro de 2026, com hospedagem no Crowne Plaza Asunción. Chegada no dia 1, programação executiva de 2 a 4 e Business Day com retorno no dia 5.</p>
+        <p>Participação individual. Experiência empresarial. Cada edição reúne 20 empresas brasileiras, com até 5 participantes por empresa. O investimento é por participante. Quem desejar ir acompanhado adquire um ingresso adicional, sem desconto e separado do ingresso principal. Após o cadastro, o consultor entra em contato para entender o perfil dos participantes, os objetivos da empresa e orientar os próximos passos.</p>
       </LegalSection>
       <LegalSection title="O que está incluído">
         <ul className="list-disc space-y-1 pl-5">
-          <li>5 noites no Crowne Plaza Asunción, em 1 apartamento individual por participante.</li>
+          <li>4 noites no Crowne Plaza Asunción, em 1 apartamento individual por participante.</li>
           <li>Depois da imersão, uma reunião de acompanhamento com o consultor para esclarecer dúvidas e organizar os próximos passos. Com mais de um executivo da mesma empresa, essa reunião pode ser conjunta.</li>
           <li>Alimentação conforme a programação oficial: almoços, jantares, coffee breaks e happy hour de boas-vindas.</li>
           <li>Traslados aeroporto–hotel–aeroporto e deslocamentos da programação.</li>
-          <li>Agenda institucional de 18/11, quatro visitas técnicas em 19/11 e Business Day com networking e rodadas B2B em 20/11.</li>
+          <li>Agenda institucional de 03/12, quatro visitas técnicas em 04/12 e Business Day com networking e rodadas B2B em 05/12.</li>
           <li>Kit e credencial do participante, tradução assistida por IA e acompanhamento operacional durante a imersão.</li>
         </ul>
       </LegalSection>
@@ -33,13 +33,13 @@ export default function TermosPage() {
         <ul className="list-disc space-y-1 pl-5">
           <li>Passagem aérea não incluída. Seguro-viagem também não.</li>
           <li>Despesas médicas e medicamentos.</li>
-          <li>Representante além de 3 por empresa.</li>
+          <li>Delegação acima de 5 participantes por empresa. Grupos maiores são tratados diretamente com a equipe.</li>
           <li>Despesas pessoais e consumo fora da programação.</li>
           <li>Serviços adicionais, como documentação, implantação ou contratação, cotados à parte.</li>
         </ul>
       </LegalSection>
       <LegalSection title="Investimento">
-        <p>O investimento é por participante. A empresa pode inscrever até 3 executivos, e o consultor apresenta o valor total. Lote 01: R$ 19.997 até 07/10/2026, saldo R$ 16.497. Lote 02: R$ 22.997 de 08 a 13/10/2026, saldo R$ 19.497. Lote 03: R$ 25.997 de 14 a 21/10/2026, saldo R$ 22.497. VIP: R$ 29.997 até 26/10/2026, saldo R$ 26.497. A pré-reserva de R$ 3.500,00 é abatida do total de cada participante. Condições de pagamento apresentadas pelo consultor durante a confirmação da participação. A experiência-base é a mesma nos três lotes; muda a data. O VIP acrescenta o escopo abaixo, não um quarto lote.</p>
+        <p>O investimento é por participante. A empresa pode inscrever até 5 participantes, e o consultor apresenta o valor total. Lote 01: R$ 19.997 até 07/10/2026, saldo R$ 16.497. Lote 02: R$ 22.997 de 08 a 13/10/2026, saldo R$ 19.497. Lote 03: R$ 25.997 de 14 a 21/10/2026, saldo R$ 22.497. VIP: R$ 29.997 até 26/10/2026, saldo R$ 26.497. A pré-reserva de R$ 3.500,00 é abatida do total de cada participante. Condições de pagamento apresentadas pelo consultor durante a confirmação da participação. A experiência-base é a mesma nos três lotes; muda a data. O VIP acrescenta o escopo abaixo, não um quarto lote.</p>
         <p>O VIP inclui, além da experiência executiva: 1 sessão estratégica individual remota de até 60 minutos antes da imersão, 1 sessão individual de até 90 minutos durante a imersão e, por 30 dias corridos depois, 2 sessões individuais de até 60 minutos, suporte assíncrono com até 6 solicitações objetivas e material digital de continuidade. O suporte VIP tem escopo e período definidos e não representa consultoria ilimitada.</p>
       </LegalSection>
       <LegalSection title="Responsabilidades e limites">

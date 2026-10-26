@@ -52,7 +52,7 @@ export default function PrivacidadePage() {
       version={PRIVACY_VERSION}
     >
       <p>
-        Esta política explica como a PROVISION — Imersão Sem Fronteiras trata dados pessoais em missaoparaguai.com, no atendimento comercial e, quando há contratação, na execução da imersão de 16 a 21 de novembro de 2026.
+        Esta política explica como a PROVISION — Imersão Sem Fronteiras trata dados pessoais em missaoparaguai.com, no atendimento comercial e, quando há contratação, na execução da imersão de 1 a 5 de dezembro de 2026.
       </p>
       <p>
         O tratamento observa a Lei nº 13.709/2018 (Lei Geral de Proteção de Dados Pessoais — LGPD) e as resoluções da Autoridade Nacional de Proteção de Dados (ANPD) aplicáveis.

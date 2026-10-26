@@ -1,18 +1,18 @@
 {
   "edition": "PROVISION — Imersão Sem Fronteiras | Paraguai 2026",
   "period": {
-    "start": "2026-11-16",
-    "end": "2026-11-21",
+    "start": "2026-12-01",
+    "end": "2026-12-05",
     "city": "Asunción",
     "hotel": "Crowne Plaza Asunción"
   },
   "capacity": {
     "companies": 20,
-    "representativesPerCompany": 3,
+    "representativesPerCompany": 5,
     "ticket": "o investimento é por participante"
   },
   "institutional": {
-    "date": "2026-11-18",
+    "date": "2026-12-03",
     "status": "confirmado pela organização em 03/10/2026 e previsto nos contratos de participação (cláusulas 10 e 20)",
     "source": "Contratos de Participação PROVISION Lote 01, 02, 03 e VIP (out/2026): \"A agenda institucional integra a experiência contratada.\"",
     "items": [
@@ -26,7 +26,7 @@
     ]
   },
   "visits": {
-    "date": "2026-11-19",
+    "date": "2026-12-04",
     "items": [
       {
         "name": "ENGINEERING SAECA",
@@ -51,7 +51,7 @@
     ]
   },
   "businessDay": {
-    "date": "2026-11-20",
+    "date": "2026-12-05",
     "venue": "Crowne Plaza Asunción",
     "b2b": "14:00–15:30",
     "guests": "cerca de 30 convidados e empresas paraguaias, organizados pela PROCEIT a partir dos setores de interesse e das prioridades de conexão dos participantes",

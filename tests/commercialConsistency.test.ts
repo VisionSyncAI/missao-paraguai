@@ -14,7 +14,7 @@ describe("regra comercial única", () => {
   it("bate com a agenda oficial em capacidade, preços e pré-reserva", () => {
     expect(PROVISION.companies).toBe(agenda.capacity.companies);
     expect(PROVISION.representativesPerCompany).toBe(agenda.capacity.representativesPerCompany);
-    expect(PROVISION.representativesPerCompany).toBe(3);
+    expect(PROVISION.representativesPerCompany).toBe(5);
     expect(agenda.capacity.ticket).toMatch(/por participante/);
     expect(PROVISION.preReservation).toBe(agenda.commercial.preReservation);
     for (const lot of agenda.commercial.lots) {
@@ -34,7 +34,7 @@ describe("regra comercial única", () => {
 
   it("o site mostra a unidade da vaga, a passagem e os quatro saldos", () => {
     const site = read("public/site.html");
-    expect(site).toContain("até 3 executivos por empresa");
+    expect(site).toContain("até 5 participantes por empresa");
     expect(site).toContain("O investimento é por participante.");
     expect(site).not.toMatch(/próprio ingresso/);
     expect(site).not.toContain("1 representante por empresa");

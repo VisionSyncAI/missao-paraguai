@@ -99,8 +99,14 @@ export function validateStep(step: InterestStep, draft: InterestDraft) {
   }
   if (step === "company") {
     if (normalizeName(draft.companyName).length < 2) return "Informe o nome da sua empresa.";
-    if (draft.delegationSize !== 1 && draft.delegationSize !== 2 && draft.delegationSize !== 3) {
-      return "Informe quantos executivos da sua empresa você pretende levar.";
+    if (draft.oversizedGroup) {
+      return "Cada empresa pode participar com uma delegação de até 5 participantes. Para grupos maiores, entre em contato com a equipe PROVISION.";
+    }
+    if (![1, 2, 3, 4, 5].includes(draft.delegationSize ?? 0)) {
+      return "Informe quantos participantes da sua empresa vão participar.";
+    }
+    if (draft.companionRequested !== true && draft.companionRequested !== false) {
+      return "Informe se deseja participar acompanhado.";
     }
     return null;
   }
