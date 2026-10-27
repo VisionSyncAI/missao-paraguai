@@ -60,7 +60,7 @@ async function main() {
   const presentationData = {
     title: "Apresentação Executiva — PROVISION Paraguai 2026",
     description: "Documento oficial da experiência executiva, entregue após o formulário de interesse.",
-    version: "2026-10-04",
+    version: "2026-10-26",
   };
   if (!presentation) {
     await prisma.presentation.create({ data: { ...presentationData, filePath: presentationPath, active: true } });
